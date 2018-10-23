@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>JIRAs existentes</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="buttons">
+      <button ion-button color="light">Inconsistentes</button>
+      <button ion-button color="light">Todos</button>
+  </div>
+     
+  <ion-grid class="table">
+    <ion-row class="table-header">
+        
+      <ion-col *ngFor="let header of headers" col-4><ion-icon name="arrow-down"></ion-icon>{{header.title}}</ion-col>
+    </ion-row>
+
+    <ion-row >
+      <ion-col *ngFor="let dado of dados" col-4>{{dado}}</ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

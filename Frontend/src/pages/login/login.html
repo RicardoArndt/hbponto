@@ -1,0 +1,30 @@
+<ion-content class="back-login">
+  <div class="login">
+    <form [formGroup]="formUser" (ngSubmit)="onSubmit()">
+      <ion-item class="brand">
+        <img src="../../assets/imgs/logo.jpg">
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="primary" stacked>
+          <span>Usuário</span>
+          <span class="danger" *ngIf="username.touched && username.errors">{{ error.handler(username.errors)}}</span>
+        </ion-label>
+        <ion-input formControlName="username" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>
+          <span>Senha</span>
+          <span class="danger" *ngIf="password.touched && password.errors">{{ error.handler(password.errors)}}</span>
+        </ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+      </ion-item>
+
+      <ion-item class="no-border">
+        <button ion-button full color="dark" [disabled]="ifErrors">Entrar</button>
+      </ion-item>
+    </form>
+  </div>
+</ion-content>
+{{ isAuthenticated | async }}
+{{ _username | async }}
