@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
 export class GridJiraComponent {
   public dados = ["10/10/2018","08:00","06:00","11/10/2018","08:00","08:00"];
   public headers = [{icon: "arrow-down", title:"Data"},
-  {icon: "arrow-down", title:"Hora Ponto"},
+  {icon: "arrow-down", title:"Hora Pontos"},
   {icon: "arrow-down", title:"Hora JIRA"}]
   text: string;
 
