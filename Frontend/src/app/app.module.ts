@@ -13,6 +13,7 @@ import { RootStoreModule } from "./store/modules/root-store.module";
 import { ToastHandler } from './toast/toast-handler';
 import { AppErrorHandler } from './errors/app-error-handler';
 import { HttpRequestInterceptorModule } from '../interceptor/http-interceptor';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HttpRequestInterceptorModule } from '../interceptor/http-interceptor';
     IonicModule.forRoot(MyApp),
     LoginPageModule,
     RootStoreModule,
-    HttpRequestInterceptorModule
+    HttpRequestInterceptorModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

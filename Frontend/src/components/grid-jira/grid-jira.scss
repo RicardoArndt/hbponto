@@ -1,0 +1,27 @@
+grid-jira {
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.table {
+    .table-header {
+        background-color: #4d94ff;
+        color: aliceblue;
+        ion-col {
+            ion-icon {
+                margin-right: 5px
+            }
+        }
+    }
+    ion-col {
+        border: 1px solid #2b2b2b;
+    }
+}
+
+.icons-px{
+    font-size: 15px;
+}

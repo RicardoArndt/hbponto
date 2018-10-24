@@ -1,0 +1,22 @@
+<div class="buttons">
+  <button ion-button color="light">Inconsistentes</button>
+  <button ion-button color="light">Todos</button>
+
+</div>
+
+<div>
+  <ion-icon class="icons-px" name="ios-add-circle-outline"></ion-icon>
+</div>
+
+<ion-grid class="table">
+  <ion-row class="table-header">
+
+    <ion-col *ngFor="let header of headers" col-4>
+      <ion-icon name="arrow-down"></ion-icon>{{header.title}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col *ngFor="let dado of dados" col-4>{{dado}}</ion-col>
+  </ion-row>
+</ion-grid>
