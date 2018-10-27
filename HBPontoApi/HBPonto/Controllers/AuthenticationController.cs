@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 
 namespace HBPonto.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/[controller]"), ApiController]
     public class AuthenticationController : ControllerBase
     {
         private IAuthenticationService _authentication;
@@ -43,8 +42,7 @@ namespace HBPonto.Controllers
             } 
         }
 
-        [Authorize]
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult ValidateAuthorization()
         {
             try

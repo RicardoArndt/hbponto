@@ -1,14 +1,16 @@
 ﻿using HBPonto.Database.Contexts;
+using HBPonto.Database.Entities;
 using HBPonto.Kernel.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace HBPonto.Database.Repositories
 {
-    public class BaseRepository<T>: IDisposable, IBaseRepository<T> where T: class
+    public class BaseRepository<T>: IDisposable, IBaseRepository<T> where T: BaseEntity<T>
     {
-        private BaseContext _context;
+        private DbContext _context;
 
-        public BaseRepository(BaseContext context)
+        public BaseRepository(DbContext context)
         {
             _context = context;
         }

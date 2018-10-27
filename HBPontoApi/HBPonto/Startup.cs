@@ -35,6 +35,7 @@ namespace HBPonto
 
             services.RegisterServices();
             services.RegisterAuthentication(appSettings);
+            services.RegisterContexts(appSettings);
             
         }
 

@@ -1,5 +1,5 @@
 ﻿using HBPonto.Kernel.Helpers;
-using HBPonto.Kernel.Interfaces;
+using HBPonto.Kernel.Interfaces.Services;
 using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http;
@@ -10,7 +10,6 @@ namespace HBPonto.JIRA.Services
 {
     public class JiraBaseService : IJiraBaseService
     {
-
         private readonly AppSettings _appSettings;
 
         public JiraBaseService(IOptions<AppSettings> appSettings)
