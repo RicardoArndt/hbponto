@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HBPonto.Kernel.Interfaces.Services
 {
     public interface IJiraProjectService
     {
-        IEnumerable<JiraProject> GetProjects();
+        Task<HttpResponseMessage> GetProjects();
+        Task<HttpResponseMessage> GetSprints(int boardId);
     }
 }

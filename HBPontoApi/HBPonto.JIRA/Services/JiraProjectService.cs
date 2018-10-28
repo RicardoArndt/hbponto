@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HBPonto.JIRA.Services
 {
@@ -21,19 +22,18 @@ namespace HBPonto.JIRA.Services
             _jiraBaseService = jiraBaseService;
         }
 
-        public IEnumerable<JiraProject> GetProjects()
+        public async Task<HttpResponseMessage> GetProjects()
         {
             HttpClient client = _jiraBaseService.GetHttpClient(_appSettings.AuthJiraToken);
-            List<JiraProject> jiraSprints = new List<JiraProject>();
+            var url = "/rest/agile/1.0/board";
+            return await client.GetAsync(url);
+        }
 
-            var url = "/rest/api/2/project";
-            var result = client.GetAsync(url).Result;
-            var content = result.Content.ReadAsStringAsync();
-            var jiraResult = JsonConvert.DeserializeObject<List<JiraProject>>(content.Result);
-
-            jiraSprints.AddRange(jiraResult);
-
-            return jiraSprints;
+        public async Task<HttpResponseMessage> GetSprints(int boardId)
+        {
+            HttpClient client = _jiraBaseService.GetHttpClient(_appSettings.AuthJiraToken);
+            var url = $"/rest/agile/1.0/board/{boardId}/sprint";
+            return await client.GetAsync(url);
         }
     }
 }

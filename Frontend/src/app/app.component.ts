@@ -4,7 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { NgRedux, select } from "@angular-redux/store";
 import { Map } from "immutable";
@@ -28,8 +27,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage, icon: 'md-list' },
-      { title: 'List', component: ListPage, icon: 'ios-list' }
+      { title: 'Home', component: HomePage, icon: 'md-list' }
     ];
 
   }

@@ -1,9 +1,10 @@
+import { ProjectsResponse, SprintsResponse } from "../../models/jira-projects.model";
+
 export interface JiraProjectState {
-    Id: number;
-    Name: string;
+    Projects?: ProjectsResponse;
+    Sprints?: SprintsResponse;
 }
 
 export const INITIAL_STATE: JiraProjectState = {
-    Id: null,
-    Name: "",
+    Projects: null
 }

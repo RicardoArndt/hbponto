@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HBPonto.Database", "HBPonto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HBPonto.IoC", "HBPonto.IoC\HBPonto.IoC.csproj", "{02699A40-C248-450E-A237-2B9C88B3BB89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBPonto.JIRA", "HBPonto.JIRA\HBPonto.JIRA.csproj", "{FB244B74-54FE-450F-95BE-D31316E34C22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HBPonto.JIRA", "HBPonto.JIRA\HBPonto.JIRA.csproj", "{FB244B74-54FE-450F-95BE-D31316E34C22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBPonto.Test", "HBPonto.Test\HBPonto.Test.csproj", "{9E50BBF8-9719-47C1-8886-FA67728E31CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{FB244B74-54FE-450F-95BE-D31316E34C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB244B74-54FE-450F-95BE-D31316E34C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB244B74-54FE-450F-95BE-D31316E34C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E50BBF8-9719-47C1-8886-FA67728E31CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E50BBF8-9719-47C1-8886-FA67728E31CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E50BBF8-9719-47C1-8886-FA67728E31CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E50BBF8-9719-47C1-8886-FA67728E31CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

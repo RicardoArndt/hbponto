@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController, NavParams, ViewController } from 'ionic-angular';
+import { JiraProjectService } from '../../app/store/services/jira-projects.service';
+import { GetProjects, GetSprints } from '../../app/store/actions/jira-project.action';
+import { NgRedux, select } from '@angular-redux/store';
+import { Failure } from '../../app/store/actions/base.action';
+import { ProjectsResponse, SprintsResponse } from '../../app/models/jira-projects.model';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'page-home',
@@ -7,13 +13,74 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  public dados = ["10/10/2018","08:00","06:00"];
-  public headers = [{icon: "arrow-down", title:"Data"},
-  {icon: "arrow-down", title:"Hora Ponto"},
-  {icon: "arrow-down", title:"Hora JIRA"}] 
-  constructor(public navCtrl: NavController) {
+  @select(s => s.jiraProjects.get('Projects')) projects;
+  @select(s => s.jiraProjects.get('Sprints')) sprints;
 
+  constructor(public navCtrl: NavController,
+              private _jiraProjectService: JiraProjectService,
+              private _store: NgRedux<Map<string, any>>,
+              public modalCtrl: ModalController,
+              private _localStorage: LocalStorageService) { }
+
+  ionViewDidLoad() {
+    this.getAllProjects();
+   }
+
+  getAllProjects() {
+    let items = this._localStorage.getItem('projects');
+    if(items) {
+      let projects: ProjectsResponse = JSON.parse(items);
+      var action = new GetProjects(projects);
+      this._store.dispatch({type: action.type, payload: action.payload});
+    } else {
+      this._jiraProjectService.getAllProjects().subscribe((response: ProjectsResponse) => {
+        this._localStorage.setItem('projects', JSON.stringify(response));
+        var action = new GetProjects(response); 
+        this._store.dispatch({type: action.type, payload: action.payload});
+      }, err => {
+        var action = new Failure(err); 
+        this._store.dispatch({type: action.type, payload: action.payload});
+        throw err;
+      });
+    }
+  }
+  
+  onChange(id: number) {
+    this._jiraProjectService.getSprints(id).subscribe((response: SprintsResponse) => {
+      var action = new GetSprints(response);
+      this._store.dispatch({type: action.type, payload: action.payload});
+      let sprintModal = this.modalCtrl.create(Sprints, {'sprints': this.sprints});
+      sprintModal.present();  
+    }, err => {
+      var action = new Failure(err);
+      this._store.dispatch({type: action.type, payload: action.payload});
+      throw err;
+    });
+  }
+}
+
+@Component({
+  selector: 'sprints',
+  templateUrl: 'sprints.html',
+})
+export class Sprints {
+  sprints
+
+  constructor(params: NavParams, public viewCtrl: ViewController) {
+    this.sprints = params.get('sprints');
+  }
+  
+  onChange(id: number) {
+    console.log(id);
+    this.viewCtrl.dismiss();
   }
 
-  
+  onClose() {
+    this.viewCtrl.dismiss();
+  }
+
+  count(list): boolean {
+    if(list.size > 0) return false;
+    return true;
+  }
 }
