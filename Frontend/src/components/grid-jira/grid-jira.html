@@ -7,11 +7,9 @@
 <ion-grid>
   <ion-row>
     <ion-col>
-      <ion-icon class="icons-px ionic-col-4" name="md-add-circle"></ion-icon>
-    </ion-col>
-    
-    <ion-col>
-      <ion-icon class="icons-px ionic-col-4" name="md-create"></ion-icon>
+      
+
+
     </ion-col>
   </ion-row>
 </ion-grid>
@@ -30,22 +28,37 @@
 </ion-grid>
 
 <ion-grid class="table">
-    <ion-row class="table-header">
-  
-      <ion-col col-4>
-        
-      </ion-col>
-      <ion-col col-4>
-        
-        </ion-col>
-        <ion-col col-4>
-        
-          </ion-col>
-    </ion-row>
-  
-    <ion-row>
-      <ion-col col-4></ion-col>
-      <ion-col col-4></ion-col>
-      <ion-col col-4></ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-row class="table-header">
+    <ion-col col-3>
+      <ion-icon name="arrow-down"></ion-icon>
+      <a style="color:white">Data</a>
+    </ion-col>
+    <ion-col col-4>
+      <ion-icon name="arrow-down"></ion-icon>
+      <a style="color:white">Horas Ponto</a>
+    </ion-col>
+    <ion-col col-3>
+      <ion-icon name="arrow-down"></ion-icon>
+      <a style="color:white">Horas Jira</a>
+    </ion-col>
+    <ion-col col-2>
+      <a style="color:white">Opções</a>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col col-3 class="color-text">
+      <a>10/10/2018</a>
+    </ion-col>
+    <ion-col col-4>
+      <a>08:00</a>
+    </ion-col>
+    <ion-col col-3>
+      <a>06:00</a>
+    </ion-col>
+    <ion-col col-2>
+      <ion-icon class="icons-px ionic-col-4" name="md-create"></ion-icon>
+      <ion-icon class="icons-px ionic-col-4" name="md-add-circle"></ion-icon>
+    </ion-col>
+  </ion-row>
+</ion-grid>
