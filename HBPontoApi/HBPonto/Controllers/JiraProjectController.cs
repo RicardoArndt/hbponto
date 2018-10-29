@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using HBPonto.Kernel.Error;
+using System.Net.Http;
 
 namespace HBPonto.Controllers
 {
@@ -27,9 +28,7 @@ namespace HBPonto.Controllers
             try
             {
                 var response = _service.GetProjects().Result;
-                var result = response.Content.ReadAsStringAsync().Result;
-                ErrorHandler.Handler(response.StatusCode);
-                JiraProject jiraProjects = JsonConvert.DeserializeObject<JiraProject>(result);
+                var jiraProjects = GetResult<JiraSprints>(response);
                 return Ok(jiraProjects);
             }
             catch (UnauthorizedAccessException)
@@ -48,9 +47,7 @@ namespace HBPonto.Controllers
             try
             {
                 var response = _service.GetSprints(boardId).Result;
-                var result = response.Content.ReadAsStringAsync().Result;
-                ErrorHandler.Handler(response.StatusCode);
-                JiraSprints jiraSprints = JsonConvert.DeserializeObject<JiraSprints>(result);
+                var jiraSprints = GetResult<JiraSprints>(response);
                 jiraSprints.values = jiraSprints.values.Where(x => x.state != "closed").ToList();
                 return Ok(jiraSprints);
             }
@@ -60,8 +57,30 @@ namespace HBPonto.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return BadRequest("Você não possui acesso a consulta dessa Sprint.");
             }
+        }
+
+        [HttpGet("{boardId}/sprint/{sprintId}/issue")]
+        public IActionResult GetIssues(int boardId, int sprintId)
+        {
+            try
+            {
+                var response = _service.GetIssues(boardId, sprintId).Result;
+                var jiraResult = GetResult<JiraIssuesResult>(response);
+                return Ok(jiraResult);
+            }
+            catch(Exception)
+            {
+                return BadRequest("Não foi possível buscar os issues, por favor tente novamente mais tarde.");
+            }
+        }
+
+        private T GetResult<T>(HttpResponseMessage response)
+        {
+            var result = response.Content.ReadAsStringAsync().Result;
+            ErrorHandler.Handler(response.StatusCode);
+            return JsonConvert.DeserializeObject<T>(result);
         }
     }
 }

@@ -11,9 +11,11 @@ export class AppErrorHandler implements ErrorHandler {
 
     handleError(error: Error | HttpErrorResponse) {
         if(error instanceof HttpErrorResponse) {
+            var errorMessage = error.error;
+
             switch(error.status) {
                 case 400: {
-                    this._toastHandler.handlerToast("Algo de errado aconteceu :(").present();
+                    this._toastHandler.handlerToast(errorMessage).present();
                     break;
                 }
                 case 401: {
@@ -25,7 +27,7 @@ export class AppErrorHandler implements ErrorHandler {
                     break;
                 }
                 case 404: {
-                    this._toastHandler.handlerToast("Página web não encontrada").present();
+                    this._toastHandler.handlerToast(errorMessage).present();
                     break;
                 }
             }

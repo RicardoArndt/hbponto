@@ -16,4 +16,25 @@
       </ion-option>
     </ion-select>
   </ion-item>
+
+  <ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          Key
+        </ion-col>
+        <ion-col>
+          Self
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let issue of issues | async">
+        <ion-col>
+          {{ issue.get('key') }}
+        </ion-col>
+        <ion-col>
+          {{ issue.get('self') }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
 </ion-content>

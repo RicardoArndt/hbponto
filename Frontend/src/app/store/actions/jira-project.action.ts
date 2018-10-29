@@ -1,10 +1,11 @@
 
 import { Action } from "../interfaces/action";
-import { ProjectsResponse, SprintsResponse } from "../../models/jira-projects.model";
+import { ProjectsResponse, SprintsResponse, IssuesReponse } from "../../models/jira-projects.model";
 
 export enum JiraProjectActions {
     GET_PROJECTS = "[JiraProject] Projects",
-    GET_SPRINTS = "[JiraProject] Sprints"
+    GET_SPRINTS = "[JiraProject] Sprints",
+    GET_ISSUES = "[JiraProject] Issues"
 }
 
 export class GetProjects implements Action {
@@ -17,4 +18,9 @@ export class GetSprints implements Action {
     constructor(public payload: SprintsResponse) { }
 }
 
-export type JiraProjectsAllTypes = GetProjects | GetSprints
+export class GetIssues implements Action {
+    readonly type = JiraProjectActions.GET_ISSUES;
+    constructor(public payload: IssuesReponse) { }
+}
+
+export type JiraProjectsAllTypes = GetProjects | GetSprints | GetIssues

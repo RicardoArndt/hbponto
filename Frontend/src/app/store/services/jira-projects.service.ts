@@ -16,4 +16,8 @@ export class JiraProjectService {
     getSprints(id: number): Observable<any> {
         return this._http.get(this._routeApi.GetSprints + id);
     }
+
+    getIssues(boardId: number, sprintId: number): Observable<any> {
+        return this._http.get(this._routeApi.Project + boardId + '/sprint/' + sprintId + '/issue');
+    }
 }

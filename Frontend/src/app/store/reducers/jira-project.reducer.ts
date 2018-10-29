@@ -19,6 +19,12 @@ class JiraProjectReducer {
         })
     }
 
+    issues() {
+        return this.state.merge({
+            'Issues': this.action.payload.issues
+        })
+    }
+
     failure() {
         return this.state.merge({})
     }
@@ -30,6 +36,7 @@ export function jiraProjectReducer(state: Map<string, any> = fromJS(INITIAL_STAT
     switch(action.type) {
         case JiraProjectActions.GET_PROJECTS : return jiraReducerObj.projects();
         case JiraProjectActions.GET_SPRINTS: return jiraReducerObj.sprints();
+        case JiraProjectActions.GET_ISSUES: return jiraReducerObj.issues();
         case BaseActions.FAILURE : return jiraReducerObj.failure();
         default : return state;
     }
