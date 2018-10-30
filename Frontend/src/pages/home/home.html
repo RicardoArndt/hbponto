@@ -19,8 +19,19 @@
 
   <ion-list>
     <ion-item *ngFor="let issue of issues | async">
-      <ion-row>{{ issue.get('key') }}</ion-row>
-      <ion-row>{{ issue.get('fields').get('summary') }}</ion-row>
+      <ion-row>
+        <ion-col col-10>
+          <ion-row>{{ issue.get('key') }}</ion-row>
+          <ion-row>{{ issue.get('fields').get('summary') }}</ion-row>
+        </ion-col>
+        <ion-col col-1>
+          <button ion-button color="dark">{{ getEstimatedTime(issue) }}</button>
+        </ion-col>
+        <ion-col col-1>
+          <!-- TRABALHAR ESSA INFORMAÇÃO NO BACKEND -->
+          <button ion-button color="secondary">6H</button>
+        </ion-col>
+      </ion-row>
     </ion-item>
   </ion-list>
 </ion-content>

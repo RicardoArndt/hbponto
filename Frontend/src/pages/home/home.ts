@@ -58,6 +58,17 @@ export class HomePage {
       throw err;
     });
   }
+
+  getEstimatedTime(issue) {
+    var result = issue.get('fields')
+                      .get('timetracking')
+                      .get('originalEstimate');
+    return result ? result : 'NA';
+  }
+
+  getTimeSpent(issue) {
+    return issue;
+  }
 }
 
 @Component({

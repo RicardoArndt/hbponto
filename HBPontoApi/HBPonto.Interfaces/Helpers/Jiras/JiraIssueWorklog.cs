@@ -7,6 +7,7 @@ namespace HBPonto.Kernel.Helpers.Jiras
     public class JiraIssueWorklog
     {
         public int total { get; set; }
+        public int totalTimeSpent { get; set; }
         public IList<JiraIssueWorklogs> worklogs { get; set; }
     }
 
