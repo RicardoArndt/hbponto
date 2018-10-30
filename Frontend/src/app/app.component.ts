@@ -8,6 +8,7 @@ import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { NgRedux, select } from "@angular-redux/store";
 import { Map } from "immutable";
+import { CadastroPage } from '../pages/cadastro/cadastro';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,14 +30,15 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage, icon: 'md-list' },
-      { title: 'List', component: ListPage, icon: 'ios-list' }
+      { title: 'List', component: ListPage, icon: 'ios-list' },
+      { title:'Cadastro', component: CadastroPage,  icon: 'ios-list' }
     ];
 
   }
 
   initializeApp() {
     this.isAuthenticated.subscribe(x => {
-        this.rootPage = x ? this.rootPage : LoginPage; 
+        this.rootPage = !x ? this.rootPage : LoginPage; 
     });
 
     this.platform.ready().then(() => {

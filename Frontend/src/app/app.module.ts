@@ -13,12 +13,14 @@ import { RootStoreModule } from "./store/modules/root-store.module";
 import { ToastHandler } from './toast/toast-handler';
 import { AppErrorHandler } from './errors/app-error-handler';
 import { HttpRequestInterceptorModule } from '../interceptor/http-interceptor';
+import { CadastroPage } from '../pages/cadastro/cadastro';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    CadastroPage
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,8 @@ import { HttpRequestInterceptorModule } from '../interceptor/http-interceptor';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    CadastroPage
   ],
   providers: [
     StatusBar,
