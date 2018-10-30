@@ -53,6 +53,7 @@ export class IssueFields {
     worklog: IssueWorklog;
     issuetype: IssueType;
     issuelinks: IssueLinks[];
+    timetracking: JiraIssueTimeTracking;
 }
 
 export class IssueEpic {
@@ -94,6 +95,9 @@ export class IssueLinks {
 
 export class IssueWorklogs {
     timeSpentSeconds: number;
+    timeSpent: string;
+    started: DateTime;
+    author: Author;
 }
 
 export class IssueLinksType {
@@ -108,5 +112,18 @@ export class OutwardIssue {
 export class OutwardIssueFields {
     summary: string;
     status: IssueStatus;
+}
+
+export class Author {
+    self: string;
+    name: string;
+    displayName: string;
+    active: boolean;
+}
+
+export class JiraIssueTimeTracking {
+    originalEstimate: string;
+    remainingEstimate: string;
+    timeSpent: string;
 }
 //#endregion
