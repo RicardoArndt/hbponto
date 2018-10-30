@@ -20,7 +20,10 @@
   <ion-list>
     <ion-item *ngFor="let issue of issues | async">
       <ion-row>
-        <ion-col col-10>
+        <ion-col>
+          <button ion-button round>NA</button>
+        </ion-col>
+        <ion-col col-9>
           <ion-row>{{ issue.get('key') }}</ion-row>
           <ion-row>{{ issue.get('fields').get('summary') }}</ion-row>
         </ion-col>
