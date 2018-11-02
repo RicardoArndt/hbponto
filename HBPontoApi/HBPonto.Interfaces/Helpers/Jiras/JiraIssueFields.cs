@@ -17,5 +17,6 @@ namespace HBPonto.Kernel.Helpers.Jiras
         public JiraIssueType issuetype { get; set; }
         public JiraIssueTimeTracking timetracking { get; set; } 
         public IList<JiraIssueLinks> issuelinks { get; set; }
+        public JiraUser user { get; set; }
     }
 }

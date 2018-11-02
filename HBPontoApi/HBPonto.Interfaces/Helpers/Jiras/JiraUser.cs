@@ -4,9 +4,9 @@ using System.Text;
 
 namespace HBPonto.Kernel.Helpers.Jiras
 {
-    public class JiraReporter
+    public class JiraUser
     {
-        public string displayname { get; set; }
         public string name { get; set; }
+        public string avatarUrls { get; set; }
     }
 }

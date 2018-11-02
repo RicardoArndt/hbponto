@@ -21,11 +21,11 @@
     <ion-item *ngFor="let issue of issues | async">
       <ion-row>
         <ion-col col-1>
-          <button ion-button round>NA</button>
+          <button ion-button round>{{ getInitialsName(issue.get('reporter').get('name')) }}</button>
         </ion-col>
         <ion-col col-9>
           <ion-row>{{ issue.get('key') }}</ion-row>
-          <ion-row justify-content-between>{{ issue.get('fields').get('summary') }}</ion-row>
+          <ion-row justify-content-between>{{ issue.get('summary') }}</ion-row>
         </ion-col>
         <ion-col col-1>
           <button ion-button color="dark">{{ getEstimatedTime(issue) }}</button>

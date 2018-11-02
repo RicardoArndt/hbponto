@@ -9,11 +9,12 @@ using System.Linq;
 using System.Collections.Generic;
 using HBPonto.Kernel.Error;
 using System.Net.Http;
+using HBPonto.Domain.DTOs;
 
 namespace HBPonto.Controllers
 {
     [Route("api/[controller]"), Authorize, ApiController]
-    public class JiraProjectController: ControllerBase
+    public class JiraProjectController : BaseController
     {
         IJiraProjectService _service;
 
@@ -68,19 +69,13 @@ namespace HBPonto.Controllers
             {
                 var response = _service.GetIssues(boardId, sprintId).Result;
                 var jiraResult = GetResult<JiraIssuesResult>(response);
-                return Ok(jiraResult);
+                List<JiraIssueDTO> dtoList = jiraResult.issues.Select(x => JiraIssueDTO.CreateDTO(x)).ToList();
+                return Ok(dtoList);
             }
             catch(Exception)
             {
                 return BadRequest("Não foi possível buscar os issues, por favor tente novamente mais tarde.");
             }
-        }
-
-        private T GetResult<T>(HttpResponseMessage response)
-        {
-            var result = response.Content.ReadAsStringAsync().Result;
-            ErrorHandler.Handler(response.StatusCode);
-            return JsonConvert.DeserializeObject<T>(result);
         }
     }
 }

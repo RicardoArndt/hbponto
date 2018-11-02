@@ -6,6 +6,6 @@ namespace HBPonto.Kernel.Helpers.Jiras
 {
     public class JiraIssuesResult
     {
-        public IList<JiraIssue> issues { get; set; }
+        public  List<JiraIssue> issues { get; set; }
     }
 }

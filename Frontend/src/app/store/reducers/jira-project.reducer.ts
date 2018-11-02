@@ -21,7 +21,7 @@ class JiraProjectReducer {
 
     issues() {
         return this.state.merge({
-            'Issues': this.action.payload.issues
+            'Issues': this.action.payload
         })
     }
 

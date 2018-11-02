@@ -43,16 +43,12 @@ export class Issues {
 }
 
 export class IssueFields {
+    key: string;
     epic: IssueEpic;
     summary: string;
-    customfield_10712: string;
-    customfield_10715: string;
     reporter: Reporter;
     status: IssueStatus;
-    subtasks: IssueSubTasks[];
-    worklog: IssueWorklog;
-    issuetype: IssueType;
-    issuelinks: IssueLinks[];
+    totalTime: string;
     timetracking: JiraIssueTimeTracking;
 }
 
@@ -63,6 +59,7 @@ export class IssueEpic {
 
 export class Reporter {
     displayname: string;
+    name: string;
 }
 
 export class IssueStatus {

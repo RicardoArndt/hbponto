@@ -12,5 +12,6 @@ namespace HBPonto.Kernel.Interfaces.Services
         Task<HttpResponseMessage> GetProjects();
         Task<HttpResponseMessage> GetSprints(int boardId);
         Task<HttpResponseMessage> GetIssues(int boardId, int sprintId);
+        Task<HttpResponseMessage> GetIssue(int issueId);
     }
 }

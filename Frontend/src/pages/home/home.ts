@@ -4,7 +4,7 @@ import { JiraProjectService } from '../../app/store/services/jira-projects.servi
 import { GetProjects, GetSprints, GetIssues } from '../../app/store/actions/jira-project.action';
 import { NgRedux, select } from '@angular-redux/store';
 import { Failure } from '../../app/store/actions/base.action';
-import { ProjectsResponse, SprintsResponse, IssuesReponse, Issues } from '../../app/models/jira-projects.model';
+import { ProjectsResponse, SprintsResponse, IssuesReponse, Issues, IssueFields } from '../../app/models/jira-projects.model';
 import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class HomePage {
   @select(s => s.jiraProjects.get('Projects')) projects;
   @select(s => s.jiraProjects.get('Sprints')) sprints;
   @select(s => s.jiraProjects.get('Issues')) issues;
+  usernames;
 
   constructor(public navCtrl: NavController,
               private _jiraProjectService: JiraProjectService,
@@ -59,11 +60,14 @@ export class HomePage {
     });
   }
 
+  getInitialsName(name: string) {
+    return name.substring(0, 2).toUpperCase();
+  }
+
   getEstimatedTime(issue) {
-    var result = issue.get('fields')
-                      .get('timetracking')
+    var result = issue.get('timetracking')
                       .get('originalEstimate');
-    return result ? result : 'NA';
+    return result ? result : 'NE';
   }
 
   getTimeSpent(issue) {
@@ -88,7 +92,7 @@ export class Sprints {
   }
   
   onChange(sprintId: number) {
-    this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssuesReponse) => {
+    this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssueFields[]) => {
       var action = new GetIssues(response);
       this._store.dispatch({type: action.type, payload: action.payload});
       this.viewCtrl.dismiss();

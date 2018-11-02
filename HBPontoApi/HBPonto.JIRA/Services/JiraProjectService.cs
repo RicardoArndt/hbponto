@@ -38,5 +38,10 @@ namespace HBPonto.JIRA.Services
         {
             return await _client.GetAsync($"/rest/agile/1.0/board/{boardId}/sprint/{sprintId}/issue");
         }
+
+        public async Task<HttpResponseMessage> GetIssue(int issueId)
+        {
+            return await _client.GetAsync($"/rest/agile/1.0/issue/{issueId}");
+        }
     }
 }
