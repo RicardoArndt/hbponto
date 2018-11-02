@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HBPonto.Domain\HBPonto.Domain.csproj" />
     <ProjectReference Include="..\HBPonto.Interfaces\HBPonto.Kernel.csproj" />
     <ProjectReference Include="..\HBPonto.IoC\HBPonto.IoC.csproj" />
   </ItemGroup>

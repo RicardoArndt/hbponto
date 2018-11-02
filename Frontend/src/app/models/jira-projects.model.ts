@@ -48,7 +48,6 @@ export class IssueFields {
     summary: string;
     reporter: Reporter;
     status: IssueStatus;
-    totalTime: string;
     timetracking: JiraIssueTimeTracking;
 }
 

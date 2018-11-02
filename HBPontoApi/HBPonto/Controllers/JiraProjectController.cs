@@ -9,7 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using HBPonto.Kernel.Error;
 using System.Net.Http;
-using HBPonto.Domain.DTOs;
+using HBPonto.Kernel.DTO;
 
 namespace HBPonto.Controllers
 {

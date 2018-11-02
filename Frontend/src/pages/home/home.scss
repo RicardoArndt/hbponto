@@ -20,3 +20,23 @@ sprints {
         border: 1px solid #666666;
     }
 }
+
+.row-summary {
+    text-overflow: ellipsis;
+}
+
+.button-estimated-time {
+    width: 100px;
+}
+
+.button-total-time {
+    width: 100px;
+}
+
+.buttons-time {
+    min-width: 205px;
+}
+
+.initials-name {
+    min-width: 100px;
+}

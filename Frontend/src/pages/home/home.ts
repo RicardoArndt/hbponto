@@ -16,7 +16,8 @@ export class HomePage {
   @select(s => s.jiraProjects.get('Projects')) projects;
   @select(s => s.jiraProjects.get('Sprints')) sprints;
   @select(s => s.jiraProjects.get('Issues')) issues;
-  usernames;
+  boardSelected: number;
+  sprintSelected: number;
 
   constructor(public navCtrl: NavController,
               private _jiraProjectService: JiraProjectService,
@@ -26,6 +27,16 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.getAllProjects();
+    this.initProjectConfigurations();
+  }
+
+  initProjectConfigurations() {
+    this.boardSelected = parseInt(this._localStorage.getItem('boardSelected'));
+    this.sprintSelected = parseInt(this._localStorage.getItem('sprintSelected'));
+
+    if((this.boardSelected && this.sprintSelected) != null) {
+      this.onChange(this.boardSelected, this.sprintSelected);
+    }
   }
 
   getAllProjects() {
@@ -47,11 +58,13 @@ export class HomePage {
     }
   }
   
-  onChange(boardId: number) {
+  onChange(boardId: number, sprintId?: number) {
+    this._localStorage.setItem('boardSelected', boardId.toString());
+
     this._jiraProjectService.getSprints(boardId).subscribe((response: SprintsResponse) => {
       var action = new GetSprints(response);
       this._store.dispatch({type: action.type, payload: action.payload});
-      let sprintModal = this.modalCtrl.create(Sprints, {'sprints': this.sprints, 'boardId': boardId});
+      let sprintModal = this.modalCtrl.create(Sprints, {'sprints': this.sprints, 'boardId': boardId, 'sprintId': sprintId});
       sprintModal.present();  
     }, err => {
       var action = new Failure(err);
@@ -70,8 +83,25 @@ export class HomePage {
     return result ? result : 'NE';
   }
 
-  getTimeSpent(issue) {
-    return issue;
+  getTotalTime(issue) {
+    var time = issue.get('timetracking').get('timeSpent');
+
+    return time ? time : '0H';
+  }
+
+  getColor(timeEstimated: string, totalTime: string): string {
+    var time = parseFloat(timeEstimated);
+    var total = parseFloat(totalTime);
+
+    if(time == total) {
+      return "dark";
+    } else if(time > total) {
+      return "secondary"
+    } else if(time < total) {
+      return "danger";
+    } else {
+      return "dark";
+    }
   }
 }
 
@@ -82,16 +112,25 @@ export class HomePage {
 export class Sprints {
   sprints;
   boardId;
+  sprintId;
 
   constructor(private _params: NavParams, 
               public viewCtrl: ViewController,
               private _jiraProjectService: JiraProjectService,
-              private _store: NgRedux<Map<string, any>>) {
+              private _store: NgRedux<Map<string, any>>,
+              private _localStorage: LocalStorageService) {
     this.sprints = this._params.get('sprints');
     this.boardId = this._params.get('boardId');
+    this.sprintId = this._params.get('sprintId');
+
+    if(this.sprintId != null) {
+      this.onChange(this.sprintId);
+    }
   }
   
   onChange(sprintId: number) {
+    this._localStorage.setItem('sprintSelected', sprintId.toString());
+
     this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssueFields[]) => {
       var action = new GetIssues(response);
       this._store.dispatch({type: action.type, payload: action.payload});
