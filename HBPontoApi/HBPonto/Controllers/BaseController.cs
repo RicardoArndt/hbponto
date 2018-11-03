@@ -17,5 +17,12 @@ namespace HBPonto.Controllers
             ErrorHandler.Handler(response.StatusCode);
             return JsonConvert.DeserializeObject<T>(result);
         }
+
+        public string PostResult(HttpResponseMessage response)
+        {
+            var result = response.Content.ReadAsStringAsync().Result;
+            ErrorHandler.Handler(response.StatusCode);
+            return result;
+        }
     }
 }

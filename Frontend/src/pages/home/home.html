@@ -1,42 +1,55 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>HOME</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-  <ion-item>
-    <ion-label>Selecione um Projeto</ion-label>
-    <ion-select [ngModel]="project" (ngModelChange)="onChange($event)">
-      <ion-option *ngFor="let p of projects | async" [value]="p.get('id')" [selected]="boardSelected == p.get('id')">
-        {{ p.get('name') }}
-      </ion-option>
-    </ion-select>
-  </ion-item>
-
-  <ion-list>
-    <ion-item *ngFor="let issue of issues | async">
-      <ion-row>
-        <ion-col col-1 class="initials-name">
-          <button [attr.title]="issue.get('reporter').get('displayname')" ion-button round>{{ getInitialsName(issue.get('reporter').get('name')) }}</button>
-        </ion-col>
-        <ion-col col-5>
-          <ion-row>{{ issue.get('key') }}</ion-row>
-          <ion-row justify-content-between>
-            <span class="row-summary">{{ issue.get('summary') }}</span>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col col-1 class="initials-name"></ion-col>
-        <ion-col col-2 class="buttons-time">
-          <button title="Horas Estimadas" ion-button color="dark" class="button-estimated-time">{{ getEstimatedTime(issue) }}</button>
-          <button title="Horas Apontadas"ion-button class="button-total-time" [color]="getColor(getEstimatedTime(issue), getTotalTime(issue))">{{ getTotalTime(issue) }}</button>
-        </ion-col>
-      </ion-row>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>HOME</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-item>
+      <ion-label>Selecione um Projeto</ion-label>
+      <ion-select [ngModel]="project" (ngModelChange)="onChange($event)">
+        <ion-option *ngFor="let p of projects | async" [value]="p.get('id')" [selected]="boardSelected == p.get('id')">
+          {{ p.get('name') }}
+        </ion-option>
+      </ion-select>
     </ion-item>
-  </ion-list>
-</ion-content>
+  
+    <ion-item>
+      <search-on-list [listForFilter]="issues | async" parameter="key" (listOutput)="onFilter($event)"></search-on-list>
+    </ion-item>
+
+    <ion-list>
+      <ion-item>
+        <ion-row class="header">
+          <ion-col col-2 class="initials-name">
+            JIRA
+          </ion-col>
+          <ion-col col-2 class="buttons-time">
+            ESTIMATIVA
+            | GASTO
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item *ngFor="let issue of issuesFilter">
+        <ion-row>
+          <ion-col col-2 class="initials-name">
+            <button ion-button class="button-key" round>{{ issue.get('key') }}</button>
+          </ion-col>
+          <ion-col col-2 class="buttons-time">
+            <button title="Horas Estimadas" 
+                    ion-button 
+                    color="dark" 
+                    class="button-estimated-time">{{ getEstimatedTime(issue) }}</button>
+            <button title="Horas Apontadas" 
+                    ion-button 
+                    class="button-total-time" 
+                    [color]="getColor(getEstimatedTime(issue), getTotalTime(issue))"
+                    (click)="openModalWorklog(issue.get('id'))">{{ getTotalTime(issue) }}</button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-content>

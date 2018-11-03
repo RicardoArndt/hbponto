@@ -4,4 +4,5 @@ export class BaseRoute {
     public Project = this.API + "jiraProject/"
     public GetAllProjects = this.Project + "projects";
     public GetSprints = this.Project + "sprints/";
+    public Issue = this.Project + "issue/"
 }

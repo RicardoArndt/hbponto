@@ -13,6 +13,7 @@ import { ToastHandler } from './toast/toast-handler';
 import { AppErrorHandler } from './errors/app-error-handler';
 import { HttpRequestInterceptorModule } from '../interceptor/http-interceptor';
 import { JiraProjectService } from './store/services/jira-projects.service';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { JiraProjectService } from './store/services/jira-projects.service';
     IonicModule.forRoot(MyApp),
     LoginPageModule,
     RootStoreModule,
-    HttpRequestInterceptorModule
+    HttpRequestInterceptorModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

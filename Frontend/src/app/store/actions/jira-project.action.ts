@@ -1,11 +1,12 @@
 
 import { Action } from "../interfaces/action";
-import { ProjectsResponse, SprintsResponse, IssuesReponse, IssueFields, Issues } from "../../models/jira-projects.model";
+import { ProjectsResponse, SprintsResponse, IssuesReponse, IssueFields, Issues, WorklogRegister } from "../../models/jira-projects.model";
 
 export enum JiraProjectActions {
     GET_PROJECTS = "[JiraProject] Projects",
     GET_SPRINTS = "[JiraProject] Sprints",
-    GET_ISSUES = "[JiraProject] Issues"
+    GET_ISSUES = "[JiraProject] Issues",
+    POST_WORKLOG = "[JiraProject] WorklogRegister"
 }
 
 export class GetProjects implements Action {
@@ -23,4 +24,9 @@ export class GetIssues implements Action {
     constructor(public payload: IssueFields[]) { }
 }
 
-export type JiraProjectsAllTypes = GetProjects | GetSprints | GetIssues
+export class PostWorklog implements Action {
+    readonly type = JiraProjectActions.POST_WORKLOG;
+    constructor(public payload: WorklogRegister) { }
+}
+
+export type JiraProjectsAllTypes = GetProjects | GetSprints | GetIssues | PostWorklog

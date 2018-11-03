@@ -1,5 +1,3 @@
-import { DateTime } from "ionic-angular";
-
 //#region Boards
 export class ProjectsResponse {
     values: ProjectValues[];
@@ -23,9 +21,9 @@ export class SprintValues {
     self: string;
     state: string;
     name: string;
-    startDate: DateTime;
-    endDate: DateTime;
-    completeDate: DateTime;
+    startDate: string;
+    endDate: string;
+    completeDate: string;
     originBoardId: number;
 }
 //#endregion
@@ -43,6 +41,7 @@ export class Issues {
 }
 
 export class IssueFields {
+    id: number;
     key: string;
     epic: IssueEpic;
     summary: string;
@@ -92,7 +91,7 @@ export class IssueLinks {
 export class IssueWorklogs {
     timeSpentSeconds: number;
     timeSpent: string;
-    started: DateTime;
+    started: string;
     author: Author;
 }
 
@@ -121,5 +120,11 @@ export class JiraIssueTimeTracking {
     originalEstimate: string;
     remainingEstimate: string;
     timeSpent: string;
+}
+
+export class WorklogRegister {
+    comment: string;
+    started: string;
+    timeSpent: string; 
 }
 //#endregion

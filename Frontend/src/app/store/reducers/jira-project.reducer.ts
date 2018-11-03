@@ -25,6 +25,12 @@ class JiraProjectReducer {
         })
     }
 
+    postWorklogSuccess() {
+        return this.state.merge({
+            'Worklog': this.action.payload
+        })
+    }
+
     failure() {
         return this.state.merge({})
     }
@@ -37,6 +43,7 @@ export function jiraProjectReducer(state: Map<string, any> = fromJS(INITIAL_STAT
         case JiraProjectActions.GET_PROJECTS : return jiraReducerObj.projects();
         case JiraProjectActions.GET_SPRINTS: return jiraReducerObj.sprints();
         case JiraProjectActions.GET_ISSUES: return jiraReducerObj.issues();
+        case JiraProjectActions.POST_WORKLOG: return jiraReducerObj.postWorklogSuccess();
         case BaseActions.FAILURE : return jiraReducerObj.failure();
         default : return state;
     }

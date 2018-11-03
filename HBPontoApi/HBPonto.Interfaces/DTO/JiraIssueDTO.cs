@@ -8,6 +8,7 @@ namespace HBPonto.Kernel.DTO
 {
     public class JiraIssueDTO
     {
+        public int id { get; set; }
         public string key { get; set; }
         public JiraIssueEpic epic { get; set; }
         public string summary { get; set; }
@@ -18,8 +19,9 @@ namespace HBPonto.Kernel.DTO
 
         public JiraIssueDTO() { }
 
-        public JiraIssueDTO(string key, JiraIssueEpic epic, string summary, JiraReporter reporter, JiraIssueStatus status, JiraIssueTimeTracking timetracking)
+        public JiraIssueDTO(int id, string key, JiraIssueEpic epic, string summary, JiraReporter reporter, JiraIssueStatus status, JiraIssueTimeTracking timetracking)
         {
+            this.id = id;
             this.key = key;
             this.epic = epic;
             this.summary = summary;
@@ -30,7 +32,7 @@ namespace HBPonto.Kernel.DTO
 
         public static JiraIssueDTO CreateDTO(JiraIssue jira)
         {
-            return new JiraIssueDTO(jira.key, jira.fields.epic, jira.fields.summary, jira.fields.reporter, jira.fields.status, jira.fields.timetracking);
+            return new JiraIssueDTO(jira.id, jira.key, jira.fields.epic, jira.fields.summary, jira.fields.reporter, jira.fields.status, jira.fields.timetracking);
         }
     }
 }

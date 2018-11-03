@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using HBPonto.Kernel.Error;
 using System.Net.Http;
 using HBPonto.Kernel.DTO;
+using System.Text;
 
 namespace HBPonto.Controllers
 {
@@ -75,6 +76,30 @@ namespace HBPonto.Controllers
             catch(Exception)
             {
                 return BadRequest("Não foi possível buscar os issues, por favor tente novamente mais tarde.");
+            }
+        }
+
+        [HttpPost("issue/{issueId}")]
+        public IActionResult PostWorklog([FromBody]JiraWorklogDTO jiraIssue, int issueId)
+        {
+            try
+            {
+                var data = DateTimeOffset.Parse(jiraIssue.started);
+                var s = data.ToString("yyyy-MM-ddThh:mm:ss.fffK");
+                jiraIssue.started = s.Substring(0, 26) + s.Substring(27, 2);
+                var json = JsonConvert.SerializeObject(jiraIssue);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = _service.AddWorklog(issueId, content);
+                var result = PostResult(response.Result);
+                return Ok(result);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível registrar horas de trabalho");
             }
         }
     }

@@ -6,6 +6,9 @@ import { NgRedux, select } from '@angular-redux/store';
 import { Failure } from '../../app/store/actions/base.action';
 import { ProjectsResponse, SprintsResponse, IssuesReponse, Issues, IssueFields } from '../../app/models/jira-projects.model';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { WorklogRegisterComponent } from '../../components/worklog-register/worklog-register';
+import { filter } from 'rxjs/operators';
+import { fromJS } from 'immutable';
 
 @Component({
   selector: 'page-home',
@@ -16,6 +19,7 @@ export class HomePage {
   @select(s => s.jiraProjects.get('Projects')) projects;
   @select(s => s.jiraProjects.get('Sprints')) sprints;
   @select(s => s.jiraProjects.get('Issues')) issues;
+  issuesFilter;
   boardSelected: number;
   sprintSelected: number;
 
@@ -23,7 +27,9 @@ export class HomePage {
               private _jiraProjectService: JiraProjectService,
               private _store: NgRedux<Map<string, any>>,
               public modalCtrl: ModalController,
-              private _localStorage: LocalStorageService) { }
+              private _localStorage: LocalStorageService) { 
+    this.issues.subscribe(x => this.issuesFilter = x);
+  }
 
   ionViewDidLoad() {
     this.getAllProjects();
@@ -103,7 +109,16 @@ export class HomePage {
       return "dark";
     }
   }
+
+  openModalWorklog(issueId: number) {
+    this.modalCtrl.create(WorklogRegisterComponent, {'issueId': issueId}).present();
+  }
+
+  onFilter(value: any) {
+    this.issuesFilter = value;
+  }
 }
+
 
 @Component({
   selector: 'sprints',

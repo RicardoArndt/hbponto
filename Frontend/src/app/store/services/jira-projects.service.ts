@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { BaseRoute } from "./routes/base";
+import { WorklogRegister } from "../../models/jira-projects.model";
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class JiraProjectService {
@@ -19,5 +20,9 @@ export class JiraProjectService {
 
     getIssues(boardId: number, sprintId: number): Observable<any> {
         return this._http.get(this._routeApi.Project + boardId + '/sprint/' + sprintId + '/issue');
+    }
+
+    postWorklog(issueId: number, worklog: WorklogRegister): Observable<any> {
+        return this._http.post(this._routeApi.Issue + issueId, worklog);
     }
 }
