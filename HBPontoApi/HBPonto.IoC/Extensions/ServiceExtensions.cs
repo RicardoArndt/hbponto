@@ -1,9 +1,6 @@
 ﻿using HBPonto.JIRA.Services;
-using HBPonto.Kernel.Interfaces;
+using HBPonto.Kernel.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HBPonto.IoC.Extensions
 {
@@ -12,6 +9,7 @@ namespace HBPonto.IoC.Extensions
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddSingleton<IJiraBaseService, JiraBaseService>();
+            services.AddSingleton<IJiraProjectService, JiraProjectService>();
 
             return services;
         }

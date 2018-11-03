@@ -3,8 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { HomePage, Sprints } from '../pages/home/home';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,31 +12,35 @@ import { RootStoreModule } from "./store/modules/root-store.module";
 import { ToastHandler } from './toast/toast-handler';
 import { AppErrorHandler } from './errors/app-error-handler';
 import { HttpRequestInterceptorModule } from '../interceptor/http-interceptor';
+import { JiraProjectService } from './store/services/jira-projects.service';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    Sprints
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     LoginPageModule,
     RootStoreModule,
-    HttpRequestInterceptorModule
+    HttpRequestInterceptorModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    Sprints
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: AppErrorHandler},
-    ToastHandler
+    ToastHandler,
+    JiraProjectService
   ]
 })
 export class AppModule {}

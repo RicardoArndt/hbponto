@@ -1,27 +1,55 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>JIRAs existentes</ion-title>
-  </ion-navbar>
-</ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>HOME</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-item>
+      <ion-label>Selecione um Projeto</ion-label>
+      <ion-select [ngModel]="project" (ngModelChange)="onChange($event)">
+        <ion-option *ngFor="let p of projects | async" [value]="p.get('id')" [selected]="boardSelected == p.get('id')">
+          {{ p.get('name') }}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+  
+    <ion-item>
+      <search-on-list [listForFilter]="issues | async" parameter="key" (listOutput)="onFilter($event)"></search-on-list>
+    </ion-item>
 
-<ion-content padding>
-  <div class="buttons">
-      <button ion-button color="light">Inconsistentes</button>
-      <button ion-button color="light">Todos</button>
-  </div>
-     
-  <ion-grid class="table">
-    <ion-row class="table-header">
-        
-      <ion-col *ngFor="let header of headers" col-4><ion-icon name="arrow-down"></ion-icon>{{header.title}}</ion-col>
-    </ion-row>
-
-    <ion-row >
-      <ion-col *ngFor="let dado of dados" col-4>{{dado}}</ion-col>
-    </ion-row>
-  </ion-grid>
-
-</ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-row class="header">
+          <ion-col col-2 class="initials-name">
+            JIRA
+          </ion-col>
+          <ion-col col-2 class="buttons-time">
+            ESTIMATIVA
+            | GASTO
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item *ngFor="let issue of issuesFilter">
+        <ion-row>
+          <ion-col col-2 class="initials-name">
+            <button ion-button class="button-key" round>{{ issue.get('key') }}</button>
+          </ion-col>
+          <ion-col col-2 class="buttons-time">
+            <button title="Horas Estimadas" 
+                    ion-button 
+                    color="dark" 
+                    class="button-estimated-time">{{ getEstimatedTime(issue) }}</button>
+            <button title="Horas Apontadas" 
+                    ion-button 
+                    class="button-total-time" 
+                    [color]="getColor(getEstimatedTime(issue), getTotalTime(issue))"
+                    (click)="openModalWorklog(issue.get('id'), issue.get('key'))">{{ getTotalTime(issue) }}</button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-content>

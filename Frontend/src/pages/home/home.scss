@@ -1,5 +1,5 @@
-page-home {
-
+sprints {
+    background-color: white;
 }
 
 .buttons {
@@ -19,4 +19,36 @@ page-home {
     ion-col {
         border: 1px solid #666666;
     }
+}
+
+.row-summary {
+    text-overflow: ellipsis;
+}
+
+.button-estimated-time {
+    width: 60px;
+}
+
+.button-total-time {
+    width: 90px;
+}
+
+.button-key {
+    width: 110px;
+}
+
+.buttons-time {
+    min-width: 145px;
+}
+
+.initials-name {
+    min-width: 125px;
+}
+
+.row-key {
+    color: #5DB9C8;
+}
+
+.header {
+    color: #5DB9C8;
 }

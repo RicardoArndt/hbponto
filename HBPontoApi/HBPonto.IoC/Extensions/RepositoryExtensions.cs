@@ -1,13 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HBPonto.Database.Entities;
+using HBPonto.Database.Repositories;
+using HBPonto.Kernel.Interfaces.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HBPonto.IoC.Extensions
 {
     public static class RepositoryExtensions
     {
-        public static IServiceCollection RegisterRepositories(this IServiceCollection service)
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            
-            return service;
+            services.AddSingleton<IRelatoryRepository<Relatory>, RelatoryRepository>();
+
+            return services;
 
         }
     }

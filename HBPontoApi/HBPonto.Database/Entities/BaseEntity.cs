@@ -4,6 +4,6 @@ namespace HBPonto.Database.Entities
 {
     public class BaseEntity<TEntity> : IEntity where TEntity: class 
     {
-        public decimal ID { get; set; }
+        public int Id { get; set; }
     }
 }
