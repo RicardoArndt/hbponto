@@ -110,8 +110,8 @@ export class HomePage {
     }
   }
 
-  openModalWorklog(issueId: number) {
-    this.modalCtrl.create(WorklogRegisterComponent, {'issueId': issueId}).present();
+  openModalWorklog(issueId: number, issueKey: string) {
+    this.modalCtrl.create(WorklogRegisterComponent, {'issueId': issueId, 'issueKey': issueKey}).present();
   }
 
   onFilter(value: any) {

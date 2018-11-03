@@ -59,7 +59,7 @@ namespace HBPonto.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return BadRequest("Verifique a conexão com a internet ou tente se logar novamente");
             }
         }
     }

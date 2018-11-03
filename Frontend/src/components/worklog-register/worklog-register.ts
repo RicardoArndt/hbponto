@@ -14,6 +14,7 @@ import { Failure } from "../../app/store/actions/base.action";
 export class WorklogRegisterComponent {
 
   issueId: number;
+  issueKey: string;
   formWorklog: FormGroup;
   worklog: WorklogRegister = new WorklogRegister();
 
@@ -23,6 +24,7 @@ export class WorklogRegisterComponent {
               private _jiraService: JiraProjectService,
               private _store: NgRedux<Map<string, any>>) {
     this.issueId = _params.get('issueId');
+    this.issueKey = _params.get('issueKey');
     this.formBuilder();
   }
 

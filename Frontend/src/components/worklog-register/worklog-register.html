@@ -1,6 +1,6 @@
 <ion-list radio-group>
     <ion-list-header>
-        Registro de trabalho
+        Registro de trabalho {{ issueKey }}
     </ion-list-header>
     
     <form [formGroup]="formWorklog" (ngSubmit)="onSubmit()">

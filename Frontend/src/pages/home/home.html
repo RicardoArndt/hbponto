@@ -47,7 +47,7 @@
                     ion-button 
                     class="button-total-time" 
                     [color]="getColor(getEstimatedTime(issue), getTotalTime(issue))"
-                    (click)="openModalWorklog(issue.get('id'))">{{ getTotalTime(issue) }}</button>
+                    (click)="openModalWorklog(issue.get('id'), issue.get('key'))">{{ getTotalTime(issue) }}</button>
           </ion-col>
         </ion-row>
       </ion-item>

@@ -3,7 +3,7 @@
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1803 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 192.168.2.6:3000:80
 
 FROM microsoft/dotnet:2.1-sdk-nanoserver-1803 AS build
 WORKDIR /src
