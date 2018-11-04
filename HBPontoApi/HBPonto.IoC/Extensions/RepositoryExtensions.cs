@@ -9,10 +9,10 @@ namespace HBPonto.IoC.Extensions
     {
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<IRelatoryRepository<Relatory>, RelatoryRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IRelatoryRepository, RelatoryRepository>();
 
             return services;
-
         }
     }
 }

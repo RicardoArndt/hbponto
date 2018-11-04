@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HBPonto.Controllers
 {
-    [Route("api/[controller]"), Authorize, ApiController]
+    [Route("api/[controller]"), Authorize(Roles = "Administrator"), ApiController]
     public class UserController : BaseController
     {
         IJiraUserService _service;
@@ -27,8 +27,8 @@ namespace HBPonto.Controllers
                 var response = _service.GetUser(username).Result;
                 var jiraProjects = GetResult<JiraUser>(response);
                 return Ok(jiraProjects);
-            } 
-            catch(Exception)
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }

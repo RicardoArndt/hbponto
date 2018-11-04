@@ -5,7 +5,8 @@ using System.Text;
 
 namespace HBPonto.Kernel.Interfaces.Repositories
 {
-    public interface IRelatoryRepository : IBaseRepository<IRelatory>
+    public interface IUserRepository : IBaseRepository<IUser>
     {
+        IUser InsertNewUser(IUser user);
     }
 }

@@ -9,13 +9,20 @@ using System.Text;
 
 namespace HBPonto.Database.Repositories
 {
-    public class RelatoryRepository: BaseRepository<IRelatory>, IRelatoryRepository
+    public class UserRepository : BaseRepository<IUser>, IUserRepository
     {
-        private RelatoryContext _context;
+        private UserContext _context;
 
-        public RelatoryRepository(RelatoryContext context): base(context)
+        public UserRepository(UserContext context) : base(context)
         {
             _context = context;
+        }
+
+        public IUser InsertNewUser(IUser user)
+        {
+            Insert(user);
+            SaveAll();
+            return user;
         }
     }
 }

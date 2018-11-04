@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HBPonto.Database\HBPonto.Database.csproj" />
     <ProjectReference Include="..\HBPonto.Interfaces\HBPonto.Kernel.csproj" />
   </ItemGroup>
 
