@@ -4,9 +4,6 @@ using HBPonto.Kernel.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace HBPonto.Controllers
 {
@@ -37,7 +34,7 @@ namespace HBPonto.Controllers
             {
                 return Unauthorized();
             } 
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest();
             } 

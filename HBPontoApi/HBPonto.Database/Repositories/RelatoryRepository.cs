@@ -9,7 +9,7 @@ using System.Text;
 
 namespace HBPonto.Database.Repositories
 {
-    public class RelatoryRepository: BaseRepository<IRelatory>, IRelatoryRepository
+    public class RelatoryRepository: BaseRepository<Relatory>, IRelatoryRepository
     {
         private RelatoryContext _context;
 

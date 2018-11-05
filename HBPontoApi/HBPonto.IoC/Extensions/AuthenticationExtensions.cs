@@ -32,7 +32,7 @@ namespace HBPonto.IoC.Extensions
 
             var connectionString = appSettings.ConnectionString;
 
-            services.AddSingleton<IAuthenticationService, Authentication.Services.AuthenticationService>();
+            services.AddScoped<IAuthenticationService, Authentication.Services.AuthenticationService>();
 
             return services;
         }

@@ -1,8 +1,6 @@
 ﻿using HBPonto.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using static HBPonto.Database.Maps.UserMap;
 
 namespace HBPonto.Database.Contexts
 {
@@ -10,6 +8,12 @@ namespace HBPonto.Database.Contexts
     {
         public UserContext(DbContextOptions<UserContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(UserMapFactory.CreateInstance());
+        }
     }
 }

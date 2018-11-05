@@ -9,7 +9,7 @@ using System.Text;
 
 namespace HBPonto.Database.Repositories
 {
-    public class UserRepository : BaseRepository<IUser>, IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         private UserContext _context;
 
@@ -18,7 +18,7 @@ namespace HBPonto.Database.Repositories
             _context = context;
         }
 
-        public IUser InsertNewUser(IUser user)
+        public User InsertNewUser(User user)
         {
             Insert(user);
             SaveAll();

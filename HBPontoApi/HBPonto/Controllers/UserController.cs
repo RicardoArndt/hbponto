@@ -1,36 +1,49 @@
-﻿using HBPonto.Kernel.Helpers.Jiras;
-using HBPonto.Kernel.Interfaces.Services;
+﻿using HBPonto.Database.Entities;
+using HBPonto.Kernel.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HBPonto.Controllers
 {
     [Route("api/[controller]"), Authorize(Roles = "Administrator"), ApiController]
     public class UserController : BaseController
     {
-        IJiraUserService _service;
+        IUserService _service;
 
-        public UserController(IJiraUserService service)
+        public UserController(IUserService service)
         {
             _service = service;
         }
 
-        [HttpGet("/{username}")]
-        public IActionResult GetUserByName([FromQuery] string username)
+        [HttpGet]
+        public IActionResult GetAllUsers()
         {
             try
             {
-                var response = _service.GetUser(username).Result;
-                var jiraProjects = GetResult<JiraUser>(response);
-                return Ok(jiraProjects);
+                var result = _service.GetAllUsers();
+
+                return Ok(JsonConvert.SerializeObject(result));
             }
             catch (Exception)
             {
-                return BadRequest();
+                return BadRequest("Não foi possível buscar os usuários");
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateUser([FromBody] User user)
+        {
+            try
+            {
+                _service.UpdateUser(user);
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível atualizar o usuário");
             }
         }
     }
