@@ -62,7 +62,7 @@ namespace HBPonto.Authentication.Services
         {
             //Método busca um usuário no banco se não encontrar então insere um novo usuário e retorna o usuário inserido
             //por isso a geração do token deve ser feita depois de consultar no jira se usuário existe e depois de manipular o erro
-            var user = _userRepository.GetByKey(authUser.username) ?? _userRepository.InsertNewUser(UserFactory.Create(authUser.username, ""));
+            var user = _userRepository.GetByKey(authUser.username) ?? _userRepository.InsertNewUser(UserFactory.Create(authUser.username, "Not Attributed"));
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
