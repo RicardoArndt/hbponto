@@ -30,9 +30,9 @@ namespace HBPonto.Authentication.Services
             _userRepository = userRepository;
         }
 
-        public IAuthUserDTO CreateUser(string userName, string authJiraToken, string token)
+        public IAuthUserDTO CreateUser(string userName, string authJiraToken, string token, string userId)
         {
-            return AuthUserDTOFactory.Create(userName, authJiraToken, token);
+            return AuthUserDTOFactory.Create(userName, authJiraToken, token, userId);
         }
 
         public async Task<(HttpResponseMessage, string)> AuthorizationUser(AuthUser authUser)
@@ -58,7 +58,7 @@ namespace HBPonto.Authentication.Services
             return await client.GetAsync(url);
         }
 
-        public string GenerateToken(AuthUser authUser)
+        public (string, string) GenerateToken(AuthUser authUser)
         {
             //Método busca um usuário no banco se não encontrar então insere um novo usuário e retorna o usuário inserido
             //por isso a geração do token deve ser feita depois de consultar no jira se usuário existe e depois de manipular o erro
@@ -78,7 +78,7 @@ namespace HBPonto.Authentication.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            return (tokenHandler.WriteToken(token), user.Id);
         }
     }
 }

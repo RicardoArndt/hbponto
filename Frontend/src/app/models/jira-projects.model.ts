@@ -123,6 +123,7 @@ export class JiraIssueTimeTracking {
 }
 
 export class WorklogRegister {
+    key: string;
     comment: string;
     started: string;
     timeSpent: string; 

@@ -11,17 +11,21 @@ using HBPonto.Kernel.Error;
 using System.Net.Http;
 using HBPonto.Kernel.DTO;
 using System.Text;
+using HBPonto.Kernel.Interfaces.Domain.Services;
+using HBPonto.Database.Entities;
 
 namespace HBPonto.Controllers
 {
     [Route("api/[controller]"), Authorize, ApiController]
     public class JiraProjectController : BaseController
     {
-        IJiraProjectService _service;
+        private IJiraProjectService _service;
+        private IRelatoryService _relatoryService;
 
-        public JiraProjectController(IJiraProjectService service)
+        public JiraProjectController(IJiraProjectService service, IRelatoryService relatoryService)
         {
             _service = service;
+            _relatoryService = relatoryService;
         }
 
         [HttpGet("projects")]
@@ -79,8 +83,8 @@ namespace HBPonto.Controllers
             }
         }
 
-        [HttpPost("issue/{issueId}")]
-        public IActionResult PostWorklog([FromBody]JiraWorklogDTO jiraIssue, int issueId)
+        [HttpPost("issue/{issueId}/{userId}")]
+        public IActionResult PostWorklog([FromBody]JiraWorklogDTO jiraIssue, int issueId, string userId)
         {
             try
             {
@@ -91,6 +95,8 @@ namespace HBPonto.Controllers
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = _service.AddWorklog(issueId, content);
                 var result = PostResult(response.Result);
+                Relatory relatory = Relatory.RelatoryFactory.Create(userId, jiraIssue.key, DateTime.Parse(jiraIssue.started), jiraIssue.timeSpent);
+                _relatoryService.SaveRelatory(relatory);
                 return Ok(result);
             }
             catch (UnauthorizedAccessException)

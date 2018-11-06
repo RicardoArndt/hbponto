@@ -11,5 +11,6 @@ namespace HBPonto.Kernel.Interfaces.Repositories
         void Insert(T insertObj);
         void Delete(T obj);
         void Update(T updateObj);
+        void SaveAll();
     }
 }

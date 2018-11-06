@@ -7,7 +7,7 @@ using System.Text;
 
 namespace HBPonto.Database.Entities
 {
-    [Table("dbo.Users")]
+    [Table("Users")]
     public class User : BaseEntity<User>
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

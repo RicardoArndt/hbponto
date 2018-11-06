@@ -10,6 +10,7 @@ class AuthReducer {
         return this.state.merge({
             'UserName': this.action.payload.UserName,
             'Token': this.action.payload.Token,
+            'UserId': this.action.payload.UserId,
             'IsAuthenticated': true
         })
     }
@@ -18,6 +19,7 @@ class AuthReducer {
         return this.state.merge({
             'UserName': this.action.payload.UserName,
             'Token': this.action.payload.Token,
+            'UserId': this.action.payload.UserId,
             'IsAuthenticated': false,
             'Error': this.action.payload.Error
         })

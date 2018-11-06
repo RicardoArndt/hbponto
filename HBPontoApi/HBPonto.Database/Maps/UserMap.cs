@@ -11,7 +11,7 @@ namespace HBPonto.Database.Maps
             builder.HasKey(u => u.Id);
             builder.Property(u => u.UserName).HasMaxLength(50);
             builder.Property(u => u.Role).HasMaxLength(50);
-            builder.ToTable("dbo.Users");
+            builder.ToTable("Users");
         }
 
         internal static class UserMapFactory

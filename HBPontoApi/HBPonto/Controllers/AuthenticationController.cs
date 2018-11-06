@@ -26,9 +26,9 @@ namespace HBPonto.Controllers
 
                 ErrorHandler.Handler(response.Result.Item1.StatusCode);
 
-                var token = _authentication.GenerateToken(authUser);
+                var user = _authentication.GenerateToken(authUser);
 
-                return Ok(_authentication.CreateUser(authUser.username, response.Result.Item2, token));
+                return Ok(_authentication.CreateUser(authUser.username, response.Result.Item2, user.Item1, user.Item2));
             }
             catch (UnauthorizedAccessException)
             {

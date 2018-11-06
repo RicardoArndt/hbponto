@@ -6,6 +6,7 @@ import { JiraProjectService } from "../../app/store/services/jira-projects.servi
 import { NgRedux, select } from '@angular-redux/store';
 import { PostWorklog } from "../../app/store/actions/jira-project.action";
 import { Failure } from "../../app/store/actions/base.action";
+import { LocalStorageService } from "../../services/local-storage.service";
 
 @Component({
   selector: 'worklog-register',
@@ -22,7 +23,8 @@ export class WorklogRegisterComponent {
               private _viewCtrl: ViewController,
               private _fb: FormBuilder,
               private _jiraService: JiraProjectService,
-              private _store: NgRedux<Map<string, any>>) {
+              private _store: NgRedux<Map<string, any>>,
+              private _localStorage: LocalStorageService) {
     this.issueId = _params.get('issueId');
     this.issueKey = _params.get('issueKey');
     this.formBuilder();
@@ -33,12 +35,14 @@ export class WorklogRegisterComponent {
   }
 
   onSubmit() {
-    console.log("ENTROU");
     this.worklog.comment = this.comment.value;
     this.worklog.timeSpent = this.timeSpent.value;
     this.worklog.started = this.started.value;
+    this.worklog.key = this.issueKey;
 
-    this._jiraService.postWorklog(this.issueId, this.worklog).subscribe(response => {
+    var userId = this._localStorage.UserId;
+
+    this._jiraService.postWorklog(this.issueId, userId, this.worklog).subscribe(response => {
       var action = new PostWorklog(this.worklog);
       this._store.dispatch({type: action.type, payload: action.payload});
       this._viewCtrl.dismiss();

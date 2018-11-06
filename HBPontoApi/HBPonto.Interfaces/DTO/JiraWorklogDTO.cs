@@ -6,6 +6,7 @@ namespace HBPonto.Kernel.DTO
 {
     public class JiraWorklogDTO
     {
+        public string key { get; set; }
         public string timeSpent { get; set; }
         public string comment { get; set; }
         public string started { get; set; }

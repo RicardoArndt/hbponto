@@ -2,7 +2,6 @@
 using HBPonto.Kernel.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 
 namespace HBPonto.Controllers
@@ -24,7 +23,7 @@ namespace HBPonto.Controllers
             {
                 var result = _service.GetAllUsers();
 
-                return Ok(JsonConvert.SerializeObject(result));
+                return Ok(result);
             }
             catch (Exception)
             {
