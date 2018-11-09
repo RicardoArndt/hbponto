@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { GridJiraComponent } from './grid-jira/grid-jira';
 import { IonicModule } from 'ionic-angular';
+import { InserirJiraComponent } from './inserir-jira/inserir-jira';
 @NgModule({
-	declarations: [GridJiraComponent],
+	declarations: [GridJiraComponent,
+    InserirJiraComponent],
 	imports: [IonicModule],
-	exports: [GridJiraComponent]
+	exports: [GridJiraComponent,
+    InserirJiraComponent]
 })
 export class ComponentsModule {
 

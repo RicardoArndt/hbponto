@@ -29,7 +29,7 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage, icon: 'md-list' },
-      { title: 'List', component: ListPage, icon: 'ios-list' }
+      { title: 'Inserir jiras', component: ListPage, icon: 'ios-list' }
     ];
 
   }
