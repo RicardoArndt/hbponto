@@ -38,7 +38,7 @@ export class MyApp {
 
   initializeApp() {
     this.isAuthenticated.subscribe(x => {
-        this.rootPage = x ? this.rootPage : LoginPage; 
+        this.rootPage = !x ? this.rootPage : LoginPage; 
     });
 
     this.platform.ready().then(() => {
