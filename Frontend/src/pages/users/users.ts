@@ -6,13 +6,6 @@ import { NgRedux, select } from '@angular-redux/store';
 import { GetUsers } from '../../app/store/actions/user.action';
 import { Failure } from '../../app/store/actions/base.action';
 
-/**
- * Generated class for the UsersPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-users',
@@ -35,7 +28,6 @@ export class UsersPage {
 
   getAllUsers() {
     this._userService.getAllUsers().subscribe((users: User[]) => {
-      console.log(users);
       var action = new GetUsers(users);
       this._store.dispatch({type: action.type, payload: action.payload});
     }, err => {
@@ -47,7 +39,6 @@ export class UsersPage {
 
   getAllRoles() {
     this._userService.getAllRoles().subscribe((roles: Role[]) => {
-      console.log(roles);
       this.roles = roles;
     }, err => {
       throw err
