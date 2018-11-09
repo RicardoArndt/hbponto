@@ -1,11 +1,9 @@
 ﻿using HBPonto.Database.Contexts;
 using HBPonto.Database.Entities;
-using HBPonto.Kernel.Interfaces.Entities;
 using HBPonto.Kernel.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace HBPonto.Database.Repositories
 {
@@ -22,6 +20,13 @@ namespace HBPonto.Database.Repositories
         {
             Insert(user);
             SaveAll();
+            return user;
+        }
+
+        public User GetUserByName(string userName)
+        {
+            var sqlParameter = new SqlParameter("@UserName", userName);
+            var user = _context.Users.FromSql($"SELECT * FROM dbo.Users WHERE UserName = @UserName", sqlParameter).FirstOrDefault();
             return user;
         }
     }

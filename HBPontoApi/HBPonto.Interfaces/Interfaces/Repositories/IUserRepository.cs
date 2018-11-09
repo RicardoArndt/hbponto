@@ -9,5 +9,6 @@ namespace HBPonto.Kernel.Interfaces.Repositories
     public interface IUserRepository : IBaseRepository<User>
     {
         User InsertNewUser(User user);
+        User GetUserByName(string userName);
     }
 }

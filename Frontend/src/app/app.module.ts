@@ -14,12 +14,17 @@ import { AppErrorHandler } from './errors/app-error-handler';
 import { HttpRequestInterceptorModule } from '../interceptor/http-interceptor';
 import { JiraProjectService } from './store/services/jira-projects.service';
 import { ComponentsModule } from '../components/components.module';
+import { UsersPage } from '../pages/users/users';
+import { RelatoriesPage } from '../pages/relatories/relatories';
+import { UserService } from './store/services/user.service';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    Sprints
+    Sprints,
+    UsersPage,
+    RelatoriesPage
   ],
   imports: [
     BrowserModule,
@@ -33,14 +38,17 @@ import { ComponentsModule } from '../components/components.module';
   entryComponents: [
     MyApp,
     HomePage,
-    Sprints
+    Sprints,
+    UsersPage,
+    RelatoriesPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: AppErrorHandler},
     ToastHandler,
-    JiraProjectService
+    JiraProjectService,
+    UserService
   ]
 })
 export class AppModule {}

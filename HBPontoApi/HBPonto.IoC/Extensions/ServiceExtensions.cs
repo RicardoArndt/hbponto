@@ -12,10 +12,10 @@ namespace HBPonto.IoC.Extensions
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            services.AddSingleton<IJiraBaseService, JiraBaseService>();
-            services.AddSingleton<IJiraProjectService, JiraProjectService>();
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IRelatoryService, RelatoryService>();
+            services.AddScoped<IJiraBaseService, JiraBaseService>();
+            services.AddScoped<IJiraProjectService, JiraProjectService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRelatoryService, RelatoryService>();
 
             return services;
         }

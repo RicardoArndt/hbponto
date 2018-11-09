@@ -4,6 +4,7 @@ using HBPonto.Kernel.Interfaces.Repositories;
 using System.Linq;
 using System.Collections.Generic;
 using HBPonto.Database.Entities;
+using HBPonto.Kernel.Enums;
 
 namespace HBPonto.Authentication.Services
 {
@@ -19,6 +20,11 @@ namespace HBPonto.Authentication.Services
         public List<User> GetAllUsers()
         {
             return _userRepository.GetAll().ToList();
+        }
+
+        public List<RoleEnum> GetRoles()
+        {
+            return RoleEnum.GetAllRoles();
         }
 
         public void UpdateUser(User user)

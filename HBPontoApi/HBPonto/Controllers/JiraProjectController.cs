@@ -91,7 +91,8 @@ namespace HBPonto.Controllers
                 var data = DateTimeOffset.Parse(jiraIssue.started);
                 var s = data.ToString("yyyy-MM-ddThh:mm:ss.fffK");
                 jiraIssue.started = s.Substring(0, 26) + s.Substring(27, 2);
-                var json = JsonConvert.SerializeObject(jiraIssue);
+                var worklogSummary = JiraWorklogSummaryDTO.Create(jiraIssue);
+                var json = JsonConvert.SerializeObject(worklogSummary);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = _service.AddWorklog(issueId, content);
                 var result = PostResult(response.Result);
@@ -103,7 +104,7 @@ namespace HBPonto.Controllers
             {
                 return Unauthorized();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest("Não foi possível registrar horas de trabalho");
             }

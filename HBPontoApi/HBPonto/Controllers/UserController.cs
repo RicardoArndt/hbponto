@@ -1,4 +1,5 @@
 ﻿using HBPonto.Database.Entities;
+using HBPonto.Kernel.Enums;
 using HBPonto.Kernel.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,21 @@ namespace HBPonto.Controllers
             catch (Exception)
             {
                 return BadRequest("Não foi possível buscar os usuários");
+            }
+        }
+
+        [HttpGet("roles")]
+        public IActionResult GetRoles()
+        {
+            try
+            {
+                var roles = _service.GetRoles();
+
+                return Ok(roles);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível buscar as funções");
             }
         }
 

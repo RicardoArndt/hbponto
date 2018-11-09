@@ -7,6 +7,8 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { NgRedux, select } from "@angular-redux/store";
 import { Map } from "immutable";
+import { UsersPage } from '../pages/users/users';
+import { RelatoriesPage } from '../pages/relatories/relatories';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,7 +29,9 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage, icon: 'md-list' }
+      { title: 'Home', component: HomePage, icon: 'md-list' },
+      { title: 'Usuários', component: UsersPage, icon: 'md-list' },
+      { title: 'Relatórios', component: RelatoriesPage, icon: 'md-list' }
     ];
 
   }

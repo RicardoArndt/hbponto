@@ -5,4 +5,6 @@ export class BaseRoute {
     public GetAllProjects = this.Project + "projects";
     public GetSprints = this.Project + "sprints/";
     public Issue = this.Project + "issue/"
+    public Users = this.API + "user/"
+    public Roles = this.Users + "roles"
 }
