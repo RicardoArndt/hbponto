@@ -11,9 +11,25 @@ export class AppErrorHandler implements ErrorHandler {
 
     handleError(error: Error | HttpErrorResponse) {
         if(error instanceof HttpErrorResponse) {
+            var errorMessage = error.error;
+
             switch(error.status) {
-                case 404: this._toastHandler.handlerToast("Página web não encontrada").present();
-                case 401: this._toastHandler.handlerToast("Usuário não autenticado").present();
+                case 400: {
+                    this._toastHandler.handlerToast(errorMessage).present();
+                    break;
+                }
+                case 401: {
+                    this._toastHandler.handlerToast("Acesso não permitido").present();
+                    break;
+                }
+                case 403: {
+                    this._toastHandler.handlerToast("Acesso não permitido").present();
+                    break;
+                }
+                case 404: {
+                    this._toastHandler.handlerToast(errorMessage).present();
+                    break;
+                }
             }
         }
     }

@@ -4,11 +4,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { NgRedux, select } from "@angular-redux/store";
 import { Map } from "immutable";
-import { CadastroPage } from '../pages/cadastro/cadastro';
+import { UsersPage } from '../pages/users/users';
+import { RelatoriesPage } from '../pages/relatories/relatories';
 
 @Component({
   templateUrl: 'app.html'
@@ -30,8 +30,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage, icon: 'md-list' },
-      { title: 'List', component: ListPage, icon: 'ios-list' },
-      { title:'Cadastro', component: CadastroPage,  icon: 'ios-list' }
+      { title: 'Usuários', component: UsersPage, icon: 'md-list' },
+      { title: 'Relatórios', component: RelatoriesPage, icon: 'md-list' }
     ];
 
   }

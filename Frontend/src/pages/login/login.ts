@@ -62,8 +62,7 @@ export class LoginPage {
     this._authService.login(this.user).subscribe((response: AuthUserResponse) => {
         var state = new LogInSuccess(response);
         this._store.dispatch({type: state.type, payload: state.payload});
-        console.log(response);
-        this._localStorage.setAuthenticationTokens(response.token, response.authJiraToken);
+        this._localStorage.setAuthenticationTokens(response.token, response.authJiraToken, response.userId);
         this.navCtrl.setRoot(HomePage);
     }, (err: HttpErrorResponse) => {
         var state = new LogInFailure({Error: err.message});

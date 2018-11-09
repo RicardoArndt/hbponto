@@ -1,7 +1,10 @@
-﻿using System.Net.Http;
+﻿using HBPonto.Kernel.Helpers;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace HBPonto.Kernel.Interfaces
+namespace HBPonto.Kernel.Interfaces.Services
 {
     public interface IJiraBaseService
     {

@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HBPonto.Authentication\HBPonto.Authentication.csproj" />
+    <ProjectReference Include="..\HBPonto.Database\HBPonto.Database.csproj" />
+    <ProjectReference Include="..\HBPonto.Domain\HBPonto.Domain.csproj" />
     <ProjectReference Include="..\HBPonto.Interfaces\HBPonto.Kernel.csproj" />
     <ProjectReference Include="..\HBPonto.JIRA\HBPonto.JIRA.csproj" />
   </ItemGroup>

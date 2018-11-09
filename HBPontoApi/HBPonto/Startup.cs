@@ -33,9 +33,10 @@ namespace HBPonto
             
             var appSettings = appSettingsSection.Get<AppSettings>();
 
-            services.RegisterServices();
             services.RegisterAuthentication(appSettings);
-            
+            services.RegisterRepositories();
+            services.RegisterContexts(appSettings);
+            services.RegisterServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +54,7 @@ namespace HBPonto
             }
 
             app.UseCors(x => x
+                        .WithOrigins("http://localhost:8100")
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()

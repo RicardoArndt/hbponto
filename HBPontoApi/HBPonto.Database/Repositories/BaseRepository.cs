@@ -1,16 +1,25 @@
 ﻿using HBPonto.Database.Contexts;
+using HBPonto.Database.Entities;
 using HBPonto.Kernel.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HBPonto.Database.Repositories
 {
     public class BaseRepository<T>: IDisposable, IBaseRepository<T> where T: class
     {
-        private BaseContext _context;
+        private DbContext _context;
 
-        public BaseRepository(BaseContext context)
+        public BaseRepository(DbContext context)
         {
             _context = context;
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            return _context.Set<T>();
         }
 
         public T GetByKey(params string[] key)

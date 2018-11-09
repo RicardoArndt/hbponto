@@ -1,6 +1,7 @@
 export interface AuthUserState {
     UserName: string;
     Token: string;
+    UserId: string;
     IsAuthenticated: boolean;
     Error?: string;
 }
@@ -8,5 +9,6 @@ export interface AuthUserState {
 export const INITIAL_STATE: AuthUserState = {
     UserName: "",
     Token: "",
+    UserId: "",
     IsAuthenticated: false
 }
