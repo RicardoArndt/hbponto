@@ -1,18 +1,14 @@
-﻿using HBPonto.Kernel.Helpers;
-using HBPonto.Kernel.Helpers.Jiras;
+﻿using HBPonto.Kernel.Helpers.Jiras;
 using HBPonto.Kernel.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using HBPonto.Kernel.Error;
-using System.Net.Http;
 using HBPonto.Kernel.DTO;
-using System.Text;
 using HBPonto.Kernel.Interfaces.Domain.Services;
 using HBPonto.Database.Entities;
+using HBPonto.Kernel.Handlers;
 
 namespace HBPonto.Controllers
 {
@@ -88,12 +84,9 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var data = DateTimeOffset.Parse(jiraIssue.started);
-                var s = data.ToString("yyyy-MM-ddThh:mm:ss.fffK");
-                jiraIssue.started = s.Substring(0, 26) + s.Substring(27, 2);
+                jiraIssue.started = DateHandler.TransformStringToDateString(jiraIssue.started);
                 var worklogSummary = JiraWorklogSummaryDTO.Create(jiraIssue);
-                var json = JsonConvert.SerializeObject(worklogSummary);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var content = GetContent(worklogSummary);
                 var response = _service.AddWorklog(issueId, content);
                 var result = PostResult(response.Result);
                 Relatory relatory = Relatory.RelatoryFactory.Create(userId, jiraIssue.key, DateTime.Parse(jiraIssue.started), jiraIssue.timeSpent);

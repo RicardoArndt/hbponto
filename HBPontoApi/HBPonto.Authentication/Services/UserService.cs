@@ -30,6 +30,7 @@ namespace HBPonto.Authentication.Services
         public void UpdateUser(User user)
         {
             _userRepository.Update(user);
+            _userRepository.SaveAll();
         }
     }
 }

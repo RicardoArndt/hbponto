@@ -26,7 +26,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
         let start = performance.now();
         
-        this._loadingHandler.presentLoadingDefault(start - performance.now());
+        this._loadingHandler.presentLoadingDefault(performance.now() - start);
 
         return next.handle(cloneReq).pipe(
                     map(res => {

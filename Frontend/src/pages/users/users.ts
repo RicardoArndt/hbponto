@@ -5,6 +5,7 @@ import { User, Role } from '../../app/models/user.model';
 import { NgRedux, select } from '@angular-redux/store';
 import { GetUsers } from '../../app/store/actions/user.action';
 import { Failure } from '../../app/store/actions/base.action';
+import { ListHelper } from '../../app/helpers/list.helper';
 
 @IonicPage()
 @Component({
@@ -45,4 +46,18 @@ export class UsersPage {
     });
   }
 
+  onChange(user: any, newRole: any) {
+    user = user.toObject() as User;
+    var userUpdate = new User(user.id, user.userName, newRole.value);
+    var newList: User[] = ListHelper.update(this.users, newRole.value, 'role', user.id).toJS();
+
+    this._userService.updateUser(userUpdate).subscribe(() => {
+      var action = new GetUsers(newList);
+      this._store.dispatch({type: action.type, payload: action.payload});
+    }, err => {
+      var action = new Failure(err);
+      this._store.dispatch({type: action.type, payload: action.payload});
+      throw err;
+    });
+  }
 }

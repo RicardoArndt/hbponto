@@ -1,7 +1,7 @@
 export class User {
-    Id: string;
-    UserName: string;
-    Role: string;
+    constructor(public Id: string, 
+                public UserName: string, 
+                public Role: string) {}
 }
 
 export class Role {
