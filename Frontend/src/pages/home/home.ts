@@ -15,7 +15,6 @@ import { fromJS } from 'immutable';
   templateUrl: 'home.html'
 })
 export class HomePage {
-
   @select(s => s.jiraProjects.get('Projects')) projects;
   @select(s => s.jiraProjects.get('Sprints')) sprints;
   @select(s => s.jiraProjects.get('Issues')) issues;
