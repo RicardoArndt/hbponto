@@ -8,6 +8,6 @@ import { RelatoriesPage } from './relatories';
   ],
   imports: [
     IonicPageModule.forChild(RelatoriesPage),
-  ],
+  ]
 })
 export class RelatoriesPageModule {}

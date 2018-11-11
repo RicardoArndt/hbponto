@@ -9,8 +9,6 @@ namespace HBPonto.Database.Entities
     [Table("Relatories")]
     public class Relatory : BaseEntity<Relatory>
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
         public string Jira { get; set; }
         public DateTime Started { get; set; }
         public string Time { get; set; }

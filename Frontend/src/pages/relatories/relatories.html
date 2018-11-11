@@ -1,13 +1,45 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>RELATÓRIOS</ion-title>
-  </ion-navbar>
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>RELATÓRIOS</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-list>
+      <ion-item>
+        <ion-row class="header">
+          <ion-col col-4 style="max-width: 30%;">
+            JIRA
+          </ion-col>
+          <ion-col col-3>
+            DATA
+          </ion-col>
+          <ion-col col-2>
+            TEMPO
+          </ion-col>
+          <ion-col col-3 style="left: 12px;">
+            USUÁRIO
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row *ngFor="let relatory of relatories | async">
+          <ion-col col-4>
+            {{ relatory.get('jira') }}
+          </ion-col>
+          <ion-col col-3>
+            {{ relatory.get('date') }}
+          </ion-col>
+          <ion-col col-2>
+            {{ relatory.get('time') }}
+          </ion-col>
+          <ion-col col-3>
+            {{ relatory.get('userName') }}
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-content>

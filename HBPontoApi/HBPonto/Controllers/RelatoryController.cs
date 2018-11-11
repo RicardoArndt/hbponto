@@ -1,7 +1,10 @@
-﻿using HBPonto.Kernel.Interfaces.Domain.Services;
+﻿using HBPonto.Kernel.DTO;
+using HBPonto.Kernel.Interfaces.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace HBPonto.Controllers
 {
@@ -20,9 +23,11 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var result = _relatoryService.GetAllRelatories();
+                var relatories = _relatoryService.GetAllRelatories();
+
+                List<RelatoryDTO> relatoriesDTO = relatories.Select(relatory => RelatoryDTO.Create(relatory)).ToList();
                     
-                return Ok(result);
+                return Ok(relatoriesDTO);
             }
             catch (Exception)
             {

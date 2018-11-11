@@ -4,7 +4,8 @@ export class BaseRoute {
     public Project = this.API + "jiraProject/"
     public GetAllProjects = this.Project + "projects";
     public GetSprints = this.Project + "sprints/";
-    public Issue = this.Project + "issue/"
-    public Users = this.API + "user/"
-    public Roles = this.Users + "roles"
+    public Issue = this.Project + "issue/";
+    public Users = this.API + "user/";
+    public Roles = this.Users + "roles";
+    public Relatories = this.API + "relatory";
 }

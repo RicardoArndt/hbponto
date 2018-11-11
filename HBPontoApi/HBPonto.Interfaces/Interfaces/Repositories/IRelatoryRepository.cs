@@ -8,5 +8,6 @@ namespace HBPonto.Kernel.Interfaces.Repositories
 {
     public interface IRelatoryRepository : IBaseRepository<Relatory>
     {
+        IEnumerable<Relatory> GetAllRelatories();
     }
 }

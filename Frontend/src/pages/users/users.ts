@@ -20,7 +20,7 @@ export class UsersPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private _userService: UserService,
-              private _store: NgRedux<Map<string, User>>) {}
+              private _store: NgRedux<Map<string, any>>) {}
 
   ionViewDidLoad() {
     this.users.subscribe(x => !x ? this.getAllUsers() : null);

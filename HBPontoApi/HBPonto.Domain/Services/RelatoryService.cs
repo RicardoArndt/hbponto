@@ -19,7 +19,7 @@ namespace HBPonto.Domain.Services
 
         public List<Relatory> GetAllRelatories()
         {
-            return _relatoryRepository.GetAll().ToList();
+            return _relatoryRepository.GetAllRelatories().ToList();
         }
 
         public void SaveRelatory(Relatory relatory)

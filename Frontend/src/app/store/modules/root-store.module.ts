@@ -7,6 +7,7 @@ import { fromJS, Map } from "immutable";
 import { combineReducers } from "redux";
 import { jiraProjectReducer } from "../reducers/jira-project.reducer";
 import { usersReducer } from "../reducers/user.reducer";
+import { relatoryReducer } from "../reducers/relatory.reducer";
 
 @NgModule({
     imports: [
@@ -29,5 +30,6 @@ export class RootStoreModule {
  const rootReducer = combineReducers<Map<string, any>>({
     auth: authReducer,
     jiraProjects: jiraProjectReducer,
-    users: usersReducer
+    users: usersReducer,
+    relatories: relatoryReducer
  })

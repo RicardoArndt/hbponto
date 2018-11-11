@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the RelatoriesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { RelatoryService } from '../../app/store/services/relatory.service';
+import { Relatory } from '../../app/models/relatory.model';
+import { GetRelatories } from '../../app/store/actions/relatory.action';
+import { NgRedux, select } from '@angular-redux/store';
+import { Failure } from '../../app/store/actions/base.action';
 
 @IonicPage()
 @Component({
@@ -14,12 +12,28 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'relatories.html',
 })
 export class RelatoriesPage {
+  @select(r => r.relatories.get('Relatories')) relatories;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private _relatoryService: RelatoryService,
+              private _store: NgRedux<Map<string, any>>) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RelatoriesPage');
+    this.relatories.subscribe(x => !x ? this.getAllRelatories() : null);
+  }
+
+  getAllRelatories() {
+    console.log("entrou");
+    this._relatoryService.getAllRelatories().subscribe((relatory: Relatory[]) => {
+      var action = new GetRelatories(relatory);
+      this._store.dispatch({type: action.type, payload: action.payload});
+    }, err => {
+      var action = new Failure(err);
+      this._store.dispatch({type: action.type, payload: action.payload});
+      throw err;
+    });
   }
 
 }

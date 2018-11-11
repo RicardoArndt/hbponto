@@ -15,6 +15,7 @@ import { ComponentsModule } from '../components/components.module';
 import { UsersPage } from '../pages/users/users';
 import { RelatoriesPage } from '../pages/relatories/relatories';
 import { UserService } from './store/services/user.service';
+import { RelatoryService } from './store/services/relatory.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { UserService } from './store/services/user.service';
     {provide: ErrorHandler, useClass: AppErrorHandler},
     ToastHandler,
     JiraProjectService,
-    UserService
+    UserService,
+    RelatoryService
   ]
 })
 export class AppModule {}
