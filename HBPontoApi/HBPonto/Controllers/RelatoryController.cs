@@ -25,7 +25,7 @@ namespace HBPonto.Controllers
             {
                 var relatories = _relatoryService.GetAllRelatories();
 
-                List<RelatoryDTO> relatoriesDTO = relatories.Select(relatory => RelatoryDTO.Create(relatory)).ToList();
+                List<RelatoryDTO> relatoriesDTO = relatories.Select(relatory => RelatoryDTO.Create(relatory)).OrderBy(x => x.Date).ToList();
                     
                 return Ok(relatoriesDTO);
             }

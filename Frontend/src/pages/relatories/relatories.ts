@@ -25,7 +25,6 @@ export class RelatoriesPage {
   }
 
   getAllRelatories() {
-    console.log("entrou");
     this._relatoryService.getAllRelatories().subscribe((relatory: Relatory[]) => {
       var action = new GetRelatories(relatory);
       this._store.dispatch({type: action.type, payload: action.payload});
