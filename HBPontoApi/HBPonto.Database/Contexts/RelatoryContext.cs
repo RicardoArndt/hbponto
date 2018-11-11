@@ -1,8 +1,6 @@
 ﻿using HBPonto.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using static HBPonto.Database.Maps.RelatoryMap;
 
 namespace HBPonto.Database.Contexts
 {
@@ -11,5 +9,11 @@ namespace HBPonto.Database.Contexts
         public RelatoryContext(DbContextOptions<RelatoryContext> options) : base(options) { }
 
         public DbSet<Relatory> Relatories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(RelatoryMapFactory.CreateInstance());
+        }
     }
 }

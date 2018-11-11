@@ -1,36 +1,86 @@
-﻿using HBPonto.Kernel.Helpers.Jiras;
+﻿using HBPonto.Database.Entities;
+using HBPonto.Kernel.DTO;
+using HBPonto.Kernel.Enums;
+using HBPonto.Kernel.Interfaces.Authentication;
 using HBPonto.Kernel.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HBPonto.Controllers
 {
-    [Route("api/[controller]"), Authorize, ApiController]
+    [Route("api/[controller]"), Authorize(Roles = "Administrator"), ApiController]
     public class UserController : BaseController
     {
-        IJiraUserService _service;
+        IUserService _service;
+        IJiraUserService _jiraService;
 
-        public UserController(IJiraUserService service)
+        public UserController(IUserService service, IJiraUserService jiraService)
         {
             _service = service;
+            _jiraService = jiraService;
         }
 
-        [HttpGet("/{username}")]
-        public IActionResult GetUserByName([FromQuery] string username)
+        [HttpGet]
+        public IActionResult GetAllUsers()
         {
             try
             {
-                var response = _service.GetUser(username).Result;
-                var jiraProjects = GetResult<JiraUser>(response);
-                return Ok(jiraProjects);
-            } 
-            catch(Exception)
+                var result = _service.GetAllUsers();
+
+                return Ok(result);
+            }
+            catch (Exception)
             {
-                return BadRequest();
+                return BadRequest("Não foi possível buscar os usuários");
+            }
+        }
+
+        [HttpGet("roles")]
+        public IActionResult GetRoles()
+        {
+            try
+            {
+                var roles = _service.GetRoles();
+
+                return Ok(roles);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível buscar as funções");
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateUser([FromBody] User user)
+        {
+            try
+            {
+                _service.UpdateUser(user);
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível atualizar o usuário");
+            }
+        }
+
+        [HttpGet("current")] 
+        public IActionResult GetCurrentUser()
+        {
+            try
+            {
+                var result = GetResult<UserDTO>(_jiraService.GetCurrentUser().Result);
+
+                result.avatarUrl = result.avatarUrls.FirstOrDefault().Value;
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível retornar o usuário atual");
             }
         }
     }

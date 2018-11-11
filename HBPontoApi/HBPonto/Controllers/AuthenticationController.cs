@@ -4,9 +4,6 @@ using HBPonto.Kernel.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace HBPonto.Controllers
 {
@@ -25,18 +22,19 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var token = _authentication.GenerateToken(authUser);
                 var response = _authentication.AuthorizationUser(authUser);
 
                 ErrorHandler.Handler(response.Result.Item1.StatusCode);
 
-                return Ok(_authentication.CreateUser(authUser.username, response.Result.Item2, token));
+                var user = _authentication.GenerateToken(authUser);
+
+                return Ok(_authentication.CreateUser(authUser.username, response.Result.Item2, user.Item1, user.Item2));
             }
             catch (UnauthorizedAccessException)
             {
                 return Unauthorized();
             } 
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest();
             } 

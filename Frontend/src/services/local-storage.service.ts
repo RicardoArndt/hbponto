@@ -12,9 +12,14 @@ export class LocalStorageService {
         return this.localStorage.getItem(key);
     }
 
-    setAuthenticationTokens(token: string, jiraToken: string) {
+    setAuthenticationTokens(token: string, jiraToken: string, userId: string) {
         this.localStorage.setItem("Token", token);
         this.localStorage.setItem("AuthJiraToken", jiraToken);
+        this.localStorage.setItem("UserId", userId);
+    }
+
+    clearAllCache() {
+        this.localStorage.clear();
     }
 
     get TokenAuthentication() {
@@ -23,5 +28,9 @@ export class LocalStorageService {
 
     get TokenJiraAuthentication() {
         return this.localStorage.getItem("AuthJiraToken");
+    }
+
+    get UserId() {
+        return this.localStorage.getItem("UserId");
     }
 }

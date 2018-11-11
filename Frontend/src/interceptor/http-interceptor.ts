@@ -11,12 +11,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let tokenJira = this._localStorage.TokenJiraAuthentication ? this._localStorage.TokenJiraAuthentication : '';
-        let token = this._localStorage.TokenAuthentication ? this._localStorage.TokenAuthentication : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InJpY2FyZG8uYXJuZHQiLCJuYmYiOjE1NDAxMjY3NjcsImV4cCI6MTU3MTY2Mjc2NywiaWF0IjoxNTQwMTI2NzY3fQ.yZcEgnkz7Q7jMKhRXcfpFVS8Vy2_spm4BrOSRq5O0VI';
+        let token = this._localStorage.TokenAuthentication ? this._localStorage.TokenAuthentication : '';
 
         let headers = req.headers
             .set('Content-Type', 'application/json')
             .set('Authorization', `Bearer ${token}`)
-            .set('Access-Control-Allow-Origin', '*')
+            .set('Access-Control-Allow-Origin', 'http://localhost:8100')
             .set('Access-Control-Allow-Headers', '*')
             .set('Access-Control-Expose-Headers', '*')
             .set('Access-Control-Allow-Credentials', 'true')
@@ -26,7 +26,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
         let start = performance.now();
         
-        this._loadingHandler.presentLoadingDefault(start - performance.now());
+        this._loadingHandler.presentLoadingDefault(performance.now() - start);
 
         return next.handle(cloneReq).pipe(
                     map(res => {

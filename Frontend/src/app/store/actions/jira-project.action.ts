@@ -1,6 +1,6 @@
 
 import { Action } from "../interfaces/action";
-import { ProjectsResponse, SprintsResponse, IssuesReponse, IssueFields, Issues, WorklogRegister } from "../../models/jira-projects.model";
+import { ProjectsResponse, SprintsResponse, IssueFields, WorklogRegister } from "../../models/jira-projects.model";
 
 export enum JiraProjectActions {
     GET_PROJECTS = "[JiraProject] Projects",

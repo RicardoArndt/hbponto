@@ -5,24 +5,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HBPonto.Controllers
 {
     public class BaseController : ControllerBase
     {
-        public T GetResult<T>(HttpResponseMessage response)
+        protected T GetResult<T>(HttpResponseMessage response)
         {
             var result = response.Content.ReadAsStringAsync().Result;
             ErrorHandler.Handler(response.StatusCode);
             return JsonConvert.DeserializeObject<T>(result);
         }
 
-        public string PostResult(HttpResponseMessage response)
+        protected string PostResult(HttpResponseMessage response)
         {
             var result = response.Content.ReadAsStringAsync().Result;
             ErrorHandler.Handler(response.StatusCode);
             return result;
+        }
+
+        protected StringContent GetContent<T>(T obj)
+        {
+            var json = JsonConvert.SerializeObject(obj);
+            return new StringContent(json, Encoding.UTF8, "application/json");
         }
     }
 }

@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>USUÁRIOS</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+      <ion-item>
+        <ion-row class="header">
+          <ion-col col-3 class="initials-name">
+            Nome de Usuário
+          </ion-col>
+          <ion-col col-6 class="buttons-time padding-left-20">
+            Função
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row *ngFor="let user of users | async">
+          <ion-col col-3 class="initials-name">
+            {{ user.get('userName') }}
+          </ion-col>
+          <ion-col col-6 class="buttons-time">
+              <ion-item>
+                <ion-select class="select-no-padding" [ngModel]="role" (ngModelChange)="onChange(user, $event)">
+                  <ion-option *ngFor="let role of roles" [value]="role" [selected]="role.value == user.get('role')">
+                    {{ role.value }}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+  </ion-list>
+</ion-content>

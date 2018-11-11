@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AuthUser } from "../../models/auth-user.model";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { BaseRoute } from "./routes/base";
 
@@ -16,5 +16,9 @@ export class AuthService {
 
     validateAuthorization(): Observable<any> {
         return this._http.get(this._routeApi.Authentication);
+    }
+
+    getCurrentUser() {
+        return this._http.get(this._routeApi.Users + 'current');
     }
 }

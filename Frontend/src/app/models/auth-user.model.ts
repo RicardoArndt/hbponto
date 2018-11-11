@@ -4,10 +4,7 @@ export class AuthUser {
 }
 
 export class AuthUserResponse {
-    // UserName?: string;
-    // Token?: string;
-    // AuthJiraToken?: string;
     Error?: string;
 
-    constructor(public username?: string, public authJiraToken?: string, public token?: string) { }
+    constructor(public username?: string, public authJiraToken?: string, public token?: string, public userId?: string) { }
 }
