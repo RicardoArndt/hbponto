@@ -24,6 +24,12 @@ class AuthReducer {
             'Error': this.action.payload.Error
         })
     }
+
+    currentUser() {
+        return this.state.merge({
+            'CurrentUser': this.action.payload
+        })
+    }
 }
 
 export function authReducer(state: Map<string, any> = fromJS(INITIAL_STATE), action: Action): Map<string, any> {
@@ -32,7 +38,8 @@ export function authReducer(state: Map<string, any> = fromJS(INITIAL_STATE), act
     switch(action.type) {
         case AuthActions.LOGIN_SUCCESS : return authReducerObj.loginSuccess();
         case AuthActions.LOGIN_FAILURE : return authReducerObj.loginFailure();
-        case AuthActions.LOGOUT : return state;
+        case AuthActions.CURRENT_USER : return authReducerObj.currentUser();
+        case AuthActions.LOGOUT : return fromJS(INITIAL_STATE);
         default : return state;
     }
 }

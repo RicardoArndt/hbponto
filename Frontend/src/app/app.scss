@@ -17,6 +17,9 @@
 
 @import "../theme/variables";
 
+$border-color: #488aff;
+$color-global: #4D94FF;
+
 .no-border {
     border: none;
 
@@ -47,4 +50,24 @@
 
 .page-title {
   margin-left: 10px;
+}
+
+ion-avatar {
+  text-align: center;
+  color: $color-global;
+
+  img {
+    margin: auto;
+    padding: 20px;
+  }
+}
+
+.select-no-padding {
+  padding: 0px !important;
+  margin-top: -23px;
+  min-width: 120px;
+}
+
+.padding-left-20 {
+  padding-left: 20px;
 }

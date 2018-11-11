@@ -9,3 +9,5 @@ export class GetUsers implements Action {
     readonly type = UserActions.GET_USERS;
     constructor(public payload: User[]) { }
 }
+
+export type UsersAllTypes = GetUsers

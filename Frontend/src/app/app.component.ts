@@ -1,14 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { NgRedux, select } from "@angular-redux/store";
 import { Map } from "immutable";
 import { UsersPage } from '../pages/users/users';
 import { RelatoriesPage } from '../pages/relatories/relatories';
+import { CurrentUser } from './models/user.model';
+import { LocalStorageService } from '../services/local-storage.service';
+import { AuthActions } from './store/actions/auth.action';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,42 +18,54 @@ import { RelatoriesPage } from '../pages/relatories/relatories';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   @select(s => s.auth.get('IsAuthenticated')) isAuthenticated;
+  @select(s => s.auth.get('CurrentUser')) currentUserStore;
 
-  rootPage: any = HomePage;
+  user: CurrentUser;
+
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
-              private _loginStore: NgRedux<Map<string, any>>) {
+              private _menuCtrl: MenuController,
+              private _store: NgRedux<Map<string, any>>,
+              private _localStorage: LocalStorageService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage, icon: 'md-list' },
-      { title: 'Usuários', component: UsersPage, icon: 'md-list' },
-      { title: 'Relatórios', component: RelatoriesPage, icon: 'md-list' }
+      { title: 'Home', component: HomePage, icon: 'home' },
+      { title: 'Usuários', component: UsersPage, icon: 'contacts' },
+      { title: 'Relatórios', component: RelatoriesPage, icon: 'list-box' }
     ];
 
   }
 
   initializeApp() {
     this.isAuthenticated.subscribe(x => {
-        this.rootPage = !x ? this.rootPage : LoginPage; 
+      this.rootPage = x ? HomePage : this.rootPage; 
+    });
+
+    this.currentUserStore.subscribe(x => {
+      this.user = x ? x.toJS() : new CurrentUser();
     });
 
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
+  logout() {
+    this._localStorage.clearAllCache();
+    this._store.dispatch({type: AuthActions.LOGOUT});
+    this._menuCtrl.close();
+    this.rootPage = LoginPage;
+  }
+
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
 }

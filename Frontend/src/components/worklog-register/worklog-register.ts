@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { WorklogRegister } from "../../app/models/jira-projects.model";
 import { JiraProjectService } from "../../app/store/services/jira-projects.service";
-import { NgRedux, select } from '@angular-redux/store';
+import { NgRedux } from '@angular-redux/store';
 import { PostWorklog } from "../../app/store/actions/jira-project.action";
 import { Failure } from "../../app/store/actions/base.action";
 import { LocalStorageService } from "../../services/local-storage.service";

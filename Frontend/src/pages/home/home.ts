@@ -1,14 +1,13 @@
-import { Component, OnChanges } from '@angular/core';
-import { NavController, ModalController, NavParams, ViewController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, ModalController } from 'ionic-angular';
 import { JiraProjectService } from '../../app/store/services/jira-projects.service';
-import { GetProjects, GetSprints, GetIssues } from '../../app/store/actions/jira-project.action';
+import { GetProjects, GetSprints } from '../../app/store/actions/jira-project.action';
 import { NgRedux, select } from '@angular-redux/store';
 import { Failure } from '../../app/store/actions/base.action';
-import { ProjectsResponse, SprintsResponse, IssuesReponse, Issues, IssueFields } from '../../app/models/jira-projects.model';
+import { ProjectsResponse, SprintsResponse } from '../../app/models/jira-projects.model';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { WorklogRegisterComponent } from '../../components/worklog-register/worklog-register';
-import { filter } from 'rxjs/operators';
-import { fromJS } from 'immutable';
+import { Sprints } from '../../components/sprints/sprints';
 
 @Component({
   selector: 'page-home',
@@ -26,9 +25,7 @@ export class HomePage {
               private _jiraProjectService: JiraProjectService,
               private _store: NgRedux<Map<string, any>>,
               public modalCtrl: ModalController,
-              private _localStorage: LocalStorageService) { 
-    this.issues.subscribe(x => this.issuesFilter = x);
-  }
+              private _localStorage: LocalStorageService) { }
 
   ionViewDidLoad() {
     this.getAllProjects();
@@ -39,8 +36,11 @@ export class HomePage {
     this.boardSelected = parseInt(this._localStorage.getItem('boardSelected'));
     this.sprintSelected = parseInt(this._localStorage.getItem('sprintSelected'));
 
-    if((this.boardSelected && this.sprintSelected) != null) {
-      this.onChange(this.boardSelected, this.sprintSelected);
+    if(this.boardSelected && this.sprintSelected) {
+      this.issues.subscribe(x => {
+        this.issuesFilter = x;
+        !x ? this.onChange(this.boardSelected, this.sprintSelected) : null;
+      });
     }
   }
 
@@ -115,53 +115,5 @@ export class HomePage {
 
   onFilter(value: any) {
     this.issuesFilter = value;
-  }
-}
-
-
-@Component({
-  selector: 'sprints',
-  templateUrl: 'sprints.html',
-})
-export class Sprints {
-  sprints;
-  boardId;
-  sprintId;
-
-  constructor(private _params: NavParams, 
-              public viewCtrl: ViewController,
-              private _jiraProjectService: JiraProjectService,
-              private _store: NgRedux<Map<string, any>>,
-              private _localStorage: LocalStorageService) {
-    this.sprints = this._params.get('sprints');
-    this.boardId = this._params.get('boardId');
-    this.sprintId = this._params.get('sprintId');
-
-    if(this.sprintId != null) {
-      this.onChange(this.sprintId);
-    }
-  }
-  
-  onChange(sprintId: number) {
-    this._localStorage.setItem('sprintSelected', sprintId.toString());
-
-    this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssueFields[]) => {
-      var action = new GetIssues(response);
-      this._store.dispatch({type: action.type, payload: action.payload});
-      this.viewCtrl.dismiss();
-    }, err => {
-      var action = new Failure(err);
-      this._store.dispatch({type: action.type, payload: action.payload});
-      throw err;
-    });
-  }
-
-  onClose() {
-    this.viewCtrl.dismiss();
-  }
-
-  count(list): boolean {
-    if(list.size > 0) return false;
-    return true;
   }
 }

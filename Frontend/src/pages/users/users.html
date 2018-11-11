@@ -1,9 +1,3 @@
-<!--
-  Generated template for the UsersPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
@@ -15,29 +9,31 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
-      <ion-row class="table-header">
-        <ion-col class="table-col">
-          Usuário
-        </ion-col>
-        <ion-col class="table-col">
-          Função
-        </ion-col>
-      </ion-row>
-      <ion-row class="table-body" *ngFor="let user of users | async">
-        <ion-col class="table-col">
-          {{ user.get('userName') }}
-        </ion-col>
-        <ion-col class="table-col">
-            <ion-item>
-              <ion-select [ngModel]="role" (ngModelChange)="onChange(user, $event)">
-                <ion-option *ngFor="let role of roles" [value]="role" [selected]="role.value == user.get('role')">
-                  {{ role.value }}
-                </ion-option>
-              </ion-select>
-            </ion-item>
-        </ion-col>
-    </ion-row>
-    </ion-item>
+      <ion-item>
+        <ion-row class="header">
+          <ion-col col-3 class="initials-name">
+            Nome de Usuário
+          </ion-col>
+          <ion-col col-6 class="buttons-time padding-left-20">
+            Função
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row *ngFor="let user of users | async">
+          <ion-col col-3 class="initials-name">
+            {{ user.get('userName') }}
+          </ion-col>
+          <ion-col col-6 class="buttons-time">
+              <ion-item>
+                <ion-select class="select-no-padding" [ngModel]="role" (ngModelChange)="onChange(user, $event)">
+                  <ion-option *ngFor="let role of roles" [value]="role" [selected]="role.value == user.get('role')">
+                    {{ role.value }}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-item>
   </ion-list>
 </ion-content>

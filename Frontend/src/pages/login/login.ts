@@ -7,10 +7,11 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormErrors } from "../forms/errors";
 import { NgRedux } from "@angular-redux/store";
 import { Map } from "immutable";
-import { LogInSuccess, LogInFailure } from '../../app/store/actions/auth.action';
+import { LogInSuccess, LogInFailure, CurrentUserAction } from '../../app/store/actions/auth.action';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HomePage } from '../home/home';
+import { CurrentUser } from '../../app/models/user.model';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class LoginPage {
 
   @select(s => s.auth.get('IsAuthenticated')) isAuthenticated;
   @select(s => s.auth.get('UserName')) _username;
+  @select(s => s.auth.get('CurrentUser')) currentUserStore;
   
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -47,6 +49,7 @@ export class LoginPage {
       }
       var state = new LogInSuccess(response);
       this._store.dispatch({type: state.type, payload: p});
+      this.currentUser();
       this.navCtrl.setRoot(HomePage);
     }, (err) => {
       var state = new LogInFailure({Error: err.message});
@@ -60,9 +63,10 @@ export class LoginPage {
     this.user.Password = this.password.value;
 
     this._authService.login(this.user).subscribe((response: AuthUserResponse) => {
-        var state = new LogInSuccess(response);
-        this._store.dispatch({type: state.type, payload: state.payload});
+        var actionLogin = new LogInSuccess(response);
+        this._store.dispatch({type: actionLogin.type, payload: actionLogin.payload});
         this._localStorage.setAuthenticationTokens(response.token, response.authJiraToken, response.userId);
+        this.currentUser();
         this.navCtrl.setRoot(HomePage);
     }, (err: HttpErrorResponse) => {
         var state = new LogInFailure({Error: err.message});
@@ -89,5 +93,14 @@ export class LoginPage {
       username: ['', Validators.required],
       password: ['', Validators.required]
     })
+  }
+
+  private currentUser() {
+    this.currentUserStore.subscribe(x => !x ?
+        this._authService.getCurrentUser().subscribe((response: CurrentUser) => {
+          var actionCurrentUser = new CurrentUserAction(response);
+          this._store.dispatch({type: actionCurrentUser.type, payload: actionCurrentUser.payload});
+        }) : null
+    )
   }
 }

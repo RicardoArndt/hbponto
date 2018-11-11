@@ -22,9 +22,9 @@ namespace HBPonto.JIRA.Services
             _client = _jiraBaseService.GetHttpClient(_appSettings.AuthJiraToken);
         }
 
-        public async Task<HttpResponseMessage> GetUser(string userName)
+        public async Task<HttpResponseMessage> GetCurrentUser()
         {
-            return await _client.GetAsync($"/rest/api/2/user?username={userName}");
+            return await _client.GetAsync($"/rest/api/2/myself");
         }
     }
 }

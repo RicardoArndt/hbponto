@@ -23,7 +23,7 @@ export class UsersPage {
               private _store: NgRedux<Map<string, User>>) {}
 
   ionViewDidLoad() {
-    this.getAllUsers();
+    this.users.subscribe(x => !x ? this.getAllUsers() : null);
     this.getAllRoles();
   }
 

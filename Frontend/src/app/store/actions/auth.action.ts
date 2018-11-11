@@ -1,9 +1,11 @@
 import { AuthUserResponse } from "../../models/auth-user.model";
 import { Action } from "../interfaces/action";
+import { CurrentUser } from "../../models/user.model";
 
 export enum AuthActions {
     LOGIN_SUCCESS = "[Auth] LogIn Success",
     LOGIN_FAILURE = "[Auth] LogIn Failure",
+    CURRENT_USER = "[Auth] Current",
     LOGOUT = "[Auth] LogOut"
 }
 
@@ -21,4 +23,9 @@ export class LogOut implements Action {
     readonly type = AuthActions.LOGOUT;
 }
 
-export type AuthActionsTypesAll = LogInSuccess | LogInFailure | LogOut
+export class CurrentUserAction implements Action {
+    readonly type = AuthActions.CURRENT_USER;
+    constructor(public payload: CurrentUser) { }
+}
+
+export type AuthActionsTypesAll = LogInSuccess | LogInFailure | LogOut | CurrentUserAction

@@ -1,5 +1,5 @@
 export class BaseRoute {
-    readonly API = "http://localhost:50010/api/";
+    readonly API = "http://192.168.2.2:3000/api/";
     public Authentication = this.API + "authentication";
     public Project = this.API + "jiraProject/"
     public GetAllProjects = this.Project + "projects";

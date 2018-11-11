@@ -14,6 +14,7 @@ namespace HBPonto.IoC.Extensions
         {
             services.AddScoped<IJiraBaseService, JiraBaseService>();
             services.AddScoped<IJiraProjectService, JiraProjectService>();
+            services.AddScoped<IJiraUserService, JiraUserService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRelatoryService, RelatoryService>();
 

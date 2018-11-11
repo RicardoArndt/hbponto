@@ -18,6 +18,10 @@ export class LocalStorageService {
         this.localStorage.setItem("UserId", userId);
     }
 
+    clearAllCache() {
+        this.localStorage.clear();
+    }
+
     get TokenAuthentication() {
         return this.localStorage.getItem("Token");
     }

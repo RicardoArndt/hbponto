@@ -1,9 +1,12 @@
 ﻿using HBPonto.Database.Entities;
+using HBPonto.Kernel.DTO;
 using HBPonto.Kernel.Enums;
 using HBPonto.Kernel.Interfaces.Authentication;
+using HBPonto.Kernel.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 
 namespace HBPonto.Controllers
 {
@@ -11,10 +14,12 @@ namespace HBPonto.Controllers
     public class UserController : BaseController
     {
         IUserService _service;
+        IJiraUserService _jiraService;
 
-        public UserController(IUserService service)
+        public UserController(IUserService service, IJiraUserService jiraService)
         {
             _service = service;
+            _jiraService = jiraService;
         }
 
         [HttpGet]
@@ -59,6 +64,23 @@ namespace HBPonto.Controllers
             catch (Exception)
             {
                 return BadRequest("Não foi possível atualizar o usuário");
+            }
+        }
+
+        [HttpGet("current")] 
+        public IActionResult GetCurrentUser()
+        {
+            try
+            {
+                var result = GetResult<UserDTO>(_jiraService.GetCurrentUser().Result);
+
+                result.avatarUrl = result.avatarUrls.FirstOrDefault().Value;
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível retornar o usuário atual");
             }
         }
     }
