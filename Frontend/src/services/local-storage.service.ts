@@ -22,6 +22,16 @@ export class LocalStorageService {
         this.localStorage.clear();
     }
 
+    clearCacheAndReCacheBoard(boardId) {
+        this.localStorage.removeItem('boardSelected');
+        this.localStorage.setItem('boardSelected', boardId);
+    }
+
+    clearCacheAndReCacheSprint(sprintId) {
+        this.localStorage.removeItem('sprintSelected');
+        this.localStorage.setItem('sprintSelected', sprintId);
+    }
+
     get TokenAuthentication() {
         return this.localStorage.getItem("Token");
     }

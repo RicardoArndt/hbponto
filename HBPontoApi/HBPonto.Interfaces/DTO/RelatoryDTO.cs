@@ -17,7 +17,7 @@ namespace HBPonto.Kernel.DTO
             return new RelatoryDTO()
             {
                 Jira = relatory.Jira,
-                Date = relatory.Started.ToString("dd/MM/yyyy"),
+                Date = relatory.Started.ToString("dd/MM"),
                 Time = relatory.Time,
                 UserName = relatory.User.UserName
             };

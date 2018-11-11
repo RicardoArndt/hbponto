@@ -7,6 +7,7 @@ import { NgRedux } from '@angular-redux/store';
 import { PostWorklog } from "../../app/store/actions/jira-project.action";
 import { Failure } from "../../app/store/actions/base.action";
 import { LocalStorageService } from "../../services/local-storage.service";
+import { Relatory } from "../../app/models/relatory.model";
 
 @Component({
   selector: 'worklog-register',

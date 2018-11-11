@@ -29,7 +29,7 @@ export class Sprints {
   }
   
   onChange(sprintId: number) {
-    this._localStorage.setItem('sprintSelected', sprintId.toString());
+    this._localStorage.clearCacheAndReCacheSprint(sprintId.toString());
 
     this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssueFields[]) => {
       this.viewCtrl.dismiss();

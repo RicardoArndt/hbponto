@@ -21,7 +21,7 @@ export class RelatoriesPage {
   }
 
   ionViewDidLoad() {
-    this.relatories.subscribe(x => !x ? this.getAllRelatories() : null);
+    this.getAllRelatories();
   }
 
   getAllRelatories() {
