@@ -3,9 +3,9 @@
       Selecione a Sprint
   </ion-list-header>
   
-  <ion-item *ngFor="let s of sprints | async">
-      <ion-label>{{ s.get('name') }}</ion-label>
-      <ion-radio [value]="s.get('id')"></ion-radio>
+  <ion-item *ngFor="let sprint of sprints | async">
+      <ion-label>{{ sprint.get('name') }}</ion-label>
+      <ion-radio [value]="sprint.get('id')"></ion-radio>
   </ion-item>
   
   <ion-item *ngIf="count(sprints | async)">

@@ -33,7 +33,10 @@
           </ion-col>
         </ion-row>
       </ion-item>
-      <ion-item *ngFor="let issue of issuesFilter">
+      <ion-item *ngFor="let issue of issuesFilter; let i = index">
+        <ion-row *ngIf="i == 0">
+            <button ion-button full outline>Sprint Selecionada: <span class="color-black">&nbsp;{{ issue.get('sprint').get('name') }}</span></button>
+        </ion-row>
         <ion-row>
           <ion-col col-2 class="initials-name">
             <button ion-button class="button-key" round>{{ issue.get('key') }}</button>

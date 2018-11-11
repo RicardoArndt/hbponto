@@ -36,12 +36,10 @@ export class HomePage {
     this.boardSelected = parseInt(this._localStorage.getItem('boardSelected'));
     this.sprintSelected = parseInt(this._localStorage.getItem('sprintSelected'));
 
-    if(this.boardSelected && this.sprintSelected) {
-      this.issues.subscribe(x => {
-        this.issuesFilter = x;
-        !x ? this.onChange(this.boardSelected, this.sprintSelected) : null;
-      });
-    }
+    this.issues.subscribe(x => {
+      this.issuesFilter = x;
+      !x && this.boardSelected && this.sprintSelected ? this.onChange(this.boardSelected, this.sprintSelected) : null;
+    });
   }
 
   getAllProjects() {

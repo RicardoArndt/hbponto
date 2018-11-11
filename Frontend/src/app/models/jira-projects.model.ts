@@ -44,6 +44,7 @@ export class IssueFields {
     id: number;
     key: string;
     epic: IssueEpic;
+    sprint: SprintValues;
     summary: string;
     reporter: Reporter;
     status: IssueStatus;
