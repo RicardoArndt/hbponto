@@ -130,3 +130,8 @@ export class WorklogRegister {
     timeSpent: string; 
 }
 //#endregion
+
+export class ShareIssue {
+    id: number;
+    selected: boolean;
+}

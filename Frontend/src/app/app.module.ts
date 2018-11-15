@@ -16,6 +16,7 @@ import { UsersPage } from '../pages/users/users';
 import { RelatoriesPage } from '../pages/relatories/relatories';
 import { UserService } from './store/services/user.service';
 import { RelatoryService } from './store/services/relatory.service';
+import { ShareProjectService } from '../services/share-project.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { RelatoryService } from './store/services/relatory.service';
     ToastHandler,
     JiraProjectService,
     UserService,
-    RelatoryService
+    RelatoryService,
+    ShareProjectService
   ]
 })
 export class AppModule {}

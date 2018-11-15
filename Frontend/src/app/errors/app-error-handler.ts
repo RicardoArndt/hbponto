@@ -29,7 +29,7 @@ export class AppErrorHandler implements ErrorHandler {
                     break;
                 }
                 case 404: {
-                    this._toastHandler.handlerToast(errorMessage).present();
+                    this._toastHandler.handlerToast("Página não encontrada").present();
                     break;
                 }
             }

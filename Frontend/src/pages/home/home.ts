@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
-import { JiraProjectService } from '../../app/store/services/jira-projects.service';
-import { GetProjects, GetSprints, GetIssues } from '../../app/store/actions/jira-project.action';
-import { NgRedux, select } from '@angular-redux/store';
-import { Failure } from '../../app/store/actions/base.action';
-import { ProjectsResponse, SprintsResponse, IssueFields } from '../../app/models/jira-projects.model';
+import { select } from '@angular-redux/store';
+import { ShareIssue, WorklogRegister } from '../../app/models/jira-projects.model';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { WorklogRegisterComponent } from '../../components/worklog-register/worklog-register';
-import { Sprints } from '../../components/sprints/sprints';
+import { ToastHandler } from '../../app/toast/toast-handler';
+import { ShareProjectService } from '../../services/share-project.service';
 
 @Component({
   selector: 'page-home',
@@ -20,12 +18,15 @@ export class HomePage {
   issuesFilter;
   boardSelected: number;
   sprintSelected: number;
+  issuesShare: ShareIssue[] = [];
+  ids: number[] = [];
+  selected: boolean = true;
 
   constructor(public navCtrl: NavController,
-              private _jiraProjectService: JiraProjectService,
-              private _store: NgRedux<Map<string, any>>,
+              private _shareProjectService: ShareProjectService,
               public modalCtrl: ModalController,
-              private _localStorage: LocalStorageService) { }
+              private _localStorage: LocalStorageService,
+              private _toastHandler: ToastHandler) { }
 
   ionViewDidLoad() {
     this.getAllProjects();
@@ -38,18 +39,19 @@ export class HomePage {
 
     this.issues.subscribe(x => {
       this.issuesFilter = x;
+      x ? x.forEach(y => this.ids.push(y.get('id'))) : null;
       !x ? this.onChange(this.boardSelected, this.sprintSelected) : null;
     });
   }
 
   getAllProjects() {
     let items = this._localStorage.getItem('projects');
-    items ? this.dispatchProjects(items) : this.getProjectsFromService();
+    items ? this._shareProjectService.dispatchProjects(items) : this._shareProjectService.getProjectsFromService();
   }
   
   onChange(boardId: number, sprintId?: number) {
     this._localStorage.clearCacheAndReCacheBoard(boardId.toString());
-    this.getSprintsFromService(boardId, sprintId);
+    this._shareProjectService.getSprintsFromService(boardId, this.sprints, sprintId);
   }
 
   getInitialsName(name: string) {
@@ -91,46 +93,14 @@ export class HomePage {
   }
 
   onUpdateSprint() {
-    this.updateIssues(this.boardSelected, this.sprintSelected);
+    this._shareProjectService.updateIssues(this.boardSelected, this.sprintSelected);
   }
 
-  private getProjectsFromService() {
-    this._jiraProjectService.getAllProjects().subscribe((response: ProjectsResponse) => {
-      this._localStorage.setItem('projects', JSON.stringify(response));
-      var action = new GetProjects(response); 
-      this._store.dispatch({type: action.type, payload: action.payload});
-    }, err => {
-      var action = new Failure(err); 
-      this._store.dispatch({type: action.type, payload: action.payload});
-      throw err;
-    });
+  onShareWorklog() {
+    this.ids ? this.modalCtrl.create(WorklogRegisterComponent, {'boardId': this.boardSelected, 'sprintId': this.sprintSelected, 'issueIds': this.ids}).present() : this._toastHandler.handlerToast("Selecione ao menos um issue").present();
   }
 
-  private dispatchProjects(items) {
-    var action = new GetProjects(JSON.parse(items) as ProjectsResponse);
-    this._store.dispatch({type: action.type, payload: action.payload});
-  }
-
-  private getSprintsFromService(boardId, sprintId?) {
-    this._jiraProjectService.getSprints(boardId).subscribe((response: SprintsResponse) => {
-      var action = new GetSprints(response);
-      this._store.dispatch({type: action.type, payload: action.payload});
-      this.modalCtrl.create(Sprints, {'sprints': this.sprints, 'boardId': boardId, 'sprintId': sprintId}).present();
-    }, err => {
-      var action = new Failure(err);
-      this._store.dispatch({type: action.type, payload: action.payload});
-      throw err;
-    });
-  }
-
-  private updateIssues(boardId, sprintId) {
-    this._jiraProjectService.getIssues(boardId, sprintId).subscribe((response: IssueFields[]) => {
-      var action = new GetIssues(response);
-      this._store.dispatch({type: action.type, payload: action.payload});
-    }, err => {
-      var action = new Failure(err);
-      this._store.dispatch({type: action.type, payload: action.payload});
-      throw err;
-    });
+  onChangeShare(id: number, selected: boolean) {
+    selected ? this.ids.push(id) : this.ids.splice(this.ids.indexOf(id), 1);
   }
 }

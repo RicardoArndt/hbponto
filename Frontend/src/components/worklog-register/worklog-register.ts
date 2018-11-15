@@ -8,6 +8,7 @@ import { PostWorklog } from "../../app/store/actions/jira-project.action";
 import { Failure } from "../../app/store/actions/base.action";
 import { LocalStorageService } from "../../services/local-storage.service";
 import { Relatory } from "../../app/models/relatory.model";
+import { ShareProjectService } from "../../services/share-project.service";
 
 @Component({
   selector: 'worklog-register',
@@ -16,6 +17,9 @@ import { Relatory } from "../../app/models/relatory.model";
 export class WorklogRegisterComponent {
 
   issueId: number;
+  issueIds: number[];
+  boardId: number;
+  sprintId: number;
   issueKey: string;
   formWorklog: FormGroup;
   worklog: WorklogRegister = new WorklogRegister();
@@ -23,11 +27,13 @@ export class WorklogRegisterComponent {
   constructor(private _params: NavParams,
               private _viewCtrl: ViewController,
               private _fb: FormBuilder,
-              private _jiraService: JiraProjectService,
-              private _store: NgRedux<Map<string, any>>,
+              private _shareProjectService: ShareProjectService,
               private _localStorage: LocalStorageService) {
-    this.issueId = _params.get('issueId');
-    this.issueKey = _params.get('issueKey');
+    this.issueId = this._params.get('issueId');
+    this.issueKey = this._params.get('issueKey');
+    this.boardId = this._params.get('boardId');
+    this.sprintId = this._params.get('sprintId');
+    this.issueIds = this._params.get('issueIds');
     this.formBuilder();
   }
 
@@ -39,19 +45,12 @@ export class WorklogRegisterComponent {
     this.worklog.comment = this.comment.value;
     this.worklog.timeSpent = this.timeSpent.value;
     this.worklog.started = this.started.value;
-    this.worklog.key = this.issueKey;
+    this.worklog.key = this.issueKey ? this.issueKey : null;
 
     var userId = this._localStorage.UserId;
 
-    this._jiraService.postWorklog(this.issueId, userId, this.worklog).subscribe(response => {
-      var action = new PostWorklog(this.worklog);
-      this._store.dispatch({type: action.type, payload: action.payload});
-      this._viewCtrl.dismiss();
-    }, err => {
-      var action = new Failure(err); 
-      this._store.dispatch({type: action.type, payload: action.payload});
-      throw err;
-    });
+    this.issueKey ? this._shareProjectService.postWorklog(this.issueId, userId, this.worklog) : this._shareProjectService.updateWorklogSprint(this.boardId, this.sprintId, this.issueIds, this.worklog);
+    this._viewCtrl.dismiss();
   }
 
   get comment() {
