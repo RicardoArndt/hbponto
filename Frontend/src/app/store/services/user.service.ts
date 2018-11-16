@@ -5,19 +5,18 @@ import { User } from "../../models/user.model";
 
 @Injectable()
 export class UserService {
-    private _routeApi: BaseRoute = new BaseRoute();
 
     constructor(private _http: HttpClient) {}
 
     getAllUsers() {
-        return this._http.get(this._routeApi.Users);
+        return this._http.get(BaseRoute.Users);
     }
 
     getAllRoles() {
-        return this._http.get(this._routeApi.Roles);
+        return this._http.get(BaseRoute.Roles);
     }
 
     updateUser(userUpdate: User) {
-        return this._http.put(this._routeApi.Users, userUpdate);
+        return this._http.put(BaseRoute.Users, userUpdate);
     }
 }

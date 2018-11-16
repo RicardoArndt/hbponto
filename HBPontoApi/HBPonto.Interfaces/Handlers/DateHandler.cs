@@ -63,6 +63,11 @@ namespace HBPonto.Kernel.Handlers
             return (hoursReturn, minutesReturn);
         }
 
+        public static string TransformSecondsInHoursString(int seconds)
+        {
+            return String.Format("{0}h", TimeSpan.FromHours(seconds));
+        }
+    
         private static bool CheckIsHour(string hours)
         {
             return hours.IndexOf("H") != -1 ? true : false;

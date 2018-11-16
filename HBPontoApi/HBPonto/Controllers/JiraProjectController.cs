@@ -9,6 +9,7 @@ using HBPonto.Kernel.DTO;
 using HBPonto.Kernel.Interfaces.Domain.Services;
 using HBPonto.Database.Entities;
 using HBPonto.Kernel.Handlers;
+using HBPonto.Kernel.Enums;
 
 namespace HBPonto.Controllers
 {
@@ -70,7 +71,7 @@ namespace HBPonto.Controllers
             {
                 var response = _service.GetIssues(boardId, sprintId).Result;
                 var jiraResult = GetResult<JiraIssuesResult>(response);
-                List<JiraIssueDTO> dtoList = jiraResult.issues.Select(x => JiraIssueDTO.CreateDTO(x)).ToList();
+                List<JiraIssueDTO> dtoList = jiraResult.issues.Where(y => JiraStatusEnum.DONE.Key != y.fields.status.id).Select(x => JiraIssueDTO.CreateDTO(x)).ToList();
                 return Ok(dtoList);
             }
             catch(Exception)
@@ -120,7 +121,10 @@ namespace HBPonto.Controllers
                 {
                     var response = _service.AddWorklog(issuesIds[i], content);
                     var result = PostResult(response.Result);
-                    _relatoryService.SaveRelatory(Relatory.RelatoryFactory.Create(userId, issuesIds[i], DateTime.Parse(worklog.started), worklog.timeSpent));
+                    _relatoryService.SaveRelatory(Relatory.RelatoryFactory.Create(userId, 
+                                                                                  issuesIds[i], 
+                                                                                  DateTime.Parse(worklog.started), 
+                                                                                  DateHandler.TransformSecondsInHoursString(worklog.timeSpentSeconds)));
                 }
 
                 return Ok();

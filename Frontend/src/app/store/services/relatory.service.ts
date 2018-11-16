@@ -6,11 +6,9 @@ import { Observable } from "rxjs";
 @Injectable()
 export class RelatoryService {
 
-    private route = new BaseRoute();
-
     constructor(private _http: HttpClient) { }
 
     getAllRelatories(): Observable<any> {
-        return this._http.get(this.route.Relatories);
+        return this._http.get(BaseRoute.Relatories);
     }
 }
