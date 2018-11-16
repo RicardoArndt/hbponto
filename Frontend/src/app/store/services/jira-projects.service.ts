@@ -22,8 +22,8 @@ export class JiraProjectService {
         return this._http.get(this._routeApi.Project + boardId + '/sprint/' + sprintId + '/issue');
     }
 
-    updateIssues(sprintId: number, issuesIds: number[], worklog: WorklogRegister) {
-        return this._http.put(this._routeApi.UpdateIssues, {'issuesIds': issuesIds, 'worklog': worklog});
+    updateIssues(userId: number, issuesIds: string[], worklog: WorklogRegister) {
+        return this._http.put(this._routeApi.UpdateIssues + '/' + userId, {'IssuesIds': issuesIds, 'Worklog': worklog});
     }
 
     postWorklog(issueId: number, userId: string, worklog: WorklogRegister): Observable<any> {

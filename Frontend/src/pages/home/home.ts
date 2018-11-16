@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { select } from '@angular-redux/store';
 import { ShareIssue, WorklogRegister } from '../../app/models/jira-projects.model';
@@ -19,7 +19,7 @@ export class HomePage {
   boardSelected: number;
   sprintSelected: number;
   issuesShare: ShareIssue[] = [];
-  ids: number[] = [];
+  ids: string[] = [];
   selected: boolean = true;
 
   constructor(public navCtrl: NavController,
@@ -39,7 +39,8 @@ export class HomePage {
 
     this.issues.subscribe(x => {
       this.issuesFilter = x;
-      x ? x.forEach(y => this.ids.push(y.get('id'))) : null;
+      this.ids.length > 0 ? this.ids = [] : null;
+      x ? x.forEach(y => this.ids.indexOf(y.get('key'))  === -1 ? this.ids.push(y.get('key')) : null) : null;
       !x ? this.onChange(this.boardSelected, this.sprintSelected) : null;
     });
   }
@@ -100,7 +101,8 @@ export class HomePage {
     this.ids ? this.modalCtrl.create(WorklogRegisterComponent, {'boardId': this.boardSelected, 'sprintId': this.sprintSelected, 'issueIds': this.ids}).present() : this._toastHandler.handlerToast("Selecione ao menos um issue").present();
   }
 
-  onChangeShare(id: number, selected: boolean) {
+  onChangeShare(id: string, selected: boolean) {
     selected ? this.ids.push(id) : this.ids.splice(this.ids.indexOf(id), 1);
+    console.log(this.ids);
   }
 }

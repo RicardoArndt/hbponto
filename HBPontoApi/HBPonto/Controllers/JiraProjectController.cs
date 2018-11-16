@@ -87,7 +87,7 @@ namespace HBPonto.Controllers
                 jiraIssue.started = DateHandler.TransformStringToDateString(jiraIssue.started);
                 var worklogSummary = JiraWorklogSummaryDTO.Create(jiraIssue);
                 var content = GetContent(worklogSummary);
-                var response = _service.AddWorklog(issueId, content);
+                var response = _service.AddWorklog(issueId.ToString(), content);
                 var result = PostResult(response.Result);
                 Relatory relatory = Relatory.RelatoryFactory.Create(userId, jiraIssue.key, DateTime.Parse(jiraIssue.started), jiraIssue.timeSpent);
                 _relatoryService.SaveRelatory(relatory);
@@ -100,6 +100,34 @@ namespace HBPonto.Controllers
             catch (Exception ex)
             {
                 return BadRequest("Não foi possível registrar horas de trabalho");
+            }
+        }
+
+        [HttpPut("issue/update/{userId}")]
+        public IActionResult UpdateIssuesSprint([FromBody]JiraShareWorklogDTO jiraShareWorklogDTO, string userId)
+        {
+            try
+            {
+                var worklog = jiraShareWorklogDTO.Worklog;
+                var issuesIds = jiraShareWorklogDTO.IssuesIds;
+                var timeInSeconds = DateHandler.TransformStringInSeconds(worklog.timeSpent);
+                worklog.started = DateHandler.TransformStringToDateString(worklog.started);
+                worklog.timeSpentSeconds = timeInSeconds / issuesIds.Length;
+                var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(worklog);
+                var content = GetContent(worklogSummary);
+
+                for (int i = 0; i < issuesIds.Length; i++)
+                {
+                    var response = _service.AddWorklog(issuesIds[i], content);
+                    var result = PostResult(response.Result);
+                    _relatoryService.SaveRelatory(Relatory.RelatoryFactory.Create(userId, issuesIds[i], DateTime.Parse(worklog.started), worklog.timeSpent));
+                }
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

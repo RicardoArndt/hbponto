@@ -17,7 +17,7 @@ import { ShareProjectService } from "../../services/share-project.service";
 export class WorklogRegisterComponent {
 
   issueId: number;
-  issueIds: number[];
+  issueIds: string[];
   boardId: number;
   sprintId: number;
   issueKey: string;
@@ -49,7 +49,7 @@ export class WorklogRegisterComponent {
 
     var userId = this._localStorage.UserId;
 
-    this.issueKey ? this._shareProjectService.postWorklog(this.issueId, userId, this.worklog) : this._shareProjectService.updateWorklogSprint(this.boardId, this.sprintId, this.issueIds, this.worklog);
+    this.issueKey ? this._shareProjectService.postWorklog(this.issueId, userId, this.worklog) : this._shareProjectService.updateWorklogSprint(this.boardId, userId, this.sprintId, this.issueIds, this.worklog);
     this._viewCtrl.dismiss();
   }
 
