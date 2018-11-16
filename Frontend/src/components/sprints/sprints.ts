@@ -29,12 +29,12 @@ export class Sprints {
   }
   
   onChange(sprintId: number) {
-    this._localStorage.setItem('sprintSelected', sprintId.toString());
+    this._localStorage.clearCacheAndReCacheSprint(sprintId.toString());
 
     this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssueFields[]) => {
+      this.viewCtrl.dismiss();
       var action = new GetIssues(response);
       this._store.dispatch({type: action.type, payload: action.payload});
-      this.viewCtrl.dismiss();
     }, err => {
       var action = new Failure(err);
       this._store.dispatch({type: action.type, payload: action.payload});

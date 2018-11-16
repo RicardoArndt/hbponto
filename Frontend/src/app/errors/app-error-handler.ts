@@ -1,6 +1,8 @@
 import { ErrorHandler, Inject } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ToastHandler } from "../toast/toast-handler";
+import { LoginPage } from "../../pages/login/login";
+import { HomePage } from "../../pages/home/home";
 
 export class AppErrorHandler implements ErrorHandler {
     private _toastHandler: ToastHandler;
@@ -27,7 +29,7 @@ export class AppErrorHandler implements ErrorHandler {
                     break;
                 }
                 case 404: {
-                    this._toastHandler.handlerToast(errorMessage).present();
+                    this._toastHandler.handlerToast("Página não encontrada").present();
                     break;
                 }
             }

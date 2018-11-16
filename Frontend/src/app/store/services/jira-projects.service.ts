@@ -6,23 +6,25 @@ import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class JiraProjectService {
-    private _routeApi: BaseRoute = new BaseRoute();
-
     constructor(private _http: HttpClient) { }
 
     getAllProjects(): Observable<any> {
-        return this._http.get(this._routeApi.GetAllProjects);
+        return this._http.get(BaseRoute.GetAllProjects);
     }
 
     getSprints(id: number): Observable<any> {
-        return this._http.get(this._routeApi.GetSprints + id);
+        return this._http.get(BaseRoute.GetSprints + id);
     }
 
     getIssues(boardId: number, sprintId: number): Observable<any> {
-        return this._http.get(this._routeApi.Project + boardId + '/sprint/' + sprintId + '/issue');
+        return this._http.get(BaseRoute.Project + boardId + '/sprint/' + sprintId + '/issue');
+    }
+
+    updateIssues(userId: number, issuesIds: string[], worklog: WorklogRegister): Observable<any> {
+        return this._http.put(BaseRoute.UpdateIssues + '/' + userId, {'IssuesIds': issuesIds, 'Worklog': worklog});
     }
 
     postWorklog(issueId: number, userId: string, worklog: WorklogRegister): Observable<any> {
-        return this._http.post(this._routeApi.Issue + issueId + '/' + userId, worklog);
+        return this._http.post(BaseRoute.Issue + issueId + '/' + userId, worklog);
     }
 }

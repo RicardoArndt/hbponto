@@ -67,7 +67,7 @@ namespace HBPonto.Controllers
             }
         }
 
-        [HttpGet("current")] 
+        [HttpGet("current"), AllowAnonymous] 
         public IActionResult GetCurrentUser()
         {
             try

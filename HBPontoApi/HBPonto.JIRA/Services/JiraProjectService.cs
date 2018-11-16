@@ -44,7 +44,7 @@ namespace HBPonto.JIRA.Services
             return await _client.GetAsync($"/rest/agile/1.0/issue/{issueId}");
         }
 
-        public async Task<HttpResponseMessage> AddWorklog(int issueId, HttpContent content)
+        public async Task<HttpResponseMessage> AddWorklog(string issueId, HttpContent content)
         {
             return await _client.PostAsync($"/rest/api/2/issue/{issueId}/worklog", content);
         }

@@ -44,6 +44,7 @@ export class IssueFields {
     id: number;
     key: string;
     epic: IssueEpic;
+    sprint: SprintValues;
     summary: string;
     reporter: Reporter;
     status: IssueStatus;
@@ -129,3 +130,8 @@ export class WorklogRegister {
     timeSpent: string; 
 }
 //#endregion
+
+export class ShareIssue {
+    id: number;
+    selected: boolean;
+}

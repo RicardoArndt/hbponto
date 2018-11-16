@@ -15,6 +15,7 @@ namespace HBPonto.Kernel.Helpers.Jiras
         public IList<JiraIssueSubTasks> subtasks { get; set; }
         public JiraIssueWorklog worklog { get; set; }
         public JiraIssueType issuetype { get; set; }
+        public SprintValues sprint { get; set; }
         public JiraIssueTimeTracking timetracking { get; set; } 
         public IList<JiraIssueLinks> issuelinks { get; set; }
         public JiraUser user { get; set; }

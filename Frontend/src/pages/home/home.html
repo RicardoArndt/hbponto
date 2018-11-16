@@ -24,6 +24,7 @@
     <ion-list>
       <ion-item>
         <ion-row class="header">
+          <ion-col col-1></ion-col>
           <ion-col col-2 class="initials-name">
             JIRA
           </ion-col>
@@ -33,9 +34,17 @@
           </ion-col>
         </ion-row>
       </ion-item>
-      <ion-item *ngFor="let issue of issuesFilter">
+      <ion-item *ngFor="let issue of issuesFilter; let i = index">
+        <ion-row *ngIf="i == 0">
+            <button ion-button full outline *ngIf="sprintSelected">Sprint Selecionada: <span class="color-black">&nbsp;{{ issue.get('sprint').get('name') }}</span></button>
+        </ion-row>
         <ion-row>
-          <ion-col col-2 class="initials-name">
+          <ion-col col-1>
+            <ion-item>
+              <ion-checkbox class="m-n-16" [ngModel]="selected" (ionChange)="onChangeShare(issue.get('key'), $event.value)"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <ion-col col-1 class="initials-name">
             <button ion-button class="button-key" round>{{ issue.get('key') }}</button>
           </ion-col>
           <ion-col col-2 class="buttons-time">
@@ -52,4 +61,12 @@
         </ion-row>
       </ion-item>
     </ion-list>
+
+    <ion-fab right bottom>
+      <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+      <ion-fab-list side="top">
+        <button ion-fab (click)="onShareWorklog()" title="Dividir horas"><ion-icon name="cloud-circle"></ion-icon></button>
+        <button ion-fab (click)="onUpdateSprint()" title="Atualizar sprint"><ion-icon name="refresh-circle"></ion-icon></button>
+      </ion-fab-list>
+    </ion-fab>
   </ion-content>

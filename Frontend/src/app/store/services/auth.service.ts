@@ -6,19 +6,17 @@ import { BaseRoute } from "./routes/base";
 
 @Injectable()
 export class AuthService {
-    private _routeApi: BaseRoute = new BaseRoute();
-
     constructor(private _http: HttpClient) { }
 
     login(data: AuthUser): Observable<any> {
-        return this._http.post(this._routeApi.Authentication, data);
+        return this._http.post(BaseRoute.Authentication, data);
     }
 
     validateAuthorization(): Observable<any> {
-        return this._http.get(this._routeApi.Authentication);
+        return this._http.get(BaseRoute.Authentication);
     }
 
     getCurrentUser() {
-        return this._http.get(this._routeApi.Users + 'current');
+        return this._http.get(BaseRoute.Users + 'current');
     }
 }

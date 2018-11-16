@@ -1,10 +1,13 @@
 export class BaseRoute {
-    readonly API = "http://192.168.2.2:3000/api/";
-    public Authentication = this.API + "authentication";
-    public Project = this.API + "jiraProject/"
-    public GetAllProjects = this.Project + "projects";
-    public GetSprints = this.Project + "sprints/";
-    public Issue = this.Project + "issue/"
-    public Users = this.API + "user/"
-    public Roles = this.Users + "roles"
+    static readonly API = "http://192.168.2.5:3000/api/";
+    static readonly Authentication = BaseRoute.API + "authentication";
+    static readonly Project = BaseRoute.API + "jiraProject/"
+    static readonly GetAllProjects = BaseRoute.Project + "projects";
+    static readonly GetSprints = BaseRoute.Project + "sprints/";
+    static readonly Issue = BaseRoute.Project + "issue/";
+    static readonly Users = BaseRoute.API + "user/";
+    static readonly Roles = BaseRoute.Users + "roles";
+    static readonly Relatories = BaseRoute.API + "relatory";
+    static readonly UpdateIssues = BaseRoute.Issue + "update";
+
 }
