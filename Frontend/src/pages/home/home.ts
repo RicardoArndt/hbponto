@@ -1,7 +1,7 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { select } from '@angular-redux/store';
-import { ShareIssue, WorklogRegister } from '../../app/models/jira-projects.model';
+import { ShareIssue } from '../../app/models/jira-projects.model';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { WorklogRegisterComponent } from '../../components/worklog-register/worklog-register';
 import { ToastHandler } from '../../app/toast/toast-handler';
@@ -94,7 +94,7 @@ export class HomePage {
   }
 
   onUpdateSprint() {
-    this._shareProjectService.updateIssues(this.boardSelected, this.sprintSelected);
+    this._shareProjectService.updateIssues(parseInt(this._localStorage.getItem('boardSelected')), parseInt(this._localStorage.getItem('sprintSelected')));
   }
 
   onShareWorklog() {
@@ -103,6 +103,5 @@ export class HomePage {
 
   onChangeShare(id: string, selected: boolean) {
     selected ? this.ids.push(id) : this.ids.splice(this.ids.indexOf(id), 1);
-    console.log(this.ids);
   }
 }

@@ -33,20 +33,21 @@ export class MyApp {
               private _store: NgRedux<Map<string, any>>,
               private _localStorage: LocalStorageService) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage, icon: 'home' },
       { title: 'Usuários', component: UsersPage, icon: 'contacts' },
       { title: 'Relatórios', component: RelatoriesPage, icon: 'list-box' }
     ];
-
   }
 
   initializeApp() {
+    var isAuthenticated;
+
     this.isAuthenticated.subscribe(x => {
-      this.rootPage = x ? HomePage : this.rootPage; 
+      x ? isAuthenticated = x : null;
     });
+
+    this.rootPage = isAuthenticated ? HomePage : this.rootPage; 
 
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();
