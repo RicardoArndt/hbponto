@@ -6,8 +6,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using HBPonto.Kernel.DTO;
-using HBPonto.Kernel.Interfaces.Domain.Services;
-using HBPonto.Database.Entities;
 using HBPonto.Kernel.Handlers;
 using HBPonto.Kernel.Enums;
 
@@ -17,12 +15,10 @@ namespace HBPonto.Controllers
     public class JiraProjectController : BaseController
     {
         private IJiraProjectService _service;
-        private IRelatoryService _relatoryService;
 
-        public JiraProjectController(IJiraProjectService service, IRelatoryService relatoryService)
+        public JiraProjectController(IJiraProjectService service)
         {
             _service = service;
-            _relatoryService = relatoryService;
         }
 
         [HttpGet("projects")]
@@ -80,6 +76,22 @@ namespace HBPonto.Controllers
             }
         }
 
+        [HttpGet("board/{boardId}")]
+        public IActionResult GetBoardDetails(int boardId)
+        {
+            try
+            {
+                var response = _service.GetBoard(boardId).Result;
+                var result = GetResult<JiraBoardDetails>(response);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost("issue/{issueId}/{userId}")]
         public IActionResult PostWorklog([FromBody]JiraWorklogDTO jiraIssue, int issueId, string userId)
         {
@@ -90,8 +102,6 @@ namespace HBPonto.Controllers
                 var content = GetContent(worklogSummary);
                 var response = _service.AddWorklog(issueId.ToString(), content);
                 var result = PostResult(response.Result);
-                Relatory relatory = Relatory.RelatoryFactory.Create(userId, jiraIssue.key, DateTime.Parse(jiraIssue.started), jiraIssue.timeSpent);
-                _relatoryService.SaveRelatory(relatory);
                 return Ok(result);
             }
             catch (UnauthorizedAccessException)
@@ -121,10 +131,6 @@ namespace HBPonto.Controllers
                 {
                     var response = _service.AddWorklog(issuesIds[i], content);
                     var result = PostResult(response.Result);
-                    _relatoryService.SaveRelatory(Relatory.RelatoryFactory.Create(userId, 
-                                                                                  issuesIds[i], 
-                                                                                  DateTime.Parse(worklog.started), 
-                                                                                  DateHandler.TransformSecondsInHoursString(worklog.timeSpentSeconds)));
                 }
 
                 return Ok();
