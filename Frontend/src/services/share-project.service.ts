@@ -16,8 +16,8 @@ export class ShareProjectService {
                 private _store: NgRedux<Map<string, any>>) { }
 
       
-    public updateWorklogSprint(boardId, userId, sprintId, ids, worklog) {
-      this._jiraProjectService.updateIssues(userId, ids, worklog).subscribe(() => {
+    public updateWorklogSprint(boardId, userId, sprintId, issues, worklog) {
+      this._jiraProjectService.updateIssues(userId, issues, worklog).subscribe(() => {
         this.updateIssues(boardId, sprintId);
       }, err => {
         var action = new Failure(err);

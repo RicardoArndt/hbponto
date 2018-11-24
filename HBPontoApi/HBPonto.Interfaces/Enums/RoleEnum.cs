@@ -1,9 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace HBPonto.Kernel.Enums
 {
+    public enum Role
+    {
+        [Display(Name = "Not Attributed")]
+        NOT_ATTRIBUTED = 0,
+        [Display(Name = "Administrator")]
+        ADMINISTRATOR = 1
+    }
+
     public class RoleEnum
     {
         public int Key { get; private set; }

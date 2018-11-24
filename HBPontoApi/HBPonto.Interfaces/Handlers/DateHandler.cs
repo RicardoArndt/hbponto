@@ -20,7 +20,7 @@ namespace HBPonto.Kernel.Handlers
 
             try
             {
-                seconds = time.hours + time.minutes;
+                seconds = time.hoursSeconds + time.minutesSeconds;
             }
             catch (Exception)
             {
@@ -30,11 +30,11 @@ namespace HBPonto.Kernel.Handlers
             return seconds;
         }
 
-        public static (int hours, int minutes) TransformStringTimeInHoursAndMinutes(string stringTime)
+        public static (int hoursSeconds, int minutesSeconds) TransformStringTimeInHoursAndMinutes(string stringTime)
         {
             var time = stringTime.Split(' ');
-            var hoursReturn = 0;
-            var minutesReturn = 0;
+            var hoursReturnInSeconds = 0;
+            var minutesReturnInSeconds = 0;
 
             if (time.Length > 2)
             {
@@ -46,21 +46,21 @@ namespace HBPonto.Kernel.Handlers
 
                 if (CheckIsHour(hours))
                 {
-                    hoursReturn = CalcHours(Int32.Parse(hours.Remove(hours.IndexOf("H"), 1)));
+                    hoursReturnInSeconds = CalcHours(Int32.Parse(hours.Remove(hours.IndexOf("H"), 1)));
 
                     if (time.Length > 1)
                     {
                         var minutes = time[1].ToUpper();
-                        minutesReturn = CalcMinutes(Int32.Parse(hours.Remove(hours.IndexOf("M"), 1)));
+                        minutesReturnInSeconds = CalcMinutes(Int32.Parse(minutes.Remove(minutes.IndexOf("M"), 1)));
                     }
                 }
                 else
                 {
-                    minutesReturn = CalcMinutes(Int32.Parse(hours.Remove(hours.IndexOf("M"), 1)));
+                    minutesReturnInSeconds = CalcMinutes(Int32.Parse(hours.Remove(hours.IndexOf("M"), 1)));
                 }
             }
 
-            return (hoursReturn, minutesReturn);
+            return (hoursReturnInSeconds, minutesReturnInSeconds);
         }
 
         public static string TransformSecondsInHoursString(int seconds)

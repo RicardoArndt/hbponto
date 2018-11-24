@@ -1,4 +1,5 @@
 ﻿using HBPonto.Authentication.Services;
+using HBPonto.Domain.Services;
 using HBPonto.JIRA.Services;
 using HBPonto.Kernel.Interfaces.Authentication;
 using HBPonto.Kernel.Interfaces.Services;
@@ -14,6 +15,7 @@ namespace HBPonto.IoC.Extensions
             services.AddScoped<IJiraProjectService, JiraProjectService>();
             services.AddScoped<IJiraUserService, JiraUserService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICalcWorklogService, CalcWorklogService>();
 
             return services;
         }

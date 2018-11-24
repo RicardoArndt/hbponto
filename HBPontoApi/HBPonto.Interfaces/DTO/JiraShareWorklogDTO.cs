@@ -6,7 +6,7 @@ namespace HBPonto.Kernel.DTO
 {
     public class JiraShareWorklogDTO
     {
-        public string[] IssuesIds { get; set; }
+        public List<JiraIssuesForPostWorklogDTO> Issues { get; set; }
         public JiraWorklogDTO Worklog { get; set; }
     }
 }

@@ -17,9 +17,9 @@ namespace HBPonto.Kernel.DTO
             this.started = started;
         }
 
-        public static JiraWorklogSummaryWithSecondsDTO Create(JiraWorklogDTO worklog)
+        public static JiraWorklogSummaryWithSecondsDTO Create(int timeSpentSeconds, string comment, string started)
         {
-            return new JiraWorklogSummaryWithSecondsDTO(worklog.timeSpentSeconds, worklog.comment, worklog.started);
+            return new JiraWorklogSummaryWithSecondsDTO(timeSpentSeconds, comment, started);
         }
     }
 }

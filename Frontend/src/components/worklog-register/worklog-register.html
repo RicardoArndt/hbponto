@@ -1,6 +1,7 @@
 <ion-list radio-group>
     <ion-list-header>
         Registro de trabalho {{ issueKey }}
+        <ion-label *ngIf="!issueKey">Aviso!!! Somente será dividido horas nas atividades que tiverem estimativa</ion-label>
     </ion-list-header>
     
     <form [formGroup]="formWorklog" (ngSubmit)="onSubmit()">

@@ -15,10 +15,12 @@ namespace HBPonto.Controllers
     public class JiraProjectController : BaseController
     {
         private IJiraProjectService _service;
+        private ICalcWorklogService _calcWorklogService;
 
-        public JiraProjectController(IJiraProjectService service)
+        public JiraProjectController(IJiraProjectService service, ICalcWorklogService calcWorklogService)
         {
             _service = service;
+            _calcWorklogService = calcWorklogService;
         }
 
         [HttpGet("projects")]
@@ -120,18 +122,21 @@ namespace HBPonto.Controllers
             try
             {
                 var worklog = jiraShareWorklogDTO.Worklog;
-                var issuesIds = jiraShareWorklogDTO.IssuesIds;
                 var timeInSeconds = DateHandler.TransformStringInSeconds(worklog.timeSpent);
                 worklog.started = DateHandler.TransformStringToDateString(worklog.started);
-                worklog.timeSpentSeconds = timeInSeconds / issuesIds.Length;
-                var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(worklog);
-                var content = GetContent(worklogSummary);
+                var totalEstimated = jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds != 0).Sum(x => x.originalEstimateSeconds);
 
-                for (int i = 0; i < issuesIds.Length; i++)
+                if (totalEstimated == 0) throw new Exception("Não foi possível apontar horas nessa sprint, tempo estimado igual a zero");
+
+                jiraShareWorklogDTO.Issues.ForEach(x =>
                 {
-                    var response = _service.AddWorklog(issuesIds[i], content);
-                    var result = PostResult(response.Result);
-                }
+                    var porcentForIssue = _calcWorklogService.CalcPorcentForIssue(totalEstimated, x.originalEstimateSeconds);
+                    var timeSpentSecondsForIssue = _calcWorklogService.GetSecondsForIssue(porcentForIssue, timeInSeconds);
+                    var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(timeSpentSecondsForIssue, worklog.comment, worklog.started);
+                    var content = GetContent(worklogSummary);
+                    //var response = _service.AddWorklog(x.id, content);
+                    //var result = PostResult(response.Result);
+                });
 
                 return Ok();
             }

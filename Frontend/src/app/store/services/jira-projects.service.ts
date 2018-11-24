@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BaseRoute } from "./routes/base";
-import { WorklogRegister } from "../../models/jira-projects.model";
+import { WorklogRegister, IssuesForPostWorklog } from "../../models/jira-projects.model";
 import { Observable } from "rxjs/Observable";
 
 @Injectable()
@@ -20,8 +20,8 @@ export class JiraProjectService {
         return this._http.get(BaseRoute.Project + boardId + '/sprint/' + sprintId + '/issue');
     }
 
-    updateIssues(userId: number, issuesIds: string[], worklog: WorklogRegister): Observable<any> {
-        return this._http.put(BaseRoute.UpdateIssues + '/' + userId, {'IssuesIds': issuesIds, 'Worklog': worklog});
+    updateIssues(userId: number, issues: IssuesForPostWorklog, worklog: WorklogRegister): Observable<any> {
+        return this._http.put(BaseRoute.UpdateIssues + '/' + userId, {'Issues': issues, 'Worklog': worklog});
     }
 
     postWorklog(issueId: number, userId: string, worklog: WorklogRegister): Observable<any> {
