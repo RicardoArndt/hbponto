@@ -99,7 +99,7 @@ namespace HBPonto.Controllers
         {
             try
             {
-                jiraIssue.started = DateHandler.TransformStringToDateString(jiraIssue.started);
+                jiraIssue.started = jiraIssue.started.TransformStringToDateString();
                 var worklogSummary = JiraWorklogSummaryDTO.Create(jiraIssue);
                 var content = GetContent(worklogSummary);
                 var response = _service.AddWorklog(issueId.ToString(), content);
@@ -122,20 +122,20 @@ namespace HBPonto.Controllers
             try
             {
                 var worklog = jiraShareWorklogDTO.Worklog;
-                var timeInSeconds = DateHandler.TransformStringInSeconds(worklog.timeSpent);
-                worklog.started = DateHandler.TransformStringToDateString(worklog.started);
-                var totalEstimated = jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds != 0).Sum(x => x.originalEstimateSeconds);
+                var timeInSeconds = worklog.timeSpent.TransformStringInSeconds();
+                worklog.started = worklog.started.TransformStringToDateString();
+                var totalEstimated = jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds > 0).Sum(x => x.originalEstimateSeconds);
 
                 if (totalEstimated == 0) throw new Exception("Não foi possível apontar horas nessa sprint, tempo estimado igual a zero");
 
-                jiraShareWorklogDTO.Issues.ForEach(x =>
+                jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds > 0).ToList().ForEach(x =>
                 {
                     var porcentForIssue = _calcWorklogService.CalcPorcentForIssue(totalEstimated, x.originalEstimateSeconds);
                     var timeSpentSecondsForIssue = _calcWorklogService.GetSecondsForIssue(porcentForIssue, timeInSeconds);
                     var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(timeSpentSecondsForIssue, worklog.comment, worklog.started);
                     var content = GetContent(worklogSummary);
-                    //var response = _service.AddWorklog(x.id, content);
-                    //var result = PostResult(response.Result);
+                    var response = _service.AddWorklog(x.id, content);
+                    var result = PostResult(response.Result);
                 });
 
                 return Ok();
