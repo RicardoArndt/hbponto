@@ -98,7 +98,6 @@ export class HomePage {
   }
 
   onShareWorklog() {
-    console.log(this.issuesForPost);
     this.issuesForPost ? this.modalCtrl.create(WorklogRegisterComponent, {'boardId': this.boardSelected, 'sprintId': this.sprintSelected, 'issues': this.issuesForPost}).present() : this._toastHandler.handlerToast("Selecione ao menos um issue").present();
   }
 
