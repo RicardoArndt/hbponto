@@ -125,6 +125,7 @@ namespace HBPonto.Controllers
                 var timeInSeconds = worklog.timeSpent.TransformStringInSeconds();
                 worklog.started = worklog.started.TransformStringToDateString();
                 var totalEstimated = jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds > 0).Sum(x => x.originalEstimateSeconds);
+                var timeRestant = timeInSeconds;
 
                 if (totalEstimated == 0) throw new Exception("Não foi possível apontar horas nessa sprint, tempo estimado igual a zero");
 
@@ -132,6 +133,13 @@ namespace HBPonto.Controllers
                 {
                     var porcentForIssue = _calcWorklogService.CalcPorcentForIssue(totalEstimated, x.originalEstimateSeconds);
                     var timeSpentSecondsForIssue = _calcWorklogService.GetSecondsForIssue(porcentForIssue, timeInSeconds);
+                    timeRestant -= timeSpentSecondsForIssue;
+
+                    if(jiraShareWorklogDTO.Issues.LastOrDefault().id == x.id)
+                    {
+                        if (timeRestant > 0) timeSpentSecondsForIssue += timeRestant;
+                    } 
+
                     var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(timeSpentSecondsForIssue, worklog.comment, worklog.started);
                     var content = GetContent(worklogSummary);
                     var response = _service.AddWorklog(x.id, content);
