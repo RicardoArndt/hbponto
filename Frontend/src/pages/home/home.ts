@@ -102,6 +102,7 @@ export class HomePage {
   }
 
   onChangeShare(id: string, originalEstimateSeconds: number, selected: boolean) {
-    selected ? this.issuesForPost.push({id: id, originalEstimateSeconds: originalEstimateSeconds}) : this.issuesForPost.splice(this.issuesForPost.indexOf({id: id, originalEstimateSeconds: originalEstimateSeconds}), 1);
+    var index = this.issuesForPost.findIndex(x => x.id == id);
+    selected ? this.issuesForPost.push({id: id, originalEstimateSeconds: originalEstimateSeconds}) : index != -1 ? this.issuesForPost.splice(index, 1) : null;
   }
 }
