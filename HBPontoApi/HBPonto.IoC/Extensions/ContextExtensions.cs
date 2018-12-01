@@ -10,7 +10,6 @@ namespace HBPonto.IoC.Extensions
         public static IServiceCollection RegisterContexts(this IServiceCollection services, AppSettings appSettings)
         {
             services.AddDbContext<UserContext>(options => options.UseSqlServer(appSettings.ConnectionString, x => x.MigrationsAssembly("HBPonto")));
-            services.AddDbContext<RelatoryContext>(options => options.UseSqlServer(appSettings.ConnectionString, x => x.MigrationsAssembly("HBPonto")));
 
             return services;
         }

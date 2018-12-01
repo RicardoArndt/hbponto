@@ -121,6 +121,8 @@ export class JiraIssueTimeTracking {
     originalEstimate: string;
     remainingEstimate: string;
     timeSpent: string;
+    timeSpentSeconds: number;
+    originalEstimateSeconds: number;
 }
 
 export class WorklogRegister {
@@ -134,4 +136,9 @@ export class WorklogRegister {
 export class ShareIssue {
     id: number;
     selected: boolean;
+}
+
+export class IssuesForPostWorklog {
+    id: string;
+    originalEstimateSeconds: number;
 }

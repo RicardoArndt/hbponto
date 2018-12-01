@@ -10,6 +10,7 @@ namespace HBPonto.Kernel.Interfaces.Services
     public interface IJiraProjectService
     {
         Task<HttpResponseMessage> GetProjects();
+        Task<HttpResponseMessage> GetBoard(int boardId);
         Task<HttpResponseMessage> GetSprints(int boardId);
         Task<HttpResponseMessage> GetIssues(int boardId, int sprintId);
         Task<HttpResponseMessage> GetIssue(int issueId);

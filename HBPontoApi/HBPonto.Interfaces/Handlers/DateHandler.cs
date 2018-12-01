@@ -6,21 +6,26 @@ namespace HBPonto.Kernel.Handlers
 {
     public static class DateHandler
     {
-        public static string TransformStringToDateString(string stringDate)
+        public static string TransformStringToDateString(this string stringDate)
         {
-            var data = DateTimeOffset.Parse(stringDate);
-            var s = data.ToString("yyyy-MM-ddThh:mm:ss.fffK");
+            //Necessário esse procedimento pois a variável date sempre recebe o 
+            //horário de 12 horas e não o horário atual, usasse dessa forma a conversão
+            //pois o Jira quer a data nesse formato caso contrário da Bad Request
+            var date = DateTimeOffset.Parse(stringDate);
+            var time = DateTimeOffset.Now;
+            var dateComplete = DateTimeOffset.Parse(new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second).ToString());
+            var s = dateComplete.ToString("yyyy-MM-ddThh:mm:ss.fffK");
             return s.Substring(0, 26) + s.Substring(27, 2);
         }
 
-        public static int TransformStringInSeconds(string stringTime)
+        public static int TransformStringInSeconds(this string stringTime)
         {
             var time = TransformStringTimeInHoursAndMinutes(stringTime);
             var seconds = 0;
 
             try
             {
-                seconds = time.hours + time.minutes;
+                seconds = time.hoursSeconds + time.minutesSeconds;
             }
             catch (Exception)
             {
@@ -30,11 +35,11 @@ namespace HBPonto.Kernel.Handlers
             return seconds;
         }
 
-        public static (int hours, int minutes) TransformStringTimeInHoursAndMinutes(string stringTime)
+        public static (int hoursSeconds, int minutesSeconds) TransformStringTimeInHoursAndMinutes(string stringTime)
         {
             var time = stringTime.Split(' ');
-            var hoursReturn = 0;
-            var minutesReturn = 0;
+            var hoursReturnInSeconds = 0;
+            var minutesReturnInSeconds = 0;
 
             if (time.Length > 2)
             {
@@ -46,21 +51,21 @@ namespace HBPonto.Kernel.Handlers
 
                 if (CheckIsHour(hours))
                 {
-                    hoursReturn = CalcHours(Int32.Parse(hours.Remove(hours.IndexOf("H"), 1)));
+                    hoursReturnInSeconds = CalcHours(Int32.Parse(hours.Remove(hours.IndexOf("H"), 1)));
 
                     if (time.Length > 1)
                     {
                         var minutes = time[1].ToUpper();
-                        minutesReturn = CalcMinutes(Int32.Parse(hours.Remove(hours.IndexOf("M"), 1)));
+                        minutesReturnInSeconds = CalcMinutes(Int32.Parse(minutes.Remove(minutes.IndexOf("M"), 1)));
                     }
                 }
                 else
                 {
-                    minutesReturn = CalcMinutes(Int32.Parse(hours.Remove(hours.IndexOf("M"), 1)));
+                    minutesReturnInSeconds = CalcMinutes(Int32.Parse(hours.Remove(hours.IndexOf("M"), 1)));
                 }
             }
 
-            return (hoursReturn, minutesReturn);
+            return (hoursReturnInSeconds, minutesReturnInSeconds);
         }
 
         public static string TransformSecondsInHoursString(int seconds)

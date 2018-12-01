@@ -10,7 +10,6 @@ namespace HBPonto.IoC.Extensions
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRelatoryRepository, RelatoryRepository>();
 
             return services;
         }

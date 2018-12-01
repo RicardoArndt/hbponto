@@ -17,13 +17,15 @@ import { RelatoriesPage } from '../pages/relatories/relatories';
 import { UserService } from './store/services/user.service';
 import { RelatoryService } from './store/services/relatory.service';
 import { ShareProjectService } from '../services/share-project.service';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     UsersPage,
-    RelatoriesPage
+    RelatoriesPage,
+    TabsPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,8 @@ import { ShareProjectService } from '../services/share-project.service';
     MyApp,
     HomePage,
     UsersPage,
-    RelatoriesPage
+    RelatoriesPage,
+    TabsPage
   ],
   providers: [
     StatusBar,

@@ -11,6 +11,7 @@ import { RelatoriesPage } from '../pages/relatories/relatories';
 import { CurrentUser } from './models/user.model';
 import { LocalStorageService } from '../services/local-storage.service';
 import { AuthActions } from './store/actions/auth.action';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,7 +23,7 @@ export class MyApp {
 
   user: CurrentUser;
 
-  rootPage: any = LoginPage;
+  rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
@@ -33,20 +34,21 @@ export class MyApp {
               private _store: NgRedux<Map<string, any>>,
               private _localStorage: LocalStorageService) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage, icon: 'home' },
       { title: 'Usuários', component: UsersPage, icon: 'contacts' },
       { title: 'Relatórios', component: RelatoriesPage, icon: 'list-box' }
     ];
-
   }
 
   initializeApp() {
+    var isAuthenticated;
+
     this.isAuthenticated.subscribe(x => {
-      this.rootPage = x ? HomePage : this.rootPage; 
+      x ? isAuthenticated = x : null;
     });
+
+    this.rootPage = isAuthenticated ? TabsPage : LoginPage; 
 
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();

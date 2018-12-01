@@ -6,8 +6,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using HBPonto.Kernel.DTO;
-using HBPonto.Kernel.Interfaces.Domain.Services;
-using HBPonto.Database.Entities;
 using HBPonto.Kernel.Handlers;
 using HBPonto.Kernel.Enums;
 
@@ -17,12 +15,12 @@ namespace HBPonto.Controllers
     public class JiraProjectController : BaseController
     {
         private IJiraProjectService _service;
-        private IRelatoryService _relatoryService;
+        private ICalcWorklogService _calcWorklogService;
 
-        public JiraProjectController(IJiraProjectService service, IRelatoryService relatoryService)
+        public JiraProjectController(IJiraProjectService service, ICalcWorklogService calcWorklogService)
         {
             _service = service;
-            _relatoryService = relatoryService;
+            _calcWorklogService = calcWorklogService;
         }
 
         [HttpGet("projects")]
@@ -80,18 +78,32 @@ namespace HBPonto.Controllers
             }
         }
 
+        [HttpGet("board/{boardId}")]
+        public IActionResult GetBoardDetails(int boardId)
+        {
+            try
+            {
+                var response = _service.GetBoard(boardId).Result;
+                var result = GetResult<JiraBoardDetails>(response);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost("issue/{issueId}/{userId}")]
         public IActionResult PostWorklog([FromBody]JiraWorklogDTO jiraIssue, int issueId, string userId)
         {
             try
             {
-                jiraIssue.started = DateHandler.TransformStringToDateString(jiraIssue.started);
+                jiraIssue.started = jiraIssue.started.TransformStringToDateString();
                 var worklogSummary = JiraWorklogSummaryDTO.Create(jiraIssue);
                 var content = GetContent(worklogSummary);
                 var response = _service.AddWorklog(issueId.ToString(), content);
                 var result = PostResult(response.Result);
-                Relatory relatory = Relatory.RelatoryFactory.Create(userId, jiraIssue.key, DateTime.Parse(jiraIssue.started), jiraIssue.timeSpent);
-                _relatoryService.SaveRelatory(relatory);
                 return Ok(result);
             }
             catch (UnauthorizedAccessException)
@@ -110,22 +122,29 @@ namespace HBPonto.Controllers
             try
             {
                 var worklog = jiraShareWorklogDTO.Worklog;
-                var issuesIds = jiraShareWorklogDTO.IssuesIds;
-                var timeInSeconds = DateHandler.TransformStringInSeconds(worklog.timeSpent);
-                worklog.started = DateHandler.TransformStringToDateString(worklog.started);
-                worklog.timeSpentSeconds = timeInSeconds / issuesIds.Length;
-                var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(worklog);
-                var content = GetContent(worklogSummary);
+                var timeInSeconds = worklog.timeSpent.TransformStringInSeconds();
+                worklog.started = worklog.started.TransformStringToDateString();
+                var totalEstimated = jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds > 0).Sum(x => x.originalEstimateSeconds);
+                var timeRestant = timeInSeconds;
 
-                for (int i = 0; i < issuesIds.Length; i++)
+                if (totalEstimated == 0) throw new Exception("Não foi possível apontar horas nessa sprint, tempo estimado igual a zero");
+
+                jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds > 0).ToList().ForEach(x =>
                 {
-                    var response = _service.AddWorklog(issuesIds[i], content);
+                    var porcentForIssue = _calcWorklogService.CalcPorcentForIssue(totalEstimated, x.originalEstimateSeconds);
+                    var timeSpentSecondsForIssue = _calcWorklogService.GetSecondsForIssue(porcentForIssue, timeInSeconds);
+                    timeRestant -= timeSpentSecondsForIssue;
+
+                    if(jiraShareWorklogDTO.Issues.LastOrDefault().id == x.id)
+                    {
+                        if (timeRestant > 0) timeSpentSecondsForIssue += timeRestant;
+                    } 
+
+                    var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(timeSpentSecondsForIssue, worklog.comment, worklog.started);
+                    var content = GetContent(worklogSummary);
+                    var response = _service.AddWorklog(x.id, content);
                     var result = PostResult(response.Result);
-                    _relatoryService.SaveRelatory(Relatory.RelatoryFactory.Create(userId, 
-                                                                                  issuesIds[i], 
-                                                                                  DateTime.Parse(worklog.started), 
-                                                                                  DateHandler.TransformSecondsInHoursString(worklog.timeSpentSeconds)));
-                }
+                });
 
                 return Ok();
             }

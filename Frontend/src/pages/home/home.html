@@ -1,72 +1,46 @@
-<ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>HOME</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
-    <ion-item>
-      <ion-label>Selecione um Projeto</ion-label>
-      <ion-select [ngModel]="project" (ngModelChange)="onChange($event)">
-        <ion-option *ngFor="let p of projects | async" [value]="p.get('id')" [selected]="boardSelected == p.get('id')">
-          {{ p.get('name') }}
-        </ion-option>
-      </ion-select>
-    </ion-item>
-  
-    <ion-item>
-      <search-on-list [listForFilter]="issues | async" parameter="key" (listOutput)="onFilter($event)"></search-on-list>
-    </ion-item>
-    
-    <ion-list>
-      <ion-item>
-        <ion-row class="header">
-          <ion-col col-1></ion-col>
-          <ion-col col-2 class="initials-name">
-            JIRA
-          </ion-col>
-          <ion-col col-2 class="buttons-time">
-            ESTIMATIVA
-            | GASTO
-          </ion-col>
-        </ion-row>
-      </ion-item>
-      <ion-item *ngFor="let issue of issuesFilter; let i = index">
-        <ion-row *ngIf="i == 0">
-            <button ion-button full outline *ngIf="sprintSelected">Sprint Selecionada: <span class="color-black">&nbsp;{{ issue.get('sprint').get('name') }}</span></button>
-        </ion-row>
-        <ion-row>
-          <ion-col col-1>
-            <ion-item>
-              <ion-checkbox class="m-n-16" [ngModel]="selected" (ionChange)="onChangeShare(issue.get('key'), $event.value)"></ion-checkbox>
-            </ion-item>
-          </ion-col>
-          <ion-col col-1 class="initials-name">
-            <button ion-button class="button-key" round>{{ issue.get('key') }}</button>
-          </ion-col>
-          <ion-col col-2 class="buttons-time">
-            <button title="Horas Estimadas" 
-                    ion-button 
-                    color="dark" 
-                    class="button-estimated-time">{{ getEstimatedTime(issue) }}</button>
-            <button title="Horas Apontadas" 
-                    ion-button 
-                    class="button-total-time" 
-                    [color]="getColor(getEstimatedTime(issue), getTotalTime(issue))"
-                    (click)="openModalWorklog(issue.get('id'), issue.get('key'))">{{ getTotalTime(issue) }}</button>
-          </ion-col>
-        </ion-row>
-      </ion-item>
-    </ion-list>
+<ion-content padding>
+  <ion-item>
+    <ion-label>Selecione um Projeto</ion-label>
+    <ion-select [ngModel]="project" (ngModelChange)="onChange($event)">
+      <ion-option *ngFor="let p of projects | async" [value]="p.get('id')" [selected]="boardSelected == p.get('id')">
+        {{ p.get('name') }}
+      </ion-option>
+    </ion-select>
+  </ion-item>
 
-    <ion-fab right bottom>
-      <button ion-fab mini><ion-icon name="add"></ion-icon></button>
-      <ion-fab-list side="top">
-        <button ion-fab (click)="onShareWorklog()" title="Dividir horas"><ion-icon name="cloud-circle"></ion-icon></button>
-        <button ion-fab (click)="onUpdateSprint()" title="Atualizar sprint"><ion-icon name="refresh-circle"></ion-icon></button>
-      </ion-fab-list>
-    </ion-fab>
-  </ion-content>
+  <ion-item>
+    <search-on-list [listForFilter]="issues | async" parameter="key" (listOutput)="onFilter($event)"></search-on-list>
+  </ion-item>
+
+  <ion-card *ngFor="let issue of issuesFilter; let i = index">
+    <ion-card-header>
+      <ion-checkbox [ngModel]="selected" (ionChange)="onChangeShare(issue.get('key'), issue.get('timetracking').get('originalEstimateSeconds'), $event.value)"></ion-checkbox> 
+      {{ issue.get('key') }}
+    </ion-card-header>
+    <ion-card-content>
+      {{ issue.get('summary') }}
+    </ion-card-content>
+    <ion-item>
+      <button title="Horas Estimadas" 
+              ion-button 
+              color="dark" 
+              class="button-estimated-time">{{ getEstimatedTime(issue) }}</button>
+      <button title="Horas Apontadas" 
+              ion-button 
+              class="button-total-time" 
+              [color]="getColor(getEstimatedTime(issue), getTotalTime(issue))">{{ getTotalTime(issue) }}</button>
+
+      <button ion-button round (click)="openModalWorklog(issue.get('id'), issue.get('key'))">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-card>
+  
+  <ion-fab right bottom>
+    <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="onShareWorklog()" title="Dividir horas"><ion-icon name="cloud-circle"></ion-icon></button>
+      <button ion-fab (click)="onUpdateSprint()" title="Atualizar sprint"><ion-icon name="refresh-circle"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

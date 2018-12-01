@@ -1,7 +1,7 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { select } from '@angular-redux/store';
-import { ShareIssue, WorklogRegister } from '../../app/models/jira-projects.model';
+import { ShareIssue, IssuesForPostWorklog } from '../../app/models/jira-projects.model';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { WorklogRegisterComponent } from '../../components/worklog-register/worklog-register';
 import { ToastHandler } from '../../app/toast/toast-handler';
@@ -19,7 +19,7 @@ export class HomePage {
   boardSelected: number;
   sprintSelected: number;
   issuesShare: ShareIssue[] = [];
-  ids: string[] = [];
+  issuesForPost: IssuesForPostWorklog[] = [];
   selected: boolean = true;
 
   constructor(public navCtrl: NavController,
@@ -39,8 +39,8 @@ export class HomePage {
 
     this.issues.subscribe(x => {
       this.issuesFilter = x;
-      this.ids.length > 0 ? this.ids = [] : null;
-      x ? x.forEach(y => this.ids.indexOf(y.get('key'))  === -1 ? this.ids.push(y.get('key')) : null) : null;
+      this.issuesForPost.length > 0 ? this.issuesForPost = [] : null;
+      x ? x.forEach(y => this.issuesForPost.indexOf(y.get('key'))  === -1 ? this.issuesForPost.push({id: y.get('key'), originalEstimateSeconds: y.get('timetracking').get('originalEstimateSeconds')}) : null) : null;
       !x ? this.onChange(this.boardSelected, this.sprintSelected) : null;
     });
   }
@@ -94,15 +94,15 @@ export class HomePage {
   }
 
   onUpdateSprint() {
-    this._shareProjectService.updateIssues(this.boardSelected, this.sprintSelected);
+    this._shareProjectService.updateIssues(parseInt(this._localStorage.getItem('boardSelected')), parseInt(this._localStorage.getItem('sprintSelected')));
   }
 
   onShareWorklog() {
-    this.ids ? this.modalCtrl.create(WorklogRegisterComponent, {'boardId': this.boardSelected, 'sprintId': this.sprintSelected, 'issueIds': this.ids}).present() : this._toastHandler.handlerToast("Selecione ao menos um issue").present();
+    this.issuesForPost ? this.modalCtrl.create(WorklogRegisterComponent, {'boardId': this.boardSelected, 'sprintId': this.sprintSelected, 'issues': this.issuesForPost}).present() : this._toastHandler.handlerToast("Selecione ao menos um issue").present();
   }
 
-  onChangeShare(id: string, selected: boolean) {
-    selected ? this.ids.push(id) : this.ids.splice(this.ids.indexOf(id), 1);
-    console.log(this.ids);
+  onChangeShare(id: string, originalEstimateSeconds: number, selected: boolean) {
+    var index = this.issuesForPost.findIndex(x => x.id == id);
+    selected ? this.issuesForPost.push({id: id, originalEstimateSeconds: originalEstimateSeconds}) : index != -1 ? this.issuesForPost.splice(index, 1) : null;
   }
 }

@@ -1,13 +1,8 @@
 import { NavParams, ViewController } from "ionic-angular";
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { WorklogRegister } from "../../app/models/jira-projects.model";
-import { JiraProjectService } from "../../app/store/services/jira-projects.service";
-import { NgRedux } from '@angular-redux/store';
-import { PostWorklog } from "../../app/store/actions/jira-project.action";
-import { Failure } from "../../app/store/actions/base.action";
+import { WorklogRegister, IssuesForPostWorklog } from "../../app/models/jira-projects.model";
 import { LocalStorageService } from "../../services/local-storage.service";
-import { Relatory } from "../../app/models/relatory.model";
 import { ShareProjectService } from "../../services/share-project.service";
 
 @Component({
@@ -17,7 +12,7 @@ import { ShareProjectService } from "../../services/share-project.service";
 export class WorklogRegisterComponent {
 
   issueId: number;
-  issueIds: string[];
+  issues: IssuesForPostWorklog[];
   boardId: number;
   sprintId: number;
   issueKey: string;
@@ -33,7 +28,7 @@ export class WorklogRegisterComponent {
     this.issueKey = this._params.get('issueKey');
     this.boardId = this._params.get('boardId');
     this.sprintId = this._params.get('sprintId');
-    this.issueIds = this._params.get('issueIds');
+    this.issues = this._params.get('issues');
     this.formBuilder();
   }
 
@@ -49,7 +44,7 @@ export class WorklogRegisterComponent {
 
     var userId = this._localStorage.UserId;
 
-    this.issueKey ? this._shareProjectService.postWorklog(this.issueId, userId, this.worklog) : this._shareProjectService.updateWorklogSprint(this.boardId, userId, this.sprintId, this.issueIds, this.worklog);
+    this.issueKey ? this._shareProjectService.postWorklog(this.issueId, userId, this.worklog) : this._shareProjectService.updateWorklogSprint(this.boardId, userId, this.sprintId, this.issues, this.worklog);
     this._viewCtrl.dismiss();
   }
 
