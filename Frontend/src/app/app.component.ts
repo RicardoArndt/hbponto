@@ -11,6 +11,7 @@ import { RelatoriesPage } from '../pages/relatories/relatories';
 import { CurrentUser } from './models/user.model';
 import { LocalStorageService } from '../services/local-storage.service';
 import { AuthActions } from './store/actions/auth.action';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,7 +23,7 @@ export class MyApp {
 
   user: CurrentUser;
 
-  rootPage: any = LoginPage;
+  rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
@@ -47,7 +48,7 @@ export class MyApp {
       x ? isAuthenticated = x : null;
     });
 
-    this.rootPage = isAuthenticated ? HomePage : this.rootPage; 
+    this.rootPage = isAuthenticated ? TabsPage : this.rootPage; 
 
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();
