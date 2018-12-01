@@ -48,7 +48,7 @@ export class MyApp {
       x ? isAuthenticated = x : null;
     });
 
-    this.rootPage = isAuthenticated ? TabsPage : this.rootPage; 
+    this.rootPage = isAuthenticated ? TabsPage : LoginPage; 
 
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();
