@@ -30,7 +30,7 @@ namespace HBPonto.Controllers
 
                 return Ok(_authentication.CreateUser(authUser.username, response.Result.Item2, user.Item1, user.Item2));
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
                 return Unauthorized();
             } 
