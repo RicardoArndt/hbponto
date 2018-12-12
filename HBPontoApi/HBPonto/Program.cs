@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace HBPonto
 {
@@ -7,11 +11,26 @@ namespace HBPonto
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+            var pathToContentRoot = Directory.GetCurrentDirectory();
+            var webHostArgs = args.Where(arg => arg != "--console").ToArray();
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            if (isService)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                pathToContentRoot = Path.GetDirectoryName(pathToExe);
+            }
+
+            var host = WebHost.CreateDefaultBuilder(webHostArgs)
+                .UseContentRoot(pathToContentRoot)
+                .UseStartup<Startup>()
+                 .UseUrls("http://90.0.0.113:5000;")
+                .Build();
+
+            if (isService)
+                host.RunAsService();
+            else
+                host.Run();
+        }
     }
 }
