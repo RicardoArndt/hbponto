@@ -50,10 +50,8 @@ namespace HBPonto.Authentication.Services
             return (response, authentication);
         }
 
-        public async Task<HttpResponseMessage> AuthorizeCurrentUser()
+        public async Task<HttpResponseMessage> AuthorizeCurrentUser(HttpClient client)
         {
-            HttpClient client = _jiraBaseService.GetHttpClient(_appSettings.AuthJiraToken);
-
             var url = $"/rest/auth/1/session";
 
             return await client.GetAsync(url);

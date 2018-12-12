@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using HBPonto.Kernel.DTO;
 using HBPonto.Kernel.Handlers;
 using HBPonto.Kernel.Enums;
+using HBPonto.Kernel.Helpers;
+using Microsoft.Extensions.Options;
 
 namespace HBPonto.Controllers
 {
@@ -17,7 +19,7 @@ namespace HBPonto.Controllers
         private IJiraProjectService _service;
         private ICalcWorklogService _calcWorklogService;
 
-        public JiraProjectController(IJiraProjectService service, ICalcWorklogService calcWorklogService)
+        public JiraProjectController(IOptions<AppSettings> appSettings, IJiraProjectService service, ICalcWorklogService calcWorklogService): base(appSettings)
         {
             _service = service;
             _calcWorklogService = calcWorklogService;

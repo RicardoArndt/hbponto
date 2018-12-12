@@ -1,10 +1,12 @@
 ﻿using HBPonto.Database.Entities;
 using HBPonto.Kernel.DTO;
 using HBPonto.Kernel.Enums;
+using HBPonto.Kernel.Helpers;
 using HBPonto.Kernel.Interfaces.Authentication;
 using HBPonto.Kernel.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 
@@ -16,7 +18,7 @@ namespace HBPonto.Controllers
         IUserService _service;
         IJiraUserService _jiraService;
 
-        public UserController(IUserService service, IJiraUserService jiraService)
+        public UserController(IOptions<AppSettings> appSettings, IUserService service, IJiraUserService jiraService): base(appSettings)
         {
             _service = service;
             _jiraService = jiraService;

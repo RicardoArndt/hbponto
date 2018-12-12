@@ -15,7 +15,7 @@ export class AppErrorHandler implements ErrorHandler {
 
             switch(error.status) {
                 case 400: {
-                    this._toastHandler.handlerToast(errorMessage).present();
+                    this._toastHandler.handlerToast("Ops... Algo aconteceu errado.").present();
                     break;
                 }
                 case 401: {

@@ -2,17 +2,20 @@
 using HBPonto.Kernel.Helpers;
 using HBPonto.Kernel.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using System;
 
 namespace HBPonto.Controllers
 {
     [Route("api/[controller]"), ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : BaseController
     {
         private IAuthenticationService _authentication;
 
-        public AuthenticationController(IAuthenticationService authentication)
+        public AuthenticationController(IOptions<AppSettings> appSettings, IAuthenticationService authentication): base(appSettings)
         {
             _authentication = authentication;
         }
@@ -45,7 +48,7 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var response = _authentication.AuthorizeCurrentUser();
+                var response = _authentication.AuthorizeCurrentUser(GetHttpClient());
 
                 ErrorHandler.Handler(response.Result.StatusCode);
 

@@ -12,6 +12,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HomePage } from '../home/home';
 import { CurrentUser } from '../../app/models/user.model';
+import { ToastHandler } from '../../app/toast/toast-handler';
 
 @IonicPage()
 @Component({
@@ -33,7 +34,8 @@ export class LoginPage {
               private _authService: AuthService,
               private _fb: FormBuilder,
               private _store: NgRedux<Map<string, any>>,
-              private _localStorage: LocalStorageService) {
+              private _localStorage: LocalStorageService,
+              private _toastHandler: ToastHandler) {
     this.formBuilder();
   }
 
