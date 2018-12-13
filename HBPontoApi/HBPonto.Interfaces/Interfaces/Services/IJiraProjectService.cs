@@ -9,11 +9,11 @@ namespace HBPonto.Kernel.Interfaces.Services
 {
     public interface IJiraProjectService
     {
-        Task<HttpResponseMessage> GetProjects();
-        Task<HttpResponseMessage> GetBoard(int boardId);
-        Task<HttpResponseMessage> GetSprints(int boardId);
-        Task<HttpResponseMessage> GetIssues(int boardId, int sprintId);
-        Task<HttpResponseMessage> GetIssue(int issueId);
-        Task<HttpResponseMessage> AddWorklog(string issueId, HttpContent content);
+        Task<HttpResponseMessage> GetProjects(HttpClient client);
+        Task<HttpResponseMessage> GetBoard(HttpClient client, int boardId);
+        Task<HttpResponseMessage> GetSprints(HttpClient client, int boardId);
+        Task<HttpResponseMessage> GetIssues(HttpClient client, int boardId, int sprintId);
+        Task<HttpResponseMessage> GetIssue(HttpClient client, int issueId);
+        Task<HttpResponseMessage> AddWorklog(HttpClient client, string issueId, HttpContent content);
     }
 }

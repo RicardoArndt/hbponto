@@ -30,7 +30,7 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var response = _service.GetProjects().Result;
+                var response = _service.GetProjects(GetHttpClient()).Result;
                 var jiraProjects = GetResult<JiraSprints>(response);
                 return Ok(jiraProjects);
             }
@@ -49,7 +49,7 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var response = _service.GetSprints(boardId).Result;
+                var response = _service.GetSprints(GetHttpClient(), boardId).Result;
                 var jiraSprints = GetResult<JiraSprints>(response);
                 jiraSprints.values = jiraSprints.values.Where(x => x.state != "closed").ToList();
                 return Ok(jiraSprints);
@@ -69,7 +69,7 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var response = _service.GetIssues(boardId, sprintId).Result;
+                var response = _service.GetIssues(GetHttpClient(), boardId, sprintId).Result;
                 var jiraResult = GetResult<JiraIssuesResult>(response);
                 List<JiraIssueDTO> dtoList = jiraResult.issues.Where(y => JiraStatusEnum.DONE.Key != y.fields.status.id).Select(x => JiraIssueDTO.CreateDTO(x)).ToList();
                 return Ok(dtoList);
@@ -85,7 +85,7 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var response = _service.GetBoard(boardId).Result;
+                var response = _service.GetBoard(GetHttpClient(), boardId).Result;
                 var result = GetResult<JiraBoardDetails>(response);
 
                 return Ok(result);
@@ -104,7 +104,7 @@ namespace HBPonto.Controllers
                 jiraIssue.started = jiraIssue.started.TransformStringToDateString();
                 var worklogSummary = JiraWorklogSummaryDTO.Create(jiraIssue);
                 var content = GetContent(worklogSummary);
-                var response = _service.AddWorklog(issueId.ToString(), content);
+                var response = _service.AddWorklog(GetHttpClient(), issueId.ToString(), content);
                 var result = PostResult(response.Result);
                 return Ok(result);
             }
@@ -144,7 +144,7 @@ namespace HBPonto.Controllers
 
                     var worklogSummary = JiraWorklogSummaryWithSecondsDTO.Create(timeSpentSecondsForIssue, worklog.comment, worklog.started);
                     var content = GetContent(worklogSummary);
-                    var response = _service.AddWorklog(x.id, content);
+                    var response = _service.AddWorklog(GetHttpClient(), x.id, content);
                     var result = PostResult(response.Result);
                 });
 

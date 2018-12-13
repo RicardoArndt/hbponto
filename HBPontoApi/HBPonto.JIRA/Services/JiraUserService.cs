@@ -12,19 +12,17 @@ namespace HBPonto.JIRA.Services
     public class JiraUserService: IJiraUserService
     {
         private readonly AppSettings _appSettings;
-        private static HttpClient _client;
         IJiraBaseService _jiraBaseService;
 
         public JiraUserService(IOptions<AppSettings> appSettings, IJiraBaseService jiraBaseService)
         {
             _appSettings = appSettings.Value;
             _jiraBaseService = jiraBaseService;
-            _client = _jiraBaseService.GetHttpClient(_appSettings.AuthJiraToken);
         }
 
-        public async Task<HttpResponseMessage> GetCurrentUser()
+        public async Task<HttpResponseMessage> GetCurrentUser(HttpClient client)
         {
-            return await _client.GetAsync($"/rest/api/2/myself");
+            return await client.GetAsync($"/rest/api/2/myself");
         }
     }
 }

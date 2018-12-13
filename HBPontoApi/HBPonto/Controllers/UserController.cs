@@ -74,7 +74,7 @@ namespace HBPonto.Controllers
         {
             try
             {
-                var result = GetResult<UserDTO>(_jiraService.GetCurrentUser().Result);
+                var result = GetResult<UserDTO>(_jiraService.GetCurrentUser(GetHttpClient()).Result);
 
                 result.avatarUrl = result.avatarUrls.FirstOrDefault().Value;
 

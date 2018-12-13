@@ -21,37 +21,36 @@ namespace HBPonto.JIRA.Services
         {
             _appSettings = appSettings.Value;
             _jiraBaseService = jiraBaseService;
-            _client = _jiraBaseService.GetHttpClient(_appSettings.AuthJiraToken);
         }
 
-        public async Task<HttpResponseMessage> GetProjects()
+        public async Task<HttpResponseMessage> GetProjects(HttpClient client)
         {
-            return await _client.GetAsync("/rest/agile/1.0/board");
+            return await client.GetAsync("/rest/agile/1.0/board");
         }
 
-        public async Task<HttpResponseMessage> GetBoard(int boardId)
+        public async Task<HttpResponseMessage> GetBoard(HttpClient client, int boardId)
         {
-            return await _client.GetAsync($"/rest/agile/1.0/board/{boardId}");
+            return await client.GetAsync($"/rest/agile/1.0/board/{boardId}");
         }
 
-        public async Task<HttpResponseMessage> GetSprints(int boardId)
+        public async Task<HttpResponseMessage> GetSprints(HttpClient client, int boardId)
         {
-            return await _client.GetAsync($"/rest/agile/1.0/board/{boardId}/sprint");
+            return await client.GetAsync($"/rest/agile/1.0/board/{boardId}/sprint");
         }
 
-        public async Task<HttpResponseMessage> GetIssues(int boardId, int sprintId)
+        public async Task<HttpResponseMessage> GetIssues(HttpClient client, int boardId, int sprintId)
         {
-            return await _client.GetAsync($"/rest/agile/1.0/board/{boardId}/sprint/{sprintId}/issue");
+            return await client.GetAsync($"/rest/agile/1.0/board/{boardId}/sprint/{sprintId}/issue");
         }
 
-        public async Task<HttpResponseMessage> GetIssue(int issueId)
+        public async Task<HttpResponseMessage> GetIssue(HttpClient client, int issueId)
         {
-            return await _client.GetAsync($"/rest/agile/1.0/issue/{issueId}");
+            return await client.GetAsync($"/rest/agile/1.0/issue/{issueId}");
         }
 
-        public async Task<HttpResponseMessage> AddWorklog(string issueId, HttpContent content)
+        public async Task<HttpResponseMessage> AddWorklog(HttpClient client, string issueId, HttpContent content)
         {
-            return await _client.PostAsync($"/rest/api/2/issue/{issueId}/worklog", content);
+            return await client.PostAsync($"/rest/api/2/issue/{issueId}/worklog", content);
         }
     }
 }

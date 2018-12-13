@@ -8,6 +8,6 @@ namespace HBPonto.Kernel.Interfaces.Services
 {
     public interface IJiraUserService
     {
-        Task<HttpResponseMessage> GetCurrentUser();
+        Task<HttpResponseMessage> GetCurrentUser(HttpClient client);
     }
 }
