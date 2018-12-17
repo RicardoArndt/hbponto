@@ -129,9 +129,9 @@ export class WorklogRegister {
     key: string;
     comment: string;
     started: string;
-    timeSpent: string; 
-}
-//#endregion
+    hours: number; 
+    minutes: number;
+}//#endregion
 
 export class ShareIssue {
     id: number;

@@ -7,9 +7,9 @@ namespace HBPonto.Kernel.Interfaces.Authentication
 {
     public interface IAuthenticationService
     {
-        (string, string) GenerateToken(AuthUser authUser);
+        string GenerateToken(AuthUser authUser);
         Task<(HttpResponseMessage, string)> AuthorizationUser(AuthUser authUser);
         Task<HttpResponseMessage> AuthorizeCurrentUser(HttpClient client);
-        IAuthUserDTO CreateUser(string userName, string authJiraToken, string token, string userId);
+        IAuthUserDTO CreateUser(string userName, string authJiraToken, string token);
     }
 }

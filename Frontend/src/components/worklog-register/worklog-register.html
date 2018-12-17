@@ -5,28 +5,36 @@
     </ion-list-header>
     
     <form [formGroup]="formWorklog" (ngSubmit)="onSubmit()">
-      <ion-item>
-          <ion-label color="primary">Data</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" 
-                        placeholder="Clique aqui para informar uma data" 
-                        formControlName="started"></ion-datetime>
-      </ion-item>
+        <ion-item>
+            <ion-datetime displayFormat="DD/MM/YYYY" 
+                            placeholder="Clique aqui para informar uma data" 
+                            formControlName="started"></ion-datetime>
+        </ion-item>
 
-      <ion-item>
-          <ion-label color="primary">Horas Trabalhadas</ion-label>
-          <ion-input  placeholder="Informe as horas trabalhadas" 
-                      formControlName="timeSpent"></ion-input>
-      </ion-item>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-input  placeholder="Horas" 
+                                formControlName="hours"
+                                type="number"></ion-input>
+                </ion-col>
+                <ion-col>
+                    <ion-input  placeholder="Minutos" 
+                                formControlName="minutes"
+                                type="number"></ion-input>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
 
-      <ion-item>
-          <ion-label color="primary">Comentário</ion-label>
-          <ion-textarea placeholder="Deixe aqui um comentário sobre essa atividade" 
-                        formControlName="comment"></ion-textarea>
-      </ion-item>
+        <ion-item>
+            <ion-label color="primary">Comentário</ion-label>
+            <ion-textarea placeholder="Deixe aqui um comentário sobre essa atividade" 
+                            formControlName="comment"></ion-textarea>
+        </ion-item>
 
-      <ion-item>
-          <button ion-button color="secondary" type="submit">Enviar</button>
-          <button ion-button (click)="onClose()" color="danger" type="button">Fechar</button>
-      </ion-item>
+        <ion-item>
+            <button ion-button color="secondary" type="submit">Enviar</button>
+            <button ion-button (click)="onClose()" color="danger" type="button">Fechar</button>
+        </ion-item>
     </form>
 </ion-list>

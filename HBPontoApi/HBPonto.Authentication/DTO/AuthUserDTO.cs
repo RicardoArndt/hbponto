@@ -11,11 +11,10 @@ namespace HBPonto.Authentication.DTOs
           
         internal static class AuthUserDTOFactory 
         {
-            public static IAuthUserDTO Create(string userName, string authJiraToken, string token, string userId)
+            public static IAuthUserDTO Create(string userName, string authJiraToken, string token)
             {
                 return new AuthUserDTO
                 {
-                    UserId = userId,
                     UserName = userName,
                     AuthJiraToken = authJiraToken,
                     Token = token

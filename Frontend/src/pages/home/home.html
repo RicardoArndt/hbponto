@@ -1,11 +1,17 @@
 <ion-content padding>
   <ion-item>
-    <ion-label>Selecione um Projeto</ion-label>
+    <ion-label *ngIf="!boardSelected">Selecione um Projeto</ion-label>
+    <ion-label *ngIf="boardSelected">Projeto Selecionado: </ion-label>
     <ion-select [ngModel]="project" (ngModelChange)="onChange($event)">
       <ion-option *ngFor="let p of projects | async" [value]="p.get('id')" [selected]="boardSelected == p.get('id')">
         {{ p.get('name') }}
       </ion-option>
     </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="sprintName">
+    <button ion-button
+            (click)="onChangeSprint()">Sprint Selecionada: {{ sprintName }}</button>
   </ion-item>
 
   <ion-item>
@@ -14,8 +20,10 @@
 
   <ion-card *ngFor="let issue of issuesFilter; let i = index">
     <ion-card-header>
-      <ion-checkbox [ngModel]="selected" (ionChange)="onChangeShare(issue.get('key'), issue.get('timetracking').get('originalEstimateSeconds'), $event.value)"></ion-checkbox> 
-      {{ issue.get('key') }}
+      <ion-item class="no-padding">
+        <ion-label>{{ issue.get('key') }}</ion-label>
+        <ion-checkbox class="m-r-10" [ngModel]="selected" (ionChange)="onChangeShare(issue.get('key'), issue.get('timetracking').get('originalEstimateSeconds'), $event.value)"></ion-checkbox> 
+      </ion-item>
     </ion-card-header>
     <ion-card-content>
       {{ issue.get('summary') }}

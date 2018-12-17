@@ -6,6 +6,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { WorklogRegisterComponent } from '../../components/worklog-register/worklog-register';
 import { ToastHandler } from '../../app/toast/toast-handler';
 import { ShareProjectService } from '../../services/share-project.service';
+import { Sprints } from '../../components/sprints/sprints';
 
 @Component({
   selector: 'page-home',
@@ -21,6 +22,7 @@ export class HomePage {
   issuesShare: ShareIssue[] = [];
   issuesForPost: IssuesForPostWorklog[] = [];
   selected: boolean = true;
+  sprintName: string;
 
   constructor(public navCtrl: NavController,
               private _shareProjectService: ShareProjectService,
@@ -36,6 +38,7 @@ export class HomePage {
   initProjectConfigurations() {
     this.boardSelected = parseInt(this._localStorage.getItem('boardSelected'));
     this.sprintSelected = parseInt(this._localStorage.getItem('sprintSelected'));
+    this.sprintName = this._localStorage.getItem('sprintName');
 
     this.issues.subscribe(x => {
       this.issuesFilter = x;
@@ -86,7 +89,13 @@ export class HomePage {
   }
 
   openModalWorklog(issueId: number, issueKey: string) {
-    this.modalCtrl.create(WorklogRegisterComponent, {'issueId': issueId, 'issueKey': issueKey}).present();
+    let modal = this.modalCtrl.create(WorklogRegisterComponent, {'issueId': issueId, 'issueKey': issueKey}).present();
+  }
+
+  onChangeSprint() {
+    let modal = this.modalCtrl.create(Sprints, {'sprints': this.sprints, 'boardId': this.boardSelected, 'sprintId': null})
+    modal.onDidDismiss(data => this.sprintName = data)
+    modal.present();
   }
 
   onFilter(value: any) {
