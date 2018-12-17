@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { select } from '@angular-redux/store';
 import { ShareIssue, IssuesForPostWorklog } from '../../app/models/jira-projects.model';
@@ -113,5 +113,9 @@ export class HomePage {
   onChangeShare(id: string, originalEstimateSeconds: number, selected: boolean) {
     var index = this.issuesForPost.findIndex(x => x.id == id);
     selected ? this.issuesForPost.push({id: id, originalEstimateSeconds: originalEstimateSeconds}) : index != -1 ? this.issuesForPost.splice(index, 1) : null;
+  }
+
+  getSprintName() {
+    return this.sprintName ? this.sprintName : this._localStorage.getItem('sprintName');
   }
 }

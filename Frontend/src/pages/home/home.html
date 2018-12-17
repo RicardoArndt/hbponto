@@ -9,10 +9,10 @@
     </ion-select>
   </ion-item>
 
-  <ion-item *ngIf="sprintName">
+  <ion-item *ngIf="getSprintName()">
     <button ion-button
             class="btn-100"
-            (click)="onChangeSprint()">Sprint Selecionada: {{ sprintName }}</button>
+            (click)="onChangeSprint()">Sprint Selecionada: {{ getSprintName() }}</button>
   </ion-item>
 
   <ion-item>

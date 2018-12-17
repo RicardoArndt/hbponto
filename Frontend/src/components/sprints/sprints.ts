@@ -34,9 +34,9 @@ export class Sprints {
     this._localStorage.clearCacheAndReCacheSprint(sprintId.toString(), this.sprintName);
     
     this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssueFields[]) => {
-      this.viewCtrl.dismiss(this.sprintName);
       var action = new GetIssues(response);
       this._store.dispatch({type: action.type, payload: action.payload});
+      this.viewCtrl.dismiss(this.sprintName);
     }, err => {
       var action = new Failure(err);
       this._store.dispatch({type: action.type, payload: action.payload});
@@ -58,6 +58,8 @@ export class Sprints {
       this.sprintsJS = x ? x.toJS() : null;
     });
 
-    return this.sprintsJS.find(x => x.id == sprintId).name;
+    var result = this.sprintsJS.find(x => x.id == sprintId).name;
+
+    return result ? result : this._localStorage.getItem('sprintName');
   }
 }
