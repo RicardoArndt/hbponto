@@ -1,7 +1,7 @@
 import { Injectable, NgModule } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { LocalStorageService } from "../services/local-storage.service";
 import { LoadingHandler } from "../app/loading/loading-handler";
 
@@ -10,6 +10,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     constructor(private _localStorage: LocalStorageService, private _loadingHandler: LoadingHandler) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const start = Date.now();
         let tokenJira = this._localStorage.TokenJiraAuthentication ? this._localStorage.TokenJiraAuthentication : '';
         let token = this._localStorage.TokenAuthentication ? this._localStorage.TokenAuthentication : '';
 
@@ -24,11 +25,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
         const cloneReq = req.clone({ headers });
 
-        let start = performance.now();
-        
-        this._loadingHandler.presentLoadingDefault(performance.now() - start);
-
         return next.handle(cloneReq).pipe(
+                    tap(() => this._loadingHandler.presentLoadingDefault(Date.now() - start)),
                     map(res => {
                         return res;
                     })

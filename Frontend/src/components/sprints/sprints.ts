@@ -26,9 +26,6 @@ export class Sprints {
     this.sprints = this._params.get('sprints');
     this.boardId = this._params.get('boardId');
     this.sprintId = this._params.get('sprintId');
-  }
-
-  ionViewDidLoad() {
     this.sprintId ? this.onChange(this.sprintId) : null;
   }
   
@@ -48,7 +45,7 @@ export class Sprints {
   }
 
   onClose() {
-    this.viewCtrl.dismiss(this.sprintName);
+    this.viewCtrl.dismiss(this.sprintName ? this.sprintName : this._localStorage.getItem('sprintName'));
   }
 
   count(list): boolean {

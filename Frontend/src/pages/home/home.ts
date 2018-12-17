@@ -94,7 +94,7 @@ export class HomePage {
 
   onChangeSprint() {
     let modal = this.modalCtrl.create(Sprints, {'sprints': this.sprints, 'boardId': this.boardSelected, 'sprintId': null})
-    modal.onDidDismiss(data => this.sprintName = data)
+    modal.onDidDismiss(data => this.sprintName = data);
     modal.present();
   }
 
