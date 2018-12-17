@@ -31,7 +31,7 @@ namespace HBPonto.Controllers
 
                 var user = _authentication.GenerateToken(authUser);
 
-                return Ok(_authentication.CreateUser(authUser.username, response.Result.Item2, user.Item1, user.Item2));
+                return Ok(_authentication.CreateUser(authUser.username, response.Result.Item2, user));
             }
             catch (UnauthorizedAccessException ex)
             {

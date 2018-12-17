@@ -38,7 +38,8 @@ export class WorklogRegisterComponent {
 
   onSubmit() {
     this.worklog.comment = this.comment.value;
-    this.worklog.timeSpent = this.timeSpent.value;
+    this.worklog.hours = this.hours.value;
+    this.worklog.minutes = this.minutes.value;
     this.worklog.started = this.started.value;
     this.worklog.key = this.issueKey ? this.issueKey : null;
 
@@ -52,8 +53,12 @@ export class WorklogRegisterComponent {
     return this.formWorklog.get('comment');
   }
 
-  get timeSpent() {
-    return this.formWorklog.get('timeSpent');
+  get hours() {
+    return this.formWorklog.get('hours');
+  }
+
+  get minutes() {
+    return this.formWorklog.get('minutes');
   }
 
   get started() {
@@ -63,8 +68,9 @@ export class WorklogRegisterComponent {
   private formBuilder() {
     this.formWorklog = this._fb.group({
       started: ['', Validators.required],
-      timeSpent: ['', Validators.required],
-      comment: ['', Validators.required]
+      hours: ['', Validators.required],
+      minutes: ['', Validators.required],
+      comment: ['', Validators]
     })
   }
 }

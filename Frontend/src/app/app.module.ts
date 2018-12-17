@@ -18,12 +18,14 @@ import { UserService } from './store/services/user.service';
 import { RelatoryService } from './store/services/relatory.service';
 import { ShareProjectService } from '../services/share-project.service';
 import { TabsPage } from '../pages/tabs/tabs';
+import { UserPage } from '../pages/user/user';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     UsersPage,
+    UserPage,
     RelatoriesPage,
     TabsPage
   ],
@@ -40,6 +42,7 @@ import { TabsPage } from '../pages/tabs/tabs';
     MyApp,
     HomePage,
     UsersPage,
+    UserPage,
     RelatoriesPage,
     TabsPage
   ],

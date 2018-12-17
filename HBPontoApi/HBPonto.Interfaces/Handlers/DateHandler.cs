@@ -18,6 +18,11 @@ namespace HBPonto.Kernel.Handlers
             return s.Substring(0, 26) + s.Substring(27, 2);
         }
 
+        public static string TransformHoursAndMinutesInTimeSpent(int? hours, int? minutes)
+        {
+            return String.Format("{0}h {1}m", hours ?? 0, minutes ?? 0);
+        }
+
         public static int TransformStringInSeconds(this string stringTime)
         {
             var time = TransformStringTimeInHoursAndMinutes(stringTime);

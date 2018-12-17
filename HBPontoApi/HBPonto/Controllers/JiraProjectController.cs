@@ -102,7 +102,8 @@ namespace HBPonto.Controllers
             try
             {
                 jiraIssue.started = jiraIssue.started.TransformStringToDateString();
-                var worklogSummary = JiraWorklogSummaryDTO.Create(jiraIssue);
+                var timeSpent = DateHandler.TransformHoursAndMinutesInTimeSpent(jiraIssue.hours, jiraIssue.minutes);
+                var worklogSummary = JiraWorklogSummaryDTO.Create(timeSpent, jiraIssue.comment, jiraIssue.started);
                 var content = GetContent(worklogSummary);
                 var response = _service.AddWorklog(GetHttpClient(), issueId.ToString(), content);
                 var result = PostResult(response.Result);
@@ -124,7 +125,10 @@ namespace HBPonto.Controllers
             try
             {
                 var worklog = jiraShareWorklogDTO.Worklog;
-                var timeInSeconds = worklog.timeSpent.TransformStringInSeconds();
+
+                var timeSpent = DateHandler.TransformHoursAndMinutesInTimeSpent(worklog.hours, worklog.minutes);
+
+                var timeInSeconds = timeSpent.TransformStringInSeconds();
                 worklog.started = worklog.started.TransformStringToDateString();
                 var totalEstimated = jiraShareWorklogDTO.Issues.Where(x => x.originalEstimateSeconds > 0).Sum(x => x.originalEstimateSeconds);
                 var timeRestant = timeInSeconds;

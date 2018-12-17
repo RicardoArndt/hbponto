@@ -27,9 +27,11 @@ export class LocalStorageService {
         this.localStorage.setItem('boardSelected', boardId);
     }
 
-    clearCacheAndReCacheSprint(sprintId) {
+    clearCacheAndReCacheSprint(sprintId, sprintName) {
         this.localStorage.removeItem('sprintSelected');
         this.localStorage.setItem('sprintSelected', sprintId);
+        this.localStorage.removeItem('sprintName');
+        this.localStorage.setItem('sprintName', sprintName);
     }
 
     get TokenAuthentication() {

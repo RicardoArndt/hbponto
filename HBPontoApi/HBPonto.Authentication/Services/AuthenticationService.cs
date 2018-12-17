@@ -31,9 +31,9 @@ namespace HBPonto.Authentication.Services
             _userRepository = userRepository;
         }
 
-        public IAuthUserDTO CreateUser(string userName, string authJiraToken, string token, string userId)
+        public IAuthUserDTO CreateUser(string userName, string authJiraToken, string token)
         {
-            return AuthUserDTOFactory.Create(userName, authJiraToken, token, userId);
+            return AuthUserDTOFactory.Create(userName, authJiraToken, token);
         }
 
         public async Task<(HttpResponseMessage, string)> AuthorizationUser(AuthUser authUser)
@@ -57,19 +57,19 @@ namespace HBPonto.Authentication.Services
             return await client.GetAsync(url);
         }
 
-        public (string, string) GenerateToken(AuthUser authUser)
+        public string GenerateToken(AuthUser authUser)
         {
             //Método busca um usuário no banco se não encontrar então insere um novo usuário e retorna o usuário inserido
             //por isso a geração do token deve ser feita depois de consultar no jira se usuário existe e depois de manipular o erro
-            var user = _userRepository.GetUserByName(authUser.username) ?? _userRepository.InsertNewUser(UserFactory.Create(authUser.username, RoleEnum.NOT_ATTRIBUTED.Value));
+            //var user = _userRepository.GetUserByName(authUser.username) ?? _userRepository.InsertNewUser(UserFactory.Create(authUser.username, RoleEnum.NOT_ATTRIBUTED.Value));
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, user.Role ?? string.Empty)
+                    new Claim(ClaimTypes.Name, authUser.username),
+                    new Claim(ClaimTypes.Role, "" ?? string.Empty)
                 }),
                 Expires = DateTime.UtcNow.AddYears(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -77,7 +77,7 @@ namespace HBPonto.Authentication.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return (tokenHandler.WriteToken(token), user.Id);
+            return tokenHandler.WriteToken(token);
         }
     }
 }
