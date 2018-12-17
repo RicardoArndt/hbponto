@@ -1,6 +1,6 @@
 export class BaseRoute {
     // static readonly API = "http://90.0.0.113:5000/api/";
-    static readonly API = "http://172.23.32.1:3000/api/";
+    static readonly API = "http://localhost:5000/api/";
     static readonly Authentication = BaseRoute.API + "authentication";
     static readonly Project = BaseRoute.API + "jiraProject/"
     static readonly GetAllProjects = BaseRoute.Project + "projects";

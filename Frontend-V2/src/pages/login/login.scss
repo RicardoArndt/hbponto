@@ -1,0 +1,13 @@
+page-login {
+    .login-content {
+        background-color: map-get($colors, light);
+    }
+}
+
+form {
+    ion-list { 
+        .ion-item-transparent {
+            background-color: transparent;
+        }
+    }
+}
