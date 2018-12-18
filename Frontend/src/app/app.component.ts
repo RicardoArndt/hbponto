@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController } from 'ionic-angular';
+import { Nav, Platform, MenuController, Tab } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
@@ -11,7 +11,7 @@ import { RelatoriesPage } from '../pages/relatories/relatories';
 import { CurrentUser } from './models/user.model';
 import { LocalStorageService } from '../services/local-storage.service';
 import { AuthActions } from './store/actions/auth.action';
-import { TabsPage } from '../pages/tabs/tabs';
+import { UserPage } from '../pages/user/user';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,8 +22,9 @@ export class MyApp {
   @select(s => s.auth.get('CurrentUser')) currentUserStore;
 
   user: CurrentUser;
-
-  rootPage: any = TabsPage;
+  tab1Root = HomePage;
+  tab2Root = UserPage;
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
@@ -42,19 +43,15 @@ export class MyApp {
   }
 
   initializeApp() {
-    var isAuthenticated;
-
-    this.isAuthenticated.subscribe(x => {
-      x ? this.rootPage = TabsPage : this.rootPage = LoginPage;;
-    });
+    this.isAuthenticated.subscribe(x => { if(x) this.rootPage = HomePage });
 
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();
     });
 
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      this.statusBar.show();
+      this.splashScreen.show();
     });
   }
 

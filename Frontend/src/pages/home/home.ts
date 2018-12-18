@@ -44,7 +44,7 @@ export class HomePage {
       this.issuesFilter = x;
       this.issuesForPost.length > 0 ? this.issuesForPost = [] : null;
       x ? x.forEach(y => this.issuesForPost.indexOf(y.get('key'))  === -1 ? this.issuesForPost.push({id: y.get('key'), originalEstimateSeconds: y.get('timetracking').get('originalEstimateSeconds')}) : null) : null;
-      !x ? this.onChange(this.boardSelected, this.sprintSelected) : null;
+      !x && !isNaN(this.sprintSelected) ? this.onChange(this.boardSelected, this.sprintSelected) : null;
     });
   }
 

@@ -36,12 +36,13 @@ export class Sprints {
     this._jiraProjectService.getIssues(this.boardId, sprintId).subscribe((response: IssueFields[]) => {
       var action = new GetIssues(response);
       this._store.dispatch({type: action.type, payload: action.payload});
-      this.viewCtrl.dismiss(this.sprintName);
     }, err => {
       var action = new Failure(err);
       this._store.dispatch({type: action.type, payload: action.payload});
       throw err;
     });
+
+    this.viewCtrl.dismiss(this.sprintName);
   }
 
   onClose() {

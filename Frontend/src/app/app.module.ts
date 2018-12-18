@@ -17,7 +17,6 @@ import { RelatoriesPage } from '../pages/relatories/relatories';
 import { UserService } from './store/services/user.service';
 import { RelatoryService } from './store/services/relatory.service';
 import { ShareProjectService } from '../services/share-project.service';
-import { TabsPage } from '../pages/tabs/tabs';
 import { UserPage } from '../pages/user/user';
 
 @NgModule({
@@ -26,8 +25,7 @@ import { UserPage } from '../pages/user/user';
     HomePage,
     UsersPage,
     UserPage,
-    RelatoriesPage,
-    TabsPage
+    RelatoriesPage
   ],
   imports: [
     BrowserModule,
@@ -43,8 +41,7 @@ import { UserPage } from '../pages/user/user';
     HomePage,
     UsersPage,
     UserPage,
-    RelatoriesPage,
-    TabsPage
+    RelatoriesPage
   ],
   providers: [
     StatusBar,

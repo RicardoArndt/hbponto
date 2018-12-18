@@ -24,8 +24,8 @@ namespace HBPonto
             var host = WebHost.CreateDefaultBuilder(webHostArgs)
                 .UseContentRoot(pathToContentRoot)
                 .UseStartup<Startup>()
-                 //.UseUrls("http://localhost:5000;https://localhost:5001;")
-                 .UseUrls("http://90.0.0.113:5000;")
+                 .UseUrls("http://localhost:5000;")
+                 //.UseUrls("http://90.0.0.113:5000;")
                 .Build();
 
             if (isService)
