@@ -26,8 +26,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         const cloneReq = req.clone({ headers });
 
         return next.handle(cloneReq).pipe(
-                    tap(() => this._loadingHandler.presentLoadingDefault(Date.now() - start)),
                     map(res => {
+                        this._loadingHandler.presentLoadingDefault(Date.now() - start);
                         return res;
                     })
                 );

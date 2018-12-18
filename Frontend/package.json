@@ -10,6 +10,9 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint"
   },
+  "config": {
+    "ionic_webpack": "./config/webpack.config.js"
+  },
   "dependencies": {
     "@angular-redux/store": "^7.0.0",
     "@angular/animations": "5.2.11",
