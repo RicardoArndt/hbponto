@@ -43,7 +43,7 @@ export class MyApp {
   }
 
   initializeApp() {
-    this.isAuthenticated.subscribe(x => x ? this.rootPage = HomePage : this.rootPage = LoginPage);
+    //this.isAuthenticated.subscribe(x => x ? this.rootPage = HomePage : this.rootPage = LoginPage);
 
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();

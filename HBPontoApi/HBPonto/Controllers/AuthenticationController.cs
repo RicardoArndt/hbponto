@@ -63,5 +63,11 @@ namespace HBPonto.Controllers
                 return BadRequest("Verifique a conexão com a internet ou tente se logar novamente");
             }
         }
+
+        [HttpHead("online")]
+        public IActionResult Online()
+        {
+            return Ok();
+        }
     }
 }

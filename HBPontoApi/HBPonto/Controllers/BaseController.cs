@@ -54,6 +54,6 @@ namespace HBPonto.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", tokenJira);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
-        }
+        } 
     }
 }
