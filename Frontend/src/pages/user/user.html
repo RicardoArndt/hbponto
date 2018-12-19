@@ -8,5 +8,12 @@
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-avatar item-start>
+      <img [attr.src]="user.avatarUrl">
+      <span>{{ user.displayName }}</span>
+      <br>
+      <button ion-button round outline (click)="logout()">SAIR</button>
+    </ion-avatar>
+  </ion-list>
 </ion-content>

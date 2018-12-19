@@ -24,7 +24,7 @@
 
 <ion-nav [root]="rootPage"></ion-nav>
 
-<ion-tabs color="primary">
+<ion-tabs color="primary" *ngIf="isAuth">
   <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="User" tabIcon="person"></ion-tab>
 </ion-tabs>

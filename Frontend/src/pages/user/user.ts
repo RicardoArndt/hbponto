@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { select, NgRedux } from '@angular-redux/store';
 import { CurrentUser } from '../../app/models/user.model';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { AuthActions } from '../../app/store/actions/auth.action';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the UserPage page.
@@ -22,7 +25,8 @@ export class UserPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              private _store: NgRedux<Map<string, any>>) {
+              private _store: NgRedux<Map<string, any>>,
+              private _localStorage: LocalStorageService) {
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();
     });
@@ -30,6 +34,12 @@ export class UserPage {
 
   ionViewDidLoad() {
     
+  }
+
+  logout() {
+    this._localStorage.clearAllCache();
+    this._store.dispatch({type: AuthActions.LOGOUT});
+    this.navCtrl.push(LoginPage);
   }
 
   get username() {

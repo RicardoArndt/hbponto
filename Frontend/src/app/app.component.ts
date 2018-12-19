@@ -26,7 +26,8 @@ export class MyApp {
   user: CurrentUser;
   tab1Root = HomePage;
   tab2Root = UserPage;
-  rootPage: any;
+  rootPage: any = LoginPage;
+  isAuth: boolean;
 
   constructComponent: boolean = false;
 
@@ -48,11 +49,14 @@ export class MyApp {
 
   initializeApp() {
     this.isAuthenticated.subscribe(x => {
+      this.isAuth = x;
       if(!this.constructComponent && x) {
         this.rootPage = HomePage;
+        //this.nav.push(HomePage);
         this.constructComponent = true;
       } else {
         this.rootPage = LoginPage;
+        //this.nav.push(LoginPage);
       }
     });
 

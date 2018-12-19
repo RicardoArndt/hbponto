@@ -13,7 +13,6 @@ export class BaseService<T> {
 
         ENV.API.forEach(api => {
             if (!hasRequest) {
-                debugger;
                 if(this.UrlIsOnline(api + "authentication/")) {
                     hasRequest = true;
                     result = this._http.post<T>(api + route, data);
