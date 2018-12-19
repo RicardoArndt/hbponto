@@ -1,5 +1,3 @@
-import { ENV } from "../../../../environments/environment";
-
 export class BaseRoute {
     // static readonly Authentication = ENV.API + "authentication";
     // static readonly Project = ENV.API + "jiraProject/"

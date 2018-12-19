@@ -64,10 +64,11 @@ export class LoginPage {
     this.user.UserName = this.username.value;
     this.user.Password = this.password.value;
 
-    this._authService.login(this.user).subscribe((response: AuthUserResponse) => {
-        var actionLogin = new LogInSuccess(response);
+    this._authService.login(this.user).subscribe(response => {
+        var cast = response as AuthUserResponse;
+        var actionLogin = new LogInSuccess(cast);
         this._store.dispatch({type: actionLogin.type, payload: actionLogin.payload});
-        this._localStorage.setAuthenticationTokens(response.token, response.authJiraToken, response.userId);
+        this._localStorage.setAuthenticationTokens(cast.token, cast.authJiraToken, cast.userId);
         this.currentUser();
         this.navCtrl.setRoot(HomePage);
     }, (err: HttpErrorResponse) => {

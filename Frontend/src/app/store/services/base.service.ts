@@ -5,33 +5,59 @@ import { ENV } from "../../../environments/environment";
 
 @Injectable()
 export class BaseService<T> {
-    constructor(private _http: HttpClient) { }
+    constructor(protected _http: HttpClient) { }
 
     protected doPost(route: string, data: T): Observable<T> {
         var hasRequest = false;
+        var result = Observable.of<T>();
 
         ENV.API.forEach(api => {
-            if (this.UrlIsOnline(api) && !hasRequest) {
-                hasRequest = true;
-                return this._http.post<T>(api + route, data);
+            if (!hasRequest) {
+                debugger;
+                if(this.UrlIsOnline(api + "authentication/")) {
+                    hasRequest = true;
+                    result = this._http.post<T>(api + route, data);
+                }
             }
         });
-        return Observable.of();
-    }
-
-    protected doPut() {
-
-    }
-
-
-    private UrlIsOnline(url: string): boolean {
-        let result;
-
-        this._http.head(url + 'online', { observe: 'response' }).subscribe(t => result = t.status == 200);
-
         return result;
     }
+
+    protected doPut(route: string, data: T): Observable<T> {
+        var hasRequest = false;
+        var result = Observable.of<T>();
+
+        ENV.API.forEach(api => {
+            if (!hasRequest) {
+                if(this.UrlIsOnline(api + "authentication/")) {
+                    hasRequest = true;
+                    result = this._http.put<T>(api + route, data);
+                }
+            }
+        });
+        return result;
+    }
+
     protected doGet(route: string): Observable<T> {
-        return this._http.get<T>(route);
+        var hasRequest = false;
+        var result  = Observable.of<T>();
+
+        ENV.API.forEach(api => {
+            if (!hasRequest) {
+                if(this.UrlIsOnline(api + "authentication/")) {
+                    hasRequest = true;
+                    result = this._http.get<T>(api + route);
+                }
+            }
+        });
+        return result;
+    }
+
+    private UrlIsOnline(url: string): boolean {
+        let result: number;
+
+        this._http.get(url + 'online', { observe: 'response' }).subscribe(t => result = t.status);
+
+        return result != 404;
     }
 }

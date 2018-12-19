@@ -12,6 +12,8 @@ import { CurrentUser } from './models/user.model';
 import { LocalStorageService } from '../services/local-storage.service';
 import { AuthActions } from './store/actions/auth.action';
 import { UserPage } from '../pages/user/user';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +26,9 @@ export class MyApp {
   user: CurrentUser;
   tab1Root = HomePage;
   tab2Root = UserPage;
-  rootPage: any = LoginPage;
+  rootPage: any;
+
+  constructComponent: boolean = false;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
@@ -43,7 +47,14 @@ export class MyApp {
   }
 
   initializeApp() {
-    //this.isAuthenticated.subscribe(x => x ? this.rootPage = HomePage : this.rootPage = LoginPage);
+    this.isAuthenticated.subscribe(x => {
+      if(!this.constructComponent && x) {
+        this.rootPage = HomePage;
+        this.constructComponent = true;
+      } else {
+        this.rootPage = LoginPage;
+      }
+    });
 
     this.currentUserStore.subscribe(x => {
       this.user = x ? x.toJS() : new CurrentUser();

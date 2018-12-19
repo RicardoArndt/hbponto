@@ -17,6 +17,7 @@ export class Sprints {
   sprintId;
   sprintsJS: any[];
   sprintName: string;
+  present: boolean;
 
   constructor(private _params: NavParams, 
               public viewCtrl: ViewController,
@@ -26,6 +27,7 @@ export class Sprints {
     this.sprints = this._params.get('sprints');
     this.boardId = this._params.get('boardId');
     this.sprintId = this._params.get('sprintId');
+    this.present = this._params.get('present');
     this.sprintId ? this.onChange(this.sprintId) : null;
   }
   

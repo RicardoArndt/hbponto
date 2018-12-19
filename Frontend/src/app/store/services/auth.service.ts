@@ -6,20 +6,20 @@ import { BaseRoute } from "./routes/base";
 import { BaseService } from "./base.service";
 
 @Injectable()
-export class AuthService extends BaseService<AuthUser> {
-    constructor(private _http: HttpClient) { 
+export class AuthService extends BaseService<any> {
+    constructor(protected _http: HttpClient) { 
         super(_http);
     }
 
-    login(data: AuthUser): Observable<AuthUser> {
+    login(data: AuthUser): Observable<any> {
         return super.doPost(BaseRoute.Authentication, data);
     }
 
     validateAuthorization(): Observable<any> {
-        return this._http.get(BaseRoute.Users + 'current');
+        return this.doGet(BaseRoute.Authentication);
     }
 
     getCurrentUser() {
-        return this._http.get(BaseRoute.Users + 'current');
+        return this.doGet(BaseRoute.Users + 'current');
     }
 }

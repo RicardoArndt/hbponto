@@ -2,21 +2,24 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BaseRoute } from "./routes/base";
 import { User } from "../../models/user.model";
+import { BaseService } from "./base.service";
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<any> {
 
-    constructor(private _http: HttpClient) {}
+    constructor(protected _http: HttpClient) {
+        super(_http);
+    }
 
     getAllUsers() {
-        return this._http.get(BaseRoute.Users);
+        return this.doGet(BaseRoute.Users);
     }
 
     getAllRoles() {
-        return this._http.get(BaseRoute.Roles);
+        return this.doGet(BaseRoute.Roles);
     }
 
     updateUser(userUpdate: User) {
-        return this._http.put(BaseRoute.Users, userUpdate);
+        return this.doPut(BaseRoute.Users, userUpdate);
     }
 }

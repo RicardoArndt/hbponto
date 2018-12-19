@@ -25,7 +25,7 @@ export class LogOut implements Action {
 
 export class CurrentUserAction implements Action {
     readonly type = AuthActions.CURRENT_USER;
-    constructor(public payload: CurrentUser) { }
+    constructor(public payload: CurrentUser) { } 
 }
 
 export type AuthActionsTypesAll = LogInSuccess | LogInFailure | LogOut | CurrentUserAction

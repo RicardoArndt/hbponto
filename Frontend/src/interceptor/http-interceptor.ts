@@ -1,19 +1,28 @@
 import { Injectable, NgModule } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map, tap, finalize } from "rxjs/operators";
 import { LocalStorageService } from "../services/local-storage.service";
-import { LoadingHandler } from "../app/loading/loading-handler";
+import { LoadingController } from "ionic-angular";
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
-    constructor(private _localStorage: LocalStorageService, private _loadingHandler: LoadingHandler) { }
+    public isShowing: boolean = false;
+
+    constructor(private _localStorage: LocalStorageService, private loadingCtrl: LoadingController) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const start = Date.now();
+        let loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
         let tokenJira = this._localStorage.TokenJiraAuthentication ? this._localStorage.TokenJiraAuthentication : '';
         let token = this._localStorage.TokenAuthentication ? this._localStorage.TokenAuthentication : '';
-
+        
+        if(!this.isShowing) {
+            loading.present();
+            this.isShowing = true;
+        }
+    
         let headers = req.headers
             .set('Content-Type', 'application/json')
             .set('Authorization', `Bearer ${token}`)
@@ -27,8 +36,11 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
         return next.handle(cloneReq).pipe(
                     map(res => {
-                        this._loadingHandler.presentLoadingDefault(Date.now() - start);
                         return res;
+                    }),
+                    finalize(() => {
+                        loading.dismiss();
+                        this.isShowing = false;
                     })
                 );
     }
@@ -36,7 +48,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
 @NgModule({
     providers: [
-        LoadingHandler,
         LocalStorageService,
         {
             provide: HTTP_INTERCEPTORS,

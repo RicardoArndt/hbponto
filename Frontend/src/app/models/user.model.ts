@@ -5,10 +5,15 @@ export class User {
 }
 
 export class CurrentUser {
-    public name: string;
-    public emailAddress: string;
-    public displayName: string;
-    public avatarUrl: string;
+    constructor(
+        public name?: string,
+        public emailAddress?: string,
+        public displayName?: string,
+        public avatarUrl?: string) { }
+
+    public static CreateInstance(name: string, email: string, displayName: string, avatarUrl: string) {
+        return new CurrentUser(name, email, displayName, avatarUrl);
+    }
 }
 
 export class Role {

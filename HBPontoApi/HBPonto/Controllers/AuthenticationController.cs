@@ -64,7 +64,7 @@ namespace HBPonto.Controllers
             }
         }
 
-        [HttpHead("online")]
+        [HttpGet("online")]
         public IActionResult Online()
         {
             return Ok();
